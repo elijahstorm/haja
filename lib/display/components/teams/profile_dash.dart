@@ -117,43 +117,40 @@ class _DrawSnapshot extends StatelessWidget {
     }
 
     List<Widget> _widgetList = [
-      Row(
-        children: [
-          SizedBox(
-            width: 150,
-            height: 150,
-            child: activeUser.photoURL != null
-                ? Image.network(activeUser.photoURL!)
-                : user.icon,
-          ),
-          const SizedBox(width: Constants.defaultPadding),
-          SizedBox(
-            height: 150,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  activeUser.displayName ?? user.title,
-                  style: Theme.of(context).textTheme.headline4!.copyWith(
-                        color: Theme.of(context).iconTheme.color,
-                      ),
-                ),
-                const SizedBox(height: Constants.defaultPadding / 2),
-                Text(
-                  user.pronounsString,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontStyle: FontStyle.italic,
-                    fontWeight: FontWeight.w300,
-                  ),
-                ),
-                const SizedBox(height: Constants.defaultPadding),
-                Text(activeUser.email ?? 'no email'),
-              ],
+      Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+              ),
+              width: 150,
+              height: 150,
+              child: activeUser.photoURL != null
+                  ? Image.network(activeUser.photoURL!)
+                  : user.icon,
             ),
-          ),
-        ],
+            Text(
+              activeUser.displayName ?? user.title,
+              style: Theme.of(context).textTheme.headline4!.copyWith(
+                    color: Theme.of(context).iconTheme.color,
+                  ),
+            ),
+            const SizedBox(height: Constants.defaultPadding / 2),
+            Text(
+              user.pronounsString,
+              style: const TextStyle(
+                fontSize: 16,
+                fontStyle: FontStyle.italic,
+                fontWeight: FontWeight.w300,
+              ),
+            ),
+            const SizedBox(height: Constants.defaultPadding),
+            Text(activeUser.email ?? 'no email'),
+          ],
+        ),
       ),
       Text(user.caption),
       _rowWithData(

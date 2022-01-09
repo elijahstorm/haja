@@ -239,13 +239,10 @@ class _StateSearchField extends State<SearchField> {
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(
-                    horizontal: Constants.defaultPadding / 2),
-                child: Icon(
+                  horizontal: Constants.defaultPadding / 2,
+                ),
+                child: const Icon(
                   Icons.search,
-                  color: Theme.of(context)
-                      .iconTheme
-                      .color!, // TODO: Disapears on Light Mode
-                  // -> Same color as scaffold background color
                 ),
               ),
             ),

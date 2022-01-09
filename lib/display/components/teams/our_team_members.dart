@@ -89,11 +89,11 @@ class TeamMemberSmallCircleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Consumer<TeamsCache>(
         builder: (context, cache, child) => SizedBox(
-          height: Constants.defaultPadding * 2,
+          height: Constants.defaultPadding * 2 + 23,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             itemCount: cache.items.length + 1,
-            itemExtent: Constants.defaultPadding * 3,
+            itemExtent: Constants.defaultPadding * 4,
             itemBuilder: (context, index) => Padding(
               padding: const EdgeInsets.symmetric(
                 horizontal: Constants.defaultPadding / 4,

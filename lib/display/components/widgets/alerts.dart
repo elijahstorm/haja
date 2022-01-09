@@ -32,7 +32,8 @@ class AlertTextDialog extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        width: MediaQuery.of(context).size.width / 1.5,
+        width:
+            MediaQuery.of(context).size.width - (Constants.defaultPadding * 2),
         height: MediaQuery.of(context).size.height / heightDevider,
         decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -51,35 +52,41 @@ class AlertTextDialog extends StatelessWidget {
             ),
           ],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircleAvatar(
-              backgroundColor: accentColor.withOpacity(.05),
-              radius: 25,
-              child: Image.asset(Constants.logoAsset),
+        padding: const EdgeInsets.all(Constants.defaultPadding),
+        child: SingleChildScrollView(
+          child: ClipRRect(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CircleAvatar(
+                  backgroundColor: accentColor.withOpacity(.05),
+                  radius: 25,
+                  child: Image.asset(Constants.logoAsset),
+                ),
+                const SizedBox(height: 15),
+                Text(
+                  alert,
+                  style: TextStyle(
+                    color: accentColor,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 3.5),
+                Text(
+                  subtext,
+                  style: TextStyle(
+                    color: accentColor,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300,
+                  ),
+                ),
+                const SizedBox(height: 15),
+                generate(context),
+              ],
             ),
-            const SizedBox(height: 15),
-            Text(
-              alert,
-              style: TextStyle(
-                color: accentColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 3.5),
-            Text(
-              subtext,
-              style: TextStyle(
-                color: accentColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            const SizedBox(height: 15),
-            generate(context),
-          ],
+          ),
         ),
       ),
     );
@@ -147,25 +154,24 @@ class AlertButton {
   }
 }
 
-class AlertButtonsDialog extends StatelessWidget {
-  final String alert;
-  final String subtext;
+class AlertButtonsDialog extends AlertTextDialog {
   final List<AlertButton> buttons;
 
   const AlertButtonsDialog({
-    required this.alert,
+    required alert,
     required this.buttons,
-    this.subtext = '',
+    subtext = '',
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          key: key,
+          alert: alert,
+          subtext: subtext,
+          heightDevider: 3,
+        );
 
-  final primaryColor = const Color(0xff4338CA);
-  final secondaryColor = const Color(0xff6D28D9);
-  final accentColor = const Color(0xffffffff);
-  final backgroundColor = const Color(0xffffffff);
-  final errorColor = const Color(0xffEF4444);
-  final buttonSize = 60.0;
+  final buttonSize = 70.0;
 
+  @override
   Widget generate(BuildContext context) {
     var buttonsList = <Widget>[];
 
@@ -180,10 +186,12 @@ class AlertButtonsDialog extends StatelessWidget {
           child: Container(
             height: buttonSize,
             width: buttonSize,
-            decoration: const BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20)),
+            decoration: BoxDecoration(
+              borderRadius: const BorderRadius.all(Radius.circular(
+                Constants.defaultBorderRadiusSmall,
+              )),
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
-            color: Theme.of(context).scaffoldBackgroundColor,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -209,77 +217,15 @@ class AlertButtonsDialog extends StatelessWidget {
           ),
         ),
       );
-
-      if (i < buttons.length - 1) {
-        buttonsList.add(const SizedBox(width: Constants.defaultPadding / 2));
-      }
     }
 
     return GridView.extent(
-      // crossAxisCount: 2, // TODO: bad grid layout flow -> idk why
       maxCrossAxisExtent: buttonSize,
-      mainAxisSpacing: 0,
+      mainAxisSpacing: Constants.defaultPadding / 4,
+      crossAxisSpacing: Constants.defaultPadding / 4,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: buttonsList,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Dialog(
-      elevation: 1,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
-      child: Container(
-        padding: const EdgeInsets.all(Constants.defaultPadding),
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).primaryColor,
-              Theme.of(context).colorScheme.secondary,
-            ],
-          ),
-          borderRadius: BorderRadius.circular(15.0),
-          boxShadow: [
-            BoxShadow(
-              offset: const Offset(12, 26),
-              blurRadius: 50,
-              spreadRadius: 0,
-              color: Colors.grey.withOpacity(.1),
-            ),
-          ],
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            CircleAvatar(
-              backgroundColor: accentColor.withOpacity(.05),
-              radius: buttonSize / 2,
-              child: Image.asset(Constants.logoAsset),
-            ),
-            const SizedBox(height: Constants.defaultPadding / 2),
-            Text(
-              alert,
-              style: TextStyle(
-                color: accentColor,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: Constants.defaultPadding / 4),
-            Text(
-              subtext,
-              style: TextStyle(
-                color: accentColor,
-                fontSize: 12,
-                fontWeight: FontWeight.w300,
-              ),
-            ),
-            const SizedBox(height: Constants.defaultPadding),
-            generate(context),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -296,24 +242,24 @@ class AlertColorDialog extends AlertTextDialog {
   const AlertColorDialog({
     required alert,
     required this.onColorChanged,
-    this.pickerColor = Colors.grey,
+    this.pickerColor = Constants.primaryColorLight,
     subtext = '',
     Key? key,
   }) : super(
           alert: alert,
           subtext: subtext,
-          heightDevider: 1,
+          heightDevider: 2,
           key: key,
         );
 
   final List<Color> colors = const [
+    Constants.primaryColorLight,
     Colors.red,
     Colors.pink,
     Colors.purple,
     Colors.deepPurple,
     Colors.indigo,
     Colors.blue,
-    Colors.lightBlue,
     Colors.cyan,
     Colors.teal,
     Colors.green,
@@ -329,19 +275,11 @@ class AlertColorDialog extends AlertTextDialog {
     Colors.black,
   ];
 
-  Widget generateMaterial() {
-    return SingleChildScrollView(
-      child: MaterialPicker(
-        pickerColor: pickerColor,
-        onColorChanged: onColorChanged,
-        enableLabel: false,
-        portraitOnly: false,
-      ),
-    );
-  }
-
   Widget pickerLayoutBuilder(
-      BuildContext context, List<Color> colors, PickerItem child) {
+    BuildContext context,
+    List<Color> colors,
+    PickerItem child,
+  ) {
     Orientation orientation = MediaQuery.of(context).orientation;
 
     return SizedBox(
@@ -353,13 +291,17 @@ class AlertColorDialog extends AlertTextDialog {
             : _landscapeCrossAxisCount,
         crossAxisSpacing: 5,
         mainAxisSpacing: 5,
+        physics: const NeverScrollableScrollPhysics(),
         children: [for (Color color in colors) child(color)],
       ),
     );
   }
 
   Widget pickerItemBuilder(
-      Color color, bool isCurrentColor, void Function() changeColor) {
+    Color color,
+    bool isCurrentColor,
+    void Function() changeColor,
+  ) {
     return Container(
       margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
@@ -385,8 +327,14 @@ class AlertColorDialog extends AlertTextDialog {
     );
   }
 
-  Widget generateBlocky() {
-    return SingleChildScrollView(
+  @override
+  Widget generate(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: const BorderRadius.all(
+            Radius.circular(Constants.defaultBorderRadiusSmall)),
+        color: Theme.of(context).scaffoldBackgroundColor.withOpacity(.7),
+      ),
       child: BlockPicker(
         pickerColor: pickerColor,
         onColorChanged: onColorChanged,
@@ -395,12 +343,5 @@ class AlertColorDialog extends AlertTextDialog {
         itemBuilder: pickerItemBuilder,
       ),
     );
-  }
-
-  final bool isBlocky = true;
-
-  @override
-  Widget generate(BuildContext context) {
-    return isBlocky ? generateBlocky() : generateMaterial();
   }
 }

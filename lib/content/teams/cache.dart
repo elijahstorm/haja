@@ -27,7 +27,7 @@ class TeamsCache extends ContentCache<TeamContent> {
   @override
   void download() => FirestoreApi.download(
         TeamContent.collectionName,
-        limit: 10,
+        limit: 25,
         isTeam: true,
         filters: filters,
         populate: (dynamic data) => populate(

@@ -337,6 +337,11 @@ class FirestoreFilter {
     data = AuthApi.activeUser;
   }
 
+  FirestoreFilter.recent() {
+    filter = FirestoreFilterTypes.timeFrame;
+    data = [DateTime.now().subtract(const Duration(days: 30)), DateTime.now()];
+  }
+
   FirestoreFilter.search(String search) {
     filter = FirestoreFilterTypes.search;
     data = search;
@@ -367,6 +372,7 @@ class FirestoreFilter {
 
 enum FirestoreFilterTypes {
   activeUserTeams,
+  timeFrame,
   search,
   singleId,
   onlyTeam,
@@ -382,6 +388,16 @@ extension FirestoreFilterTypesExtension on FirestoreFilterTypes {
           'title',
           isEqualTo: data,
         );
+      case FirestoreFilterTypes.timeFrame:
+        return query
+            .where(
+              'date',
+              isGreaterThan: data[0],
+            )
+            .where(
+              'date',
+              isLessThan: data[1],
+            );
       case FirestoreFilterTypes.activeUserTeams:
         return query.where(
           'users',

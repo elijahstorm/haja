@@ -24,6 +24,7 @@ class Constants {
 
   static const double defaultPadding = 16.0;
   static const double defaultCardRadius = 15.0;
+  static const double defaultBorderRadiusSmall = 6.0;
 
   static const String defaultHeaderTitle = 'Haja: Do Together';
 
@@ -61,6 +62,12 @@ class Constants {
       '${color.red.toRadixString(16).padLeft(2, '0')}'
       '${color.green.toRadixString(16).padLeft(2, '0')}'
       '${color.blue.toRadixString(16).padLeft(2, '0')}';
+
+  static List<String> toStringList(List<dynamic>? list) {
+    var change = list ?? [];
+    return List<String>.generate(
+        change.length, (index) => change[index].toString());
+  }
 
   static String createUniqueId() {
     const int lettersLength = 8;

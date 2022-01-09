@@ -1,16 +1,12 @@
-# todo
+# Haja
 
-A new Flutter project.
+Do together.
 
-## Getting Started
+A responsive, cross-platform app built in Flutter to help teams synchronize their work tasks in an easy-to-use, user-friendly, and customizable way.
 
-This project is a starting point for a Flutter application.
+## Release links
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- [To download the binary](https://flutter.dev/docs/get-started/codelab)
+- [App Store](https://flutter.dev/docs/cookbook)
+- [Play Store](https://flutter.dev/docs/cookbook)
+- [To use our product on the web](https://flutter.dev/docs/get-started/codelab)

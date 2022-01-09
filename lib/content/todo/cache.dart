@@ -15,10 +15,12 @@ class TodoCache extends ContentCache<TodoContent> {
 
   TodoCache.recent() {
     sortStyle = TodoSort.recent;
+    filters = [FirestoreFilter.recent()];
     download();
   }
   TodoCache.oldest() {
     sortStyle = TodoSort.oldest;
+    filters = [FirestoreFilter.recent()];
     download();
   }
   TodoCache.search(String searchTerms) {
@@ -30,7 +32,7 @@ class TodoCache extends ContentCache<TodoContent> {
   @override
   void download() async => FirestoreApi.download(
         TodoContent.collectionName,
-        limit: 25,
+        limit: 500,
         filters: filters,
         id: AuthApi.activeUser,
         populate: (dynamic data) => populate(

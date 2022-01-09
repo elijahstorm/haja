@@ -73,8 +73,8 @@ class Todo extends StatelessWidget {
     todo.editing = false;
 
     // TODO: Problem: Saving data is inconsistant
+    print('closeAndSave -> exiting to test ${todo.synchedWithDatabase}');
     if (!todo.synchedWithDatabase) {
-      // TODO: potentitally incorrect upload flow
       cache.remove(todo);
 
       if (title == '') {
@@ -218,12 +218,14 @@ class Todo extends StatelessWidget {
             ],
             controller: _inputController,
             onFieldSubmitted: (input) {
+              print('+onsubmitted ');
               _closeAndSave(
                 title: input,
                 time: time,
                 cache: cache,
                 todo: todo,
               );
+
               _openNewInput(cache, time);
             },
             decoration: const InputDecoration(
@@ -236,9 +238,6 @@ class Todo extends StatelessWidget {
             ),
           ),
           onFocusChange: (hasFocus) {
-            print('chainging focus to $hasFocus');
-            if (hasFocus) return;
-
             _closeAndSave(
               title: _inputController.text,
               time: time,
@@ -295,59 +294,67 @@ class Todo extends StatelessWidget {
               focusedDate.start,
               focusedDate.end,
             );
+
             return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                TextButton.icon(
-                  style: TextButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Constants.defaultPadding / 2,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  TextButton.icon(
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: Constants.defaultPadding / 2,
+                      ),
                     ),
+                    onPressed: () {
+                      // showDialog(
+                      //   context: context,
+                      //   builder: (BuildContext context) => AlertColorDialog(
+                      //     alert: 'testing',
+                      //     subtext: 'Choose a new COLOR',
+                      //     onColorChanged: (color) {
+                      //       Navigator.of(context).pop();
+                      //     },
+                      //   ),
+                      // );
+
+                      _openNewInput(cache, focusedDate.time);
+                    },
+                    icon: const Icon(Icons.add),
+                    label: const Text('Add'),
                   ),
-                  onPressed: () {
-                    _openNewInput(cache, focusedDate.time);
-                  },
-                  icon: const Icon(Icons.add),
-                  label: const Text('Add'),
-                ),
-                if (cache.items.isEmpty) const SkeletonLoader(),
-                ListView.builder(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  reverse: true,
-                  itemCount: filter.length,
-                  itemBuilder: (context, index) => filter[index].editing
-                      ? _buildEditingTodo(
-                          context,
-                          cache: cache,
-                          todo: filter[index],
-                          time: focusedDate.time,
-                        )
-                      : _buildNonEditingTodo(
-                          context,
-                          cache: cache,
-                          todo: filter[index],
-                        ),
-                ),
-                const SizedBox(height: Constants.defaultPadding),
-                const Divider(
-                  height: 2,
-                  thickness: 1,
-                  indent: Constants.defaultPadding * 3,
-                  endIndent: Constants.defaultPadding * 3,
-                ),
-                const SizedBox(height: Constants.defaultPadding),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Expanded(
-                      child: Container(),
-                    ),
-                    _buildMoreOptionsButton(context),
-                  ],
-                ),
-              ],
+                  if (cache.items.isEmpty) const SkeletonLoader(),
+                  Column(
+                    children: List.generate(filter.length, (index) => filter[index].editing
+                          ? _buildEditingTodo(
+                              context,
+                              cache: cache,
+                              todo: filter[index],
+                              time: focusedDate.time,
+                            )
+                          : _buildNonEditingTodo(
+                              context,
+                              cache: cache,
+                              todo: filter[index],
+                            ),
+                  ),
+                  const SizedBox(height: Constants.defaultPadding),
+                  const Divider(
+                    height: 2,
+                    thickness: 1,
+                    indent: Constants.defaultPadding * 3,
+                    endIndent: Constants.defaultPadding * 3,
+                  ),
+                  const SizedBox(height: Constants.defaultPadding),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Expanded(
+                        child: Container(),
+                      ),
+                      _buildMoreOptionsButton(context),
+                    ],
+                  ),
+                ],
             );
           },
         );
@@ -374,7 +381,7 @@ class TodoListCasing extends StatelessWidget {
           vertical: Constants.defaultPadding / 2,
         ),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
@@ -384,24 +391,20 @@ class TodoListCasing extends StatelessWidget {
               ),
             ),
             Expanded(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Constants.defaultPadding / 3,
-                    ),
-                    width: MediaQuery.of(context).size.width -
-                        Constants.defaultPadding * 7,
-                    child: mainChild,
-                  ),
-                  GestureDetector(
-                    onTap: onTrailingIconTap,
-                    child: const Icon(
-                      Icons.more_horiz,
-                    ),
-                  ),
-                ],
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Constants.defaultPadding / 3,
+                ),
+                width: 1,
+                // width: MediaQuery.of(context).size.width -
+                //     Constants.defaultPadding * 7,
+                child: mainChild,
+              ),
+            ),
+            GestureDetector(
+              onTap: onTrailingIconTap,
+              child: const Icon(
+                Icons.more_horiz,
               ),
             ),
           ],

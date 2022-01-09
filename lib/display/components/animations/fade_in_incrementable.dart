@@ -34,9 +34,9 @@ class FadeInIncrementable extends StatelessWidget {
           var index = incrementer.next;
           return AnimationConfiguration.staggeredList(
             position: index,
-            duration: const Duration(milliseconds: 375),
+            duration: const Duration(milliseconds: 475),
             child: FadeInAnimation(
-              delay: const Duration(milliseconds: 375),
+              delay: const Duration(milliseconds: 100),
               child: child,
             ),
           );

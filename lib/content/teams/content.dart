@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haja/constants.dart';
 
 import 'display.dart';
 import '../content.dart';
@@ -37,7 +38,7 @@ class TeamContent extends ContentContainer {
   factory TeamContent.fromJson(dynamic data) => TeamContent(
         title: data['title'],
         caption: data['caption'],
-        users: data['users'],
+        users: Constants.toStringList(data['users']),
         private: data['private'],
         createdOn: data['createdOn'].toDate(),
         lastLogin: data['lastLogin'].toDate(),

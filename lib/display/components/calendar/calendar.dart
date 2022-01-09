@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -21,134 +22,113 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   final calendarBoxWidth = 40.0;
-  final multipleEventCirclePadding = 8.0, multipleEventCircleSize = 15.0;
+  static const multipleEventCirclePadding = 10.0;
+  final multipleEventCircleSize = 16.0, eventLabelTextSize = 16.0;
 
-  Widget largeEventCircleBuilder(
+  Widget eventCircleBuilder(
     BuildContext context,
-    TodoContent event,
-  ) =>
+    TodoContent event, {
+    BlendMode blend = BlendMode.multiply,
+    String? color,
+  }) =>
       Container(
         width: multipleEventCircleSize,
         height: multipleEventCircleSize,
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          border: Border.all(
-            color: Theme.of(context).iconTheme.color!,
-          ),
-          color:
-              Constants.fromHex(event.color) ?? Theme.of(context).primaryColor,
+          backgroundBlendMode: blend,
+          color: Constants.fromHex(color ?? event.color) ??
+              Theme.of(context).primaryColor,
         ),
       );
 
-  Widget allFinishedBuilder(
-    BuildContext context,
-    List<TodoContent> events,
-  ) =>
-      Container(
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: Theme.of(context).primaryColor,
-        ),
-        padding: const EdgeInsets.all(4.0),
-        child: Icon(
-          Icons.check,
-          color: Theme.of(context).scaffoldBackgroundColor,
-          size: multipleEventCircleSize,
-        ),
+  Widget allFinishedBuilder(BuildContext context) => Icon(
+        Icons.check,
+        color: Constants.textColorDark,
+        size: eventLabelTextSize,
       );
 
-  Widget sameDayEventBuilder(
-    BuildContext context,
-    List<TodoContent> events,
-  ) =>
-      Container();
+  static const List<EdgeInsets> smallEventPaddings = [
+    EdgeInsets.zero,
+    EdgeInsets.only(
+      right: multipleEventCirclePadding * 2,
+    ),
+    EdgeInsets.only(
+      left: multipleEventCirclePadding * 2,
+    ),
+    EdgeInsets.zero,
+  ];
 
-  Widget smallEventStackBuilder(
+  Widget eventsStackBuilder(
     BuildContext context,
     List<TodoContent> events,
   ) =>
-      Container(
-        margin: const EdgeInsets.only(
-            // top: 30.0,
-            ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+      Padding(
+        padding: events.length == 2
+            ? EdgeInsets.only(left: multipleEventCircleSize / 2)
+            : EdgeInsets.zero,
+        child: Stack(
           children: List.generate(
-            events.length,
-            (index) => Container(
-              margin: const EdgeInsets.all(1.0),
-              decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Constants.fromHex(
-                          events[events.length - index - 1].color) ??
-                      Theme.of(context).primaryColor),
-              width: calendarBoxWidth / 4,
+            min(events.length, 4) + 2,
+            (index) => Center(
+              child: index == 0
+                  ? eventCircleBuilder(
+                      context,
+                      events[index],
+                      color: 'ffffff',
+                      blend: BlendMode.plus,
+                    )
+                  : index == events.length + 1 || index == 5
+                      ? allFinished(events)
+                          ? Padding(
+                              padding: events.length == 2
+                                  ? EdgeInsets.only(
+                                      right: multipleEventCircleSize / 2)
+                                  : EdgeInsets.zero,
+                              child: allFinishedBuilder(context),
+                            )
+                          : isSmallEventsStack(events)
+                              ? Container()
+                              : Text(
+                                  events.length <= 9
+                                      ? events.length.toString()
+                                      : '9+',
+                                  style: TextStyle(
+                                    color: Constants.textColorDark,
+                                    fontSize: eventLabelTextSize,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                      : Container(
+                          padding: isSmallEventsStack(events)
+                              ? smallEventPaddings[index - 1]
+                              : largeEventPaddings[index - 1],
+                          child: eventCircleBuilder(context, events[index - 1]),
+                        ),
             ),
           ),
         ),
       );
 
-  Widget largeEventsStackBuilder(
-    BuildContext context,
-    List<TodoContent> events,
-  ) =>
-      Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.only(
-              bottom: multipleEventCirclePadding,
-            ),
-            child: largeEventCircleBuilder(
-              context,
-              events[0],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              bottom: multipleEventCirclePadding,
-              left: multipleEventCirclePadding,
-            ),
-            child: largeEventCircleBuilder(
-              context,
-              events[1],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              top: multipleEventCirclePadding,
-            ),
-            child: largeEventCircleBuilder(
-              context,
-              events[2],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              top: multipleEventCirclePadding,
-              left: multipleEventCirclePadding,
-            ),
-            child: largeEventCircleBuilder(
-              context,
-              events[3],
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(
-              // TODO: Fix paddings to center content
-              bottom: multipleEventCirclePadding / 2,
-              left: multipleEventCirclePadding / 2,
-            ),
-            child: Text(
-              // TODO: TEXT is not centered
-              events.length <= 9 ? events.length.toString() : '9+',
-              style: TextStyle(
-                color: Theme.of(context).scaffoldBackgroundColor,
-                fontSize: 16,
-              ),
-            ),
-          ),
-        ],
-      );
+  static const List<EdgeInsets> largeEventPaddings = [
+    EdgeInsets.only(
+      bottom: multipleEventCirclePadding,
+      right: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      bottom: multipleEventCirclePadding,
+      left: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      top: multipleEventCirclePadding,
+      right: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      top: multipleEventCirclePadding,
+      left: multipleEventCirclePadding,
+    ),
+    EdgeInsets.zero,
+  ];
 
   bool allFinished(List<TodoContent> events) {
     for (var e in events) {
@@ -174,33 +154,15 @@ class _CalendarState extends State<Calendar> {
               calendarFormat: _calendarFormat,
               holidayPredicate: (date) {
                 return (date.month == 1 && date.day == 1) || // New Year's Day
-                    (date.month == 1 &&
-                        date.day == 2) || // New Year Holiday [Scotland]
-                    (date.month == 3 &&
-                        date.day ==
-                            17) || // St. Patrick's Day [Northern Ireland]
-                    (date.month == 3 &&
-                        date.day ==
-                            19) || // St. Patrick's Day [Northern Ireland] (Observed)
+                    (date.month == 3 && date.day == 17) || // St. Patrick's Day
                     (date.month == 3 && date.day == 30) || // Good Friday
-                    (date.month == 4 &&
-                        date.day ==
-                            2) || // Easter Monday [England, Wales, Northern Ireland]
+                    (date.month == 4 && date.day == 17) || // Easter [American]
                     (date.month == 5 && date.day == 7) || // May Day
                     (date.month == 5 &&
-                        date.day == 28) || // Spring Bank Holiday
-                    (date.month == 7 &&
-                        date.day ==
-                            12) || // Battle of the Boyne [Northern Ireland]
-                    (date.month == 8 &&
-                        date.day == 6) || // Summer Bank Holiday [Scotland]
-                    (date.month == 8 &&
-                        date.day ==
-                            27) || // Late Summer Bank Holiday [England, Wales, Northern Ireland]
-                    (date.month == 11 &&
-                        date.day == 30) || // St. Andrew's Day [Scotland]
-                    (date.month == 12 && date.day == 25) || // Christmas Day
-                    (date.month == 12 && date.day == 26); // Boxing Day
+                        date.day == 15) || // Korean Independance Day
+                    (date.month == 7 && date.day == 4) || // Independance Day
+                    (date.month == 10 && date.day == 31) || // Halloween
+                    (date.month == 12 && date.day == 25); // Christmas Day
               },
               eventLoader: (date) {
                 return cache.filterByDates(
@@ -281,18 +243,21 @@ class _CalendarState extends State<Calendar> {
 
                   return Text(
                     text.toLowerCase(),
+                    maxLines: 1,
                     style: const TextStyle(
                       fontSize: 18,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   );
                 },
                 todayBuilder: (context, date, focusedDay) => Center(
                   child: Container(
-                    decoration: const BoxDecoration(
+                    decoration: BoxDecoration(
                       border: Border(
                         bottom: BorderSide(
-                            // color: Colors.grey,
-                            ),
+                          color: Theme.of(context).iconTheme.color ??
+                              Theme.of(context).primaryColor.withOpacity(.3),
+                        ),
                       ),
                     ),
                     width: calendarBoxWidth - 10,
@@ -358,11 +323,9 @@ class _CalendarState extends State<Calendar> {
                 ),
                 markerBuilder: (context, date, List<TodoContent> events) {
                   return Center(
-                    child: allFinished(events)
-                        ? allFinishedBuilder(context, events)
-                        : isSmallEventsStack(events)
-                            ? smallEventStackBuilder(context, events)
-                            : largeEventsStackBuilder(context, events),
+                    child: events.isNotEmpty
+                        ? eventsStackBuilder(context, events)
+                        : Container(),
                   );
                 },
               ),

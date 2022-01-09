@@ -38,7 +38,7 @@ class CalendarScreen extends StatelessWidget {
           create: (context) => NotificationCache.friends(),
         ),
       ],
-      child: const ResponsiveScreen(
+      child: const ResponsiveScreen.landscapeFriendly(
         header: 'Haja: Do Together',
         primaryContent: Calendar(),
         mobileHeaderContent: TeamMemberSmallCircleRow(),

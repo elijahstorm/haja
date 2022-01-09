@@ -25,7 +25,7 @@ extension AlertIconExtension on TimeSpan {
 }
 
 class FocusedDate extends ChangeNotifier {
-  DateTime _trackedDay = DateTime(
+  DateTime _trackedDay = DateTime.utc(
     DateTime.now().year,
     DateTime.now().month,
     DateTime.now().day,

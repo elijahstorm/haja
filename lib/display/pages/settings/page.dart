@@ -25,23 +25,25 @@ class AccountSettingsPage extends StatelessWidget {
         iconTheme: Theme.of(context).iconTheme,
         title: SizedBox(
           height: 38,
-          child: Hero(
-            tag: 'searchBar',
-            child: TextField(
-              onChanged: (value) => _onSearch(value),
-              decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Theme.of(context).canvasColor,
-                  contentPadding: const EdgeInsets.all(0),
-                  prefixIcon: const Icon(Icons.search),
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      borderSide: BorderSide.none),
-                  hintStyle: const TextStyle(
-                    fontSize: 14,
-                  ),
-                  hintText: 'Search settings'),
-            ),
+          child: TextField(
+            onChanged: (value) => _onSearch(value),
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Theme.of(context).canvasColor,
+                contentPadding: const EdgeInsets.all(0),
+                prefixIconColor: Colors.red,
+                prefixIcon: Icon(
+                  Icons.search,
+                  color: Theme.of(context).iconTheme.color ??
+                      Theme.of(context).primaryColor,
+                ),
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(50),
+                    borderSide: BorderSide.none),
+                hintStyle: const TextStyle(
+                  fontSize: 14,
+                ),
+                hintText: 'Search settings'),
           ),
         ),
       ),

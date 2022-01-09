@@ -181,7 +181,7 @@ class TeamContentDisplayPage extends StatelessWidget {
               child: FadeInIncrementable(
                 child: GenericFloatingButton(
                   onTap: () {},
-                  label: 'Edit Team Info',
+                  label: 'Edit Team Info', // TODO: fix
                 ),
               ),
             ),

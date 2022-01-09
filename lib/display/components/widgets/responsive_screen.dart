@@ -39,6 +39,16 @@ class ResponsiveScreen extends StatelessWidget {
   })  : _builder = drawThirds,
         super(key: key);
 
+  const ResponsiveScreen.landscapeFriendly({
+    this.header = Constants.defaultHeaderTitle,
+    this.primaryContent,
+    this.secondaryContent,
+    this.sideContent,
+    this.mobileHeaderContent,
+    Key? key,
+  })  : _builder = drawLandscape,
+        super(key: key);
+
   static Widget drawPanels(
     BuildContext context,
     String header, {
@@ -97,6 +107,58 @@ class ResponsiveScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static Widget drawLandscape(
+    BuildContext context,
+    String header, {
+    Widget? primaryContent,
+    Widget? secondaryContent,
+    Widget? sideContent,
+    Widget? mobileHeaderContent,
+  }) {
+    return MediaQuery.of(context).orientation == Orientation.landscape
+        ? Padding(
+            padding: const EdgeInsets.all(Constants.defaultPadding),
+            child: Column(
+              children: [
+                Header(header),
+                const SizedBox(height: Constants.defaultPadding),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 3,
+                      child: Column(
+                        children: [
+                          if (Responsive.isMobile(context))
+                            mobileHeaderContent ?? Container(),
+                          if (Responsive.isMobile(context))
+                            const SizedBox(height: Constants.defaultPadding),
+                          primaryContent ?? Container(),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(
+                      width: Constants.defaultPadding,
+                    ),
+                    Expanded(
+                      flex: 4,
+                      child: secondaryContent ?? Container(),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          )
+        : drawPanels(
+            context,
+            header,
+            primaryContent: primaryContent,
+            secondaryContent: secondaryContent,
+            sideContent: sideContent,
+            mobileHeaderContent: mobileHeaderContent,
+          );
   }
 
   static Widget drawThirds(

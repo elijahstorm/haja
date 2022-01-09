@@ -21,11 +21,11 @@ void main() async {
   }
 
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(await Themes.init(const DashboardApp()));
+  runApp(await Themes.init(const HajaDoTogetherApp()));
 }
 
-class DashboardApp extends StatelessWidget {
-  const DashboardApp({
+class HajaDoTogetherApp extends StatelessWidget {
+  const HajaDoTogetherApp({
     Key? key,
   }) : super(key: key);
 
