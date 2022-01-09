@@ -6,6 +6,8 @@ import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/display/components/widgets/error.dart';
+import 'package:haja/display/components/widgets/slivers.dart';
+import 'package:haja/display/components/widgets/painters.dart';
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/storage.dart';
@@ -42,21 +44,18 @@ class DashboardProfileDisplay extends StatelessWidget {
 
     return Stack(
       children: [
-        Positioned(
-          top: 0,
-          left: 0,
-          right: 0,
-          child: Image.asset(
-            Constants.wavyThemeBackgroundTempWrong,
-            fit: BoxFit.cover,
-          ),
-          // child: SvgPicture.asset(
-          //   Constants.wavyThemeBackground,
-          // ),
-        ),
         Positioned.fill(
           child: Container(
-            padding: const EdgeInsets.all(Constants.defaultPadding),
+            color: Theme.of(context).colorScheme.secondary.withOpacity(.3),
+          ),
+        ),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: CurvePainterBottom(Theme.of(context).primaryColor),
+          ),
+        ),
+        Positioned.fill(
+          child: SafeArea(
             child: StreamBuilder<DocumentSnapshot>(
               stream: FirestoreApi.stream(
                 'users',
@@ -233,40 +232,7 @@ class _DrawSnapshot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> _widgetList = [
-      GestureDetector(
-        onTap: _changeImage,
-        child: Center(
-          child: user.pic == UserContent.defaultData['pic']
-              ? const CircleAvatar(
-                  radius: 70,
-                  backgroundImage: AssetImage(Constants.placeholderUserIcon),
-                  backgroundColor: Colors.transparent,
-                  child: Opacity(
-                    opacity: 0.7,
-                    child: Icon(Icons.edit),
-                  ),
-                )
-              : CircleAvatar(
-                  radius: 70,
-                  backgroundImage: NetworkImage(user.pic),
-                  backgroundColor: Colors.transparent,
-                  child: const Opacity(
-                    opacity: 0.7,
-                    child: Icon(Icons.edit),
-                  ),
-                ),
-        ),
-      ),
-      Center(
-        child: Text(
-          user.title,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
       const SizedBox(height: Constants.defaultPadding),
-      _contentRowWithText(label: 'About', value: user.caption),
       _contentRowWithText(label: 'Pronouns', value: user.pronounsString),
       _contentRowWithText(label: 'Email', value: user.email),
       _rowWithData(
@@ -275,112 +241,122 @@ class _DrawSnapshot extends StatelessWidget {
         collection: TodoContent.collectionName,
         field: 'numOfDocs',
       ),
-      const SizedBox(height: Constants.defaultPadding * 2),
+      const SizedBox(height: Constants.defaultPadding * 4),
       if (user.id != AuthApi.activeUser)
-        DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(25),
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).primaryColor,
-                Theme.of(context).colorScheme.secondary,
-              ],
-            ),
-          ),
-          child: ElevatedButton(
-            style: ButtonStyle(
-                elevation: MaterialStateProperty.all(0),
-                alignment: Alignment.center,
-                padding: MaterialStateProperty.all(
-                  const EdgeInsets.only(
-                    right: 75,
-                    left: 75,
-                    top: 15,
-                    bottom: 15,
+        SizedBox(
+          width: 200,
+          child: AspectRatio(
+            aspectRatio: 208 / 71,
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 4),
+                  color: const Color(0xFF4960F9).withOpacity(.3),
+                  spreadRadius: 4,
+                  blurRadius: 50,
+                )
+              ]),
+              child: MaterialButton(
+                onPressed: () {},
+                splashColor: Colors.lightBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(36),
+                ),
+                padding: const EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    //gradient:
+                    image: const DecorationImage(
+                      image: AssetImage(Constants.buttonBackgroundSmall),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 88.0,
+                      minHeight: 36.0,
+                    ), // min sizes for Material buttons
+                    alignment: Alignment.center,
+                    child: const Text(
+                      'Get Started',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
                   ),
                 ),
-                backgroundColor: MaterialStateProperty.all(
-                  Colors.transparent,
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(25),
-                  ),
-                )),
-            onPressed: () {},
-            child: const Text(
-              'Add as Friend',
-              style: TextStyle(color: Colors.white),
-            ),
-          ),
-        ),
-      // SizedBox(
-      //   width: 200,
-      //   child: AspectRatio(
-      //     aspectRatio: 208 / 71,
-      //     child: Container(
-      //       decoration: BoxDecoration(boxShadow: [
-      //         BoxShadow(
-      //             offset: const Offset(0, 4),
-      //             color: const Color(0xFF4960F9).withOpacity(.3),
-      //             spreadRadius: 4,
-      //             blurRadius: 50)
-      //       ]),
-      //       child: MaterialButton(
-      //         onPressed: () {},
-      //         splashColor: Colors.lightBlue,
-      //         shape: RoundedRectangleBorder(
-      //             borderRadius: BorderRadius.circular(36)),
-      //         padding: const EdgeInsets.all(0.0),
-      //         child: Ink(
-      //             decoration: BoxDecoration(
-      //               //gradient:
-      //               image: const DecorationImage(
-      //                 image: NetworkImage(
-      //                     "https://firebasestorage.googleapis.com/v0/b/flutterbricks-public.appspot.com/o/finance_app_2%2FbuttonBackgroundSmall.png?alt=media&token=fa2f9bba-120a-4a94-8bc2-f3adc2b58a73"),
-      //                 fit: BoxFit.cover,
-      //               ),
-      //               borderRadius: BorderRadius.circular(36),
-      //             ),
-      //             child: Container(
-      //                 constraints: const BoxConstraints(
-      //                     minWidth: 88.0,
-      //                     minHeight: 36.0), // min sizes for Material buttons
-      //                 alignment: Alignment.center,
-      //                 child: const Text('Get Started',
-      //                     style: TextStyle(
-      //                         color: Colors.white,
-      //                         fontWeight: FontWeight.w300)))),
-      //       ),
-      //     ),
-      //   ),
-      // ),
-      // TextButton.icon(
-      //   onPressed: () {},
-      //   icon: const Icon(Icons.plus_one),
-      //   label: const Text(
-      //     'Add Friend',
-      //     style: TextStyle(),
-      //   ),
-      // ),
-    ];
-
-    return AnimationLimiter(
-      child: Column(
-        children: List.generate(
-          _widgetList.length,
-          (index) => AnimationConfiguration.staggeredList(
-            position: index,
-            duration: const Duration(milliseconds: 375),
-            child: SlideAnimation(
-              verticalOffset: 50.0,
-              child: FadeInAnimation(
-                child: _AnimatedEditableBox(_widgetList[index]),
               ),
             ),
           ),
         ),
-      ),
+    ];
+
+    return CustomScrollView(
+      slivers: [
+        CenteredAppbarWithContent(
+          background: CustomPaint(
+            painter: CurvePainterTop(Theme.of(context).primaryColor),
+          ),
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(Constants.defaultPadding),
+              child: GestureDetector(
+                onTap: _changeImage,
+                child: user.pic == UserContent.defaultData['pic']
+                    ? const CircleAvatar(
+                        radius: 70,
+                        backgroundImage:
+                            AssetImage(Constants.placeholderUserIcon),
+                        backgroundColor: Colors.transparent,
+                        child: Opacity(
+                          opacity: 0.7,
+                          child: Icon(Icons.edit),
+                        ),
+                      )
+                    : CircleAvatar(
+                        radius: 70,
+                        backgroundImage: NetworkImage(user.pic),
+                        backgroundColor: Colors.transparent,
+                        child: const Opacity(
+                          opacity: 0.7,
+                          child: Icon(Icons.edit),
+                        ),
+                      ),
+              ),
+            ),
+            const SizedBox(height: Constants.defaultPadding),
+            Text(
+              user.title,
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: Constants.defaultPadding / 2),
+            Text(
+              user.caption,
+            )
+          ],
+        ),
+        AnimationLimiter(
+          child: PaddedContentSliver(
+            children: List.generate(
+              _widgetList.length,
+              (index) => AnimationConfiguration.staggeredList(
+                position: index,
+                duration: const Duration(milliseconds: 375),
+                child: SlideAnimation(
+                  verticalOffset: 50.0,
+                  child: FadeInAnimation(
+                    child: _AnimatedEditableBox(_widgetList[index]),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

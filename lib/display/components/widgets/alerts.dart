@@ -32,9 +32,13 @@ class AlertTextDialog extends StatelessWidget {
       elevation: 1,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        width:
-            MediaQuery.of(context).size.width - (Constants.defaultPadding * 2),
-        height: MediaQuery.of(context).size.height / heightDevider,
+        width: MediaQuery.of(context).orientation == Orientation.landscape
+            ? MediaQuery.of(context).size.height / heightDevider
+            : MediaQuery.of(context).size.width -
+                (Constants.defaultPadding * 2),
+        height: MediaQuery.of(context).orientation == Orientation.landscape
+            ? MediaQuery.of(context).size.width - (Constants.defaultPadding * 2)
+            : MediaQuery.of(context).size.height / heightDevider,
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
@@ -169,8 +173,6 @@ class AlertButtonsDialog extends AlertTextDialog {
           heightDevider: 3,
         );
 
-  final buttonSize = 70.0;
-
   @override
   Widget generate(BuildContext context) {
     var buttonsList = <Widget>[];
@@ -184,8 +186,6 @@ class AlertButtonsDialog extends AlertTextDialog {
             Navigator.of(context).pop();
           },
           child: Container(
-            height: buttonSize,
-            width: buttonSize,
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.all(Radius.circular(
                 Constants.defaultBorderRadiusSmall,
@@ -197,13 +197,11 @@ class AlertButtonsDialog extends AlertTextDialog {
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 const SizedBox(height: Constants.defaultPadding / 4),
-                SizedBox(
-                  height: buttonSize / 2,
+                Expanded(
                   child: Icon(
                     buttons[i].icondata,
                   ),
                 ),
-                const SizedBox(height: Constants.defaultPadding / 4),
                 Text(
                   buttons[i].label,
                   maxLines: 1,
@@ -211,7 +209,7 @@ class AlertButtonsDialog extends AlertTextDialog {
                     fontSize: 11,
                   ),
                 ),
-                const SizedBox(height: Constants.defaultPadding / 4),
+                const SizedBox(height: Constants.defaultPadding / 2),
               ],
             ),
           ),
@@ -219,10 +217,12 @@ class AlertButtonsDialog extends AlertTextDialog {
       );
     }
 
-    return GridView.extent(
-      maxCrossAxisExtent: buttonSize,
-      mainAxisSpacing: Constants.defaultPadding / 4,
-      crossAxisSpacing: Constants.defaultPadding / 4,
+    return GridView.count(
+      crossAxisCount:
+          MediaQuery.of(context).orientation == Orientation.landscape ? 3 : 4,
+      // maxCrossAxisExtent: buttonSize,
+      mainAxisSpacing: Constants.defaultPadding / 2,
+      crossAxisSpacing: Constants.defaultPadding / 2,
       physics: const NeverScrollableScrollPhysics(),
       shrinkWrap: true,
       children: buttonsList,

@@ -124,29 +124,41 @@ class ResponsiveScreen extends StatelessWidget {
               children: [
                 Header(header),
                 const SizedBox(height: Constants.defaultPadding),
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 3,
-                      child: Column(
-                        children: [
-                          if (Responsive.isMobile(context))
-                            mobileHeaderContent ?? Container(),
-                          if (Responsive.isMobile(context))
-                            const SizedBox(height: Constants.defaultPadding),
-                          primaryContent ?? Container(),
-                        ],
+                ConstrainedBox(
+                  constraints: BoxConstraints(
+                    maxHeight: MediaQuery.of(context).size.height - 150,
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 3,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: Column(
+                            children: [
+                              if (Responsive.isMobile(context))
+                                mobileHeaderContent ?? Container(),
+                              if (Responsive.isMobile(context))
+                                const SizedBox(
+                                    height: Constants.defaultPadding),
+                              primaryContent ?? Container(),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    const SizedBox(
-                      width: Constants.defaultPadding,
-                    ),
-                    Expanded(
-                      flex: 4,
-                      child: secondaryContent ?? Container(),
-                    ),
-                  ],
+                      const SizedBox(
+                        width: Constants.defaultPadding,
+                      ),
+                      Expanded(
+                        flex: 4,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.vertical,
+                          child: secondaryContent ?? Container(),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

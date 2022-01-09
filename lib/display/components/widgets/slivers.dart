@@ -48,6 +48,44 @@ class DramaticAppbarWithContent extends StatelessWidget {
       );
 }
 
+class CenteredAppbarWithContent extends StatelessWidget {
+  final Widget? background;
+  final List<Widget> children;
+
+  const CenteredAppbarWithContent({
+    this.background,
+    required this.children,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SliverAppBar(
+        expandedHeight: 300,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: FlexibleSpaceBar(
+          collapseMode: CollapseMode.parallax,
+          background: Stack(
+            children: [
+              if (background != null)
+                Positioned.fill(
+                  child: background!,
+                ),
+              Positioned.fill(
+                child: Container(
+                  padding: const EdgeInsets.all(Constants.defaultPadding),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: children,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+}
+
 class PaddedContentSliver extends StatelessWidget {
   final List<Widget> children;
 

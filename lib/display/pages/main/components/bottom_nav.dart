@@ -51,10 +51,12 @@ class _HajaSalomonNavbarState extends State<HajaSalomonNavbar> {
       );
     }
 
-    return SalomonBottomBar(
-      currentIndex: _currentIndex,
-      onTap: _updateState,
-      items: _items,
+    return SafeArea(
+      child: SalomonBottomBar(
+        currentIndex: _currentIndex,
+        onTap: _updateState,
+        items: _items,
+      ),
     );
   }
 }

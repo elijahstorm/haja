@@ -29,7 +29,7 @@ class CalendarScreen extends StatelessWidget {
           create: (context) => FocusedDate(),
         ),
         ChangeNotifierProvider(
-          create: (context) => TodoCache.recent(),
+          create: (context) => TodoCache.oldest(),
         ),
         ChangeNotifierProvider(
           create: (context) => TeamsCache.activeUserTeams(),
@@ -38,12 +38,16 @@ class CalendarScreen extends StatelessWidget {
           create: (context) => NotificationCache.friends(),
         ),
       ],
-      child: const ResponsiveScreen.landscapeFriendly(
-        header: 'Haja: Do Together',
-        primaryContent: Calendar(),
-        mobileHeaderContent: TeamMemberSmallCircleRow(),
-        secondaryContent: TodoViewer(),
-        sideContent: RecentFriendActivities(),
+      child: GestureDetector(
+        behavior: HitTestBehavior.translucent,
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: const ResponsiveScreen.landscapeFriendly(
+          header: 'Haja: Do Together',
+          primaryContent: Calendar(),
+          mobileHeaderContent: TeamMemberSmallCircleRow(),
+          secondaryContent: TodoViewer(),
+          sideContent: RecentFriendActivities(),
+        ),
       ),
     );
   }

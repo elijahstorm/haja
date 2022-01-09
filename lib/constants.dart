@@ -31,7 +31,10 @@ class Constants {
   static const String wavyThemeBackground = 'assets/icons/wavy_background.svg';
   static const String wavyThemeBackgroundTempWrong =
       'assets/icons/wavy_background.png';
-  static const String placeholderUserIcon = 'assets/image/placeholder_user.png';
+  static const String buttonBackgroundSmall =
+      'assets/images/button-bg-small.png';
+  static const String placeholderUserIcon =
+      'assets/images/placeholder_user.png';
   static const String liveSvgs = 'https://avatars.dicebear.com/api/avataaars/';
   static const String storeItemsSvgs =
       'https://avatars.dicebear.com/api/gridy/';

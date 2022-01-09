@@ -72,8 +72,6 @@ class Todo extends StatelessWidget {
 
     todo.editing = false;
 
-    // TODO: Problem: Saving data is inconsistant
-    print('closeAndSave -> exiting to test ${todo.synchedWithDatabase}');
     if (!todo.synchedWithDatabase) {
       cache.remove(todo);
 
@@ -218,7 +216,6 @@ class Todo extends StatelessWidget {
             ],
             controller: _inputController,
             onFieldSubmitted: (input) {
-              print('+onsubmitted ');
               _closeAndSave(
                 title: input,
                 time: time,
@@ -238,6 +235,8 @@ class Todo extends StatelessWidget {
             ),
           ),
           onFocusChange: (hasFocus) {
+            if (hasFocus) return;
+
             _closeAndSave(
               title: _inputController.text,
               time: time,
@@ -296,65 +295,55 @@ class Todo extends StatelessWidget {
             );
 
             return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TextButton.icon(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: Constants.defaultPadding / 2,
-                      ),
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                TextButton.icon(
+                  style: TextButton.styleFrom(
+                    padding: EdgeInsets.zero,
+                  ),
+                  onPressed: () {
+                    _openNewInput(cache, focusedDate.time);
+                  },
+                  icon: const Icon(Icons.add),
+                  label: const Text('add'),
+                ),
+                if (cache.items.isEmpty) const SkeletonLoader(),
+                Column(
+                  children: List.generate(
+                    filter.length,
+                    (index) => filter[index].editing
+                        ? _buildEditingTodo(
+                            context,
+                            cache: cache,
+                            todo: filter[index],
+                            time: focusedDate.time,
+                          )
+                        : _buildNonEditingTodo(
+                            context,
+                            cache: cache,
+                            todo: filter[index],
+                          ),
+                  ),
+                ),
+                const SizedBox(height: Constants.defaultPadding),
+                const Divider(
+                  height: 2,
+                  thickness: 1,
+                  indent: Constants.defaultPadding * 3,
+                  endIndent: Constants.defaultPadding * 3,
+                ),
+                const SizedBox(height: Constants.defaultPadding),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Container(),
                     ),
-                    onPressed: () {
-                      // showDialog(
-                      //   context: context,
-                      //   builder: (BuildContext context) => AlertColorDialog(
-                      //     alert: 'testing',
-                      //     subtext: 'Choose a new COLOR',
-                      //     onColorChanged: (color) {
-                      //       Navigator.of(context).pop();
-                      //     },
-                      //   ),
-                      // );
-
-                      _openNewInput(cache, focusedDate.time);
-                    },
-                    icon: const Icon(Icons.add),
-                    label: const Text('Add'),
-                  ),
-                  if (cache.items.isEmpty) const SkeletonLoader(),
-                  Column(
-                    children: List.generate(filter.length, (index) => filter[index].editing
-                          ? _buildEditingTodo(
-                              context,
-                              cache: cache,
-                              todo: filter[index],
-                              time: focusedDate.time,
-                            )
-                          : _buildNonEditingTodo(
-                              context,
-                              cache: cache,
-                              todo: filter[index],
-                            ),
-                  ),
-                  const SizedBox(height: Constants.defaultPadding),
-                  const Divider(
-                    height: 2,
-                    thickness: 1,
-                    indent: Constants.defaultPadding * 3,
-                    endIndent: Constants.defaultPadding * 3,
-                  ),
-                  const SizedBox(height: Constants.defaultPadding),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: Container(),
-                      ),
-                      _buildMoreOptionsButton(context),
-                    ],
-                  ),
-                ],
+                    _buildMoreOptionsButton(context),
+                  ],
+                ),
+              ],
             );
           },
         );
