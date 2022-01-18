@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/display/components/charts/charts.dart';
 import 'package:haja/content/dashboard/cache.dart';
 import 'storage_info_card.dart';
@@ -27,7 +28,7 @@ class StorageDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Storage Details',
+                Language.appScreenHeaderStorageInfo,
                 style: TextStyle(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,

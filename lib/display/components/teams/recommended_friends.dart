@@ -1,10 +1,11 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
-import 'package:haja/responsive.dart';
+import 'package:haja/controllers/responsive.dart';
 import 'package:haja/content/users/cache.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 import 'package:haja/display/components/teams/person_card_info.dart';
 
@@ -22,7 +23,7 @@ class RecommendedFriends extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'In Your Circle',
+              Language.appScreenHeaderYourCircle,
               style: Theme.of(context).textTheme.subtitle1,
             ),
             TextButton.icon(
@@ -35,7 +36,7 @@ class RecommendedFriends extends StatelessWidget {
               ),
               onPressed: () {},
               icon: const Icon(Icons.add),
-              label: const Text('Find More'),
+              label: const Text(Language.findMoreButton),
             ),
           ],
         ),

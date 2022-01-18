@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:haja/responsive.dart';
+import 'package:haja/controllers/responsive.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 
 import 'package:haja/display/pages/settings/components/settings_side.dart';
 import 'package:haja/display/pages/settings/components/settings_main.dart';
@@ -43,7 +44,7 @@ class AccountSettingsPage extends StatelessWidget {
                 hintStyle: const TextStyle(
                   fontSize: 14,
                 ),
-                hintText: 'Search settings'),
+                hintText: '${Language.searchPrompt} settings'),
           ),
         ),
       ),

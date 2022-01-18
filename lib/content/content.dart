@@ -20,7 +20,7 @@ class ContentContainer {
   bool get privateData => false;
   bool get isTeam => false;
 
-  final String title, caption, id;
+  String title, caption, id;
   bool synchedWithDatabase = false;
 
   ContentContainer({
@@ -66,5 +66,13 @@ class ContentContainer {
     ));
   }
 
+  void navigateToEditor(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Material(child: navigatorEditor()),
+      fullscreenDialog: true,
+    ));
+  }
+
   Widget navigator() => const Scaffold();
+  Widget navigatorEditor() => const Scaffold();
 }

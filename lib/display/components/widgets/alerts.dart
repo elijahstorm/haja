@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class AlertTextDialog extends StatelessWidget {
   const AlertTextDialog({
@@ -105,21 +105,6 @@ enum AlertIcon {
 }
 
 extension AlertIconExtension on AlertIcon {
-  String fileName() {
-    switch (this) {
-      case AlertIcon.date:
-        return '${Constants.imageAssetPath}logo.png';
-      case AlertIcon.edit:
-        return '${Constants.imageAssetPath}logo.png';
-      case AlertIcon.color:
-        return '${Constants.imageAssetPath}logo.png';
-      case AlertIcon.delete:
-        return '${Constants.imageAssetPath}logo.png';
-      default:
-        return '${Constants.imageAssetPath}logo.png';
-    }
-  }
-
   IconData getIcon() {
     switch (this) {
       case AlertIcon.date:
@@ -148,10 +133,6 @@ class AlertButton {
     this.stopPop = false,
     this.icon = AlertIcon.date,
   });
-
-  String get asset {
-    return icon.fileName();
-  }
 
   IconData get icondata {
     return icon.getIcon();

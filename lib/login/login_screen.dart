@@ -8,7 +8,8 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'user_state.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/login/user_state.dart';
 import 'package:haja/login/responder.dart';
 
@@ -47,11 +48,11 @@ class LoginScreen extends StatelessWidget {
     return Consumer<UserState>(
       builder: (context, userstate, child) {
         return FlutterLogin(
-          title: Constants.appName,
+          title: Language.appName,
           userType: LoginUserType.email,
           logo: Constants.logoAsset,
-          logoTag: Constants.logoTag,
-          titleTag: Constants.titleTag,
+          logoTag: '${Language.appName}Logo',
+          titleTag: '${Language.appName}Title',
           termsOfService: [
             TermOfService(
               id: 'general_tos',

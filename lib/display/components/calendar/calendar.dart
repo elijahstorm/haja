@@ -7,7 +7,8 @@ import 'package:intl/intl.dart';
 import 'package:haja/content/todo/cache.dart';
 import 'package:haja/content/todo/content.dart';
 import 'package:haja/display/components/calendar/focused_date.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({
@@ -180,9 +181,9 @@ class _CalendarState extends State<Calendar> {
                   if (format == CalendarFormat.week) {
                     focusedDate.span = TimeSpan.day;
                   } else if (format == CalendarFormat.twoWeeks) {
-                    focusedDate.span = TimeSpan.day;
+                    focusedDate.span = TimeSpan.week;
                   } else if (format == CalendarFormat.month) {
-                    focusedDate.span = TimeSpan.day;
+                    focusedDate.span = TimeSpan.month;
                   }
                 });
               },
@@ -204,40 +205,40 @@ class _CalendarState extends State<Calendar> {
 
                   switch (date.month) {
                     case 1:
-                      text = 'january';
+                      text = Language.januaryName;
                       break;
                     case 2:
-                      text = 'february';
+                      text = Language.februaryName;
                       break;
                     case 3:
-                      text = 'march';
+                      text = Language.marchName;
                       break;
                     case 4:
-                      text = 'april';
+                      text = Language.aprilName;
                       break;
                     case 5:
-                      text = 'may';
+                      text = Language.mayName;
                       break;
                     case 6:
-                      text = 'june';
+                      text = Language.juneName;
                       break;
                     case 7:
-                      text = 'july';
+                      text = Language.julyName;
                       break;
                     case 8:
-                      text = 'august';
+                      text = Language.augustName;
                       break;
                     case 9:
-                      text = 'september';
+                      text = Language.septemberName;
                       break;
                     case 10:
-                      text = 'october';
+                      text = Language.octoberName;
                       break;
                     case 11:
-                      text = 'november';
+                      text = Language.novemberName;
                       break;
                     case 12:
-                      text = 'december';
+                      text = Language.decemberName;
                       break;
                   }
 

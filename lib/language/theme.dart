@@ -5,7 +5,7 @@ import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class ThemeSwitcher extends StatelessWidget {
   static bool darkModeEnabled = false;
@@ -52,34 +52,60 @@ class Themes {
 
   static ThemeData mainLightThem(BuildContext context) =>
       ThemeData.light().copyWith(
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Constants.textColorLight),
-        colorScheme: ThemeData.dark()
-            .colorScheme
-            .copyWith(secondary: Constants.secondaryColorLight),
-        cardColor: Constants.cardColorLight,
-        scaffoldBackgroundColor: Constants.bgColorLight,
         primaryColor: Constants.primaryColorLight,
+        scaffoldBackgroundColor: Constants.bgColorLight,
+        cardColor: Constants.cardColorLight,
         buttonTheme: const ButtonThemeData(
           buttonColor: Constants.cardColorLight,
           shape: RoundedRectangleBorder(),
           textTheme: ButtonTextTheme.primary,
         ),
+        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
+            .apply(bodyColor: Constants.textColorLight),
+        colorScheme: ThemeData.dark()
+            .colorScheme
+            .copyWith(secondary: Constants.secondaryColorLight),
+        snackBarTheme: const SnackBarThemeData(
+          actionTextColor: Constants.primaryColorLight,
+          disabledActionTextColor: Constants.cardColorDark,
+          backgroundColor: Constants.snackbarBackground,
+          elevation: 2,
+          behavior: SnackBarBehavior.floating,
+          contentTextStyle: TextStyle(
+            color: Constants.snackbarText,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
+        ),
       );
   static ThemeData mainDarkThem(BuildContext context) =>
       ThemeData.dark().copyWith(
+        primaryColor: Constants.primaryColorDark,
+        scaffoldBackgroundColor: Constants.bgColorDark,
+        cardColor: Constants.cardColorDark,
+        buttonTheme: const ButtonThemeData(
+          buttonColor: Constants.cardColorDark,
+          shape: RoundedRectangleBorder(),
+          textTheme: ButtonTextTheme.primary,
+        ),
         textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
             .apply(bodyColor: Constants.textColorDark),
         colorScheme: ThemeData.dark()
             .colorScheme
             .copyWith(secondary: Constants.secondaryColorDark),
-        cardColor: Constants.cardColorDark,
-        scaffoldBackgroundColor: Constants.bgColorDark,
-        primaryColor: Constants.primaryColorDark,
-        buttonTheme: const ButtonThemeData(
-          buttonColor: Constants.cardColorDark,
-          shape: RoundedRectangleBorder(),
-          textTheme: ButtonTextTheme.primary,
+        snackBarTheme: const SnackBarThemeData(
+          actionTextColor: Constants.primaryColorLight,
+          disabledActionTextColor: Constants.cardColorDark,
+          backgroundColor: Constants.snackbarBackground,
+          elevation: 2,
+          behavior: SnackBarBehavior.floating,
+          contentTextStyle: TextStyle(
+            color: Constants.snackbarText,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(Radius.circular(5)),
+          ),
         ),
       );
 }

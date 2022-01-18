@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/components/widgets/responsive_screen.dart';
@@ -28,7 +29,7 @@ class NotificationScreen extends StatelessWidget {
                   UserCache.nonFriends(AuthApi.activeUser ?? '')),
         ],
         child: const ResponsiveScreen(
-          header: 'Notifications',
+          header: Language.appNavBarTitlesNotos,
           primaryContent: RecentNotifications(),
           sideContent: RecommendedFriends(),
         ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/components/widgets/responsive_screen.dart';
@@ -24,7 +25,7 @@ class StatsScreen extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => DashboardCache()),
         ],
         child: const ResponsiveScreen.thirds(
-          header: 'Activity',
+          header: Language.appNavBarTitlesHome,
           primaryContent: PanelCenterPage(),
           secondaryContent: PanelLeftPage(),
           sideContent: PanelRightPage(),

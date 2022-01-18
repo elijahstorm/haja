@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 
 class User {
   String name, username, image;
@@ -139,7 +140,7 @@ class _SearchPageState extends State<SearchPage> {
                 },
               )
             : const Center(
-                child: Text('No users found'),
+                child: Text(Language.noDataFoundError),
               ),
       ),
     );
@@ -203,7 +204,9 @@ class _SearchPageState extends State<SearchPage> {
               ),
               child: Center(
                 child: Text(
-                  user.isFollowedByMe ? 'Unfollow' : 'Follow',
+                  user.isFollowedByMe
+                      ? Language.unfollowButton
+                      : Language.followButton,
                   style: TextStyle(
                     color: user.isFollowedByMe ? Colors.white : null,
                   ),

@@ -1,6 +1,61 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/display/components/widgets/backable_page.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
+
+class ErrorPage extends StatelessWidget {
+  final String header, help, image;
+
+  const ErrorPage({
+    required this.header,
+    required this.help,
+    this.image = Constants.errorImage,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BackablePage(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            image,
+            width: 350,
+          ),
+          const SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Constants.defaultPadding,
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  header,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: Constants.defaultPadding),
+                Text(
+                  help,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
 
 class ErrorDisplay extends StatelessWidget {
   final String _err, title, retryPrompt;
@@ -8,9 +63,9 @@ class ErrorDisplay extends StatelessWidget {
 
   const ErrorDisplay(
     this._err, {
-    this.title = 'Ooops! 😓',
+    this.title = Language.oopsFriendlyError,
     this.retry,
-    this.retryPrompt = 'Try Again',
+    this.retryPrompt = Language.retryButton,
     Key? key,
   }) : super(key: key);
 

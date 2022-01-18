@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/firestore.dart';
 

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/responsive.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/controllers/responsive.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/display/pages/main/components/navbar_holder.dart';
 
 class SideMenu extends StatelessWidget {
@@ -34,7 +35,7 @@ class SideMenu extends StatelessWidget {
                     Image.asset(Constants.logoAsset),
                     const SizedBox(width: Constants.defaultPadding * 0.5),
                     const Text(
-                      Constants.appName,
+                      Language.appName,
                       style: TextStyle(
                         fontSize: 20,
                       ),

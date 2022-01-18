@@ -4,7 +4,8 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'package:haja/content/notifications/content.dart';
 import 'package:haja/content/notifications/cache.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 
 class RecentNotifications extends StatelessWidget {
   final _notificationContainerSize = 50.0;
@@ -35,7 +36,7 @@ class RecentNotifications extends StatelessWidget {
                   extentRatio: 0.25,
                   children: [
                     SlidableAction(
-                      label: 'Delete',
+                      label: Language.deleteButton,
                       backgroundColor: Colors.red,
                       icon: Icons.delete,
                       onPressed: (context) {
@@ -49,7 +50,7 @@ class RecentNotifications extends StatelessWidget {
                   extentRatio: 0.25,
                   children: [
                     SlidableAction(
-                      label: 'Delete',
+                      label: Language.deleteButton,
                       backgroundColor: Colors.red,
                       icon: Icons.delete,
                       onPressed: (context) {
@@ -179,7 +180,7 @@ class RecentNotifications extends StatelessWidget {
                   ),
                   child: const Center(
                     child: Text(
-                      'Follow',
+                      Language.followButton,
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -194,7 +195,7 @@ class RecentNotifications extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Recent Notifications',
+            Language.appScreenHeaderRecentNotos,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(height: Constants.defaultPadding),

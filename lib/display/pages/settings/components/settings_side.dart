@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/responsive.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/controllers/responsive.dart';
+import 'package:haja/language/constants.dart';
 
 class DashSettingsSide extends StatelessWidget {
   const DashSettingsSide({

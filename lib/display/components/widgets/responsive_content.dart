@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:haja/controllers/responsive.dart';
 
-import 'package:haja/display/components/widgets/header.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 
-class ResponsiveScreen extends StatelessWidget {
+class ResponsiveContent extends StatelessWidget {
   final String header;
   final Widget? primaryContent,
       secondaryContent,
@@ -20,7 +19,7 @@ class ResponsiveScreen extends StatelessWidget {
     Widget? mobileHeaderContent,
   }) _builder;
 
-  const ResponsiveScreen({
+  const ResponsiveContent({
     this.header = '${Language.appName}: ${Language.appSubtitle}',
     this.primaryContent,
     this.secondaryContent,
@@ -30,7 +29,7 @@ class ResponsiveScreen extends StatelessWidget {
   })  : _builder = drawPanels,
         super(key: key);
 
-  const ResponsiveScreen.thirds({
+  const ResponsiveContent.thirds({
     this.header = '${Language.appName}: ${Language.appSubtitle}',
     this.primaryContent,
     this.secondaryContent,
@@ -40,7 +39,7 @@ class ResponsiveScreen extends StatelessWidget {
   })  : _builder = drawThirds,
         super(key: key);
 
-  const ResponsiveScreen.landscapeFriendly({
+  const ResponsiveContent.landscapeFriendly({
     this.header = '${Language.appName}: ${Language.appSubtitle}',
     this.primaryContent,
     this.secondaryContent,
@@ -64,13 +63,6 @@ class ResponsiveScreen extends StatelessWidget {
       ),
       child: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Constants.defaultPadding,
-            ),
-            child: Header(header),
-          ),
-          const SizedBox(height: Constants.defaultPadding),
           if (Responsive.isMobile(context)) mobileHeaderContent ?? Container(),
           if (Responsive.isMobile(context))
             const SizedBox(height: Constants.defaultPadding),
@@ -123,8 +115,6 @@ class ResponsiveScreen extends StatelessWidget {
             padding: const EdgeInsets.all(Constants.defaultPadding),
             child: Column(
               children: [
-                if (header != '') Header(header),
-                const SizedBox(height: Constants.defaultPadding),
                 ConstrainedBox(
                   constraints: BoxConstraints(
                     maxHeight: MediaQuery.of(context).size.height - 150,
@@ -193,13 +183,6 @@ class ResponsiveScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: Constants.defaultPadding,
               ),
-              child: Header(header),
-            ),
-            const SizedBox(height: Constants.defaultPadding),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: Constants.defaultPadding,
-              ),
               child: mobileHeaderContent ?? Container(),
             ),
             const SizedBox(height: Constants.defaultPadding),
@@ -231,8 +214,6 @@ class ResponsiveScreen extends StatelessWidget {
       padding: const EdgeInsets.all(Constants.defaultPadding),
       child: Column(
         children: [
-          Header(header),
-          const SizedBox(height: Constants.defaultPadding),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -268,15 +249,13 @@ class ResponsiveScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: _builder(
-        context,
-        header,
-        primaryContent: primaryContent,
-        secondaryContent: secondaryContent,
-        sideContent: sideContent,
-        mobileHeaderContent: mobileHeaderContent,
-      ),
+    return _builder(
+      context,
+      header,
+      primaryContent: primaryContent,
+      secondaryContent: secondaryContent,
+      sideContent: sideContent,
+      mobileHeaderContent: mobileHeaderContent,
     );
   }
 }

@@ -6,7 +6,7 @@ import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/images.dart';
 
 class StorageApi {
-  static get upload {
+  static _StorageUploader get upload {
     return _StorageUploader();
   }
 
@@ -58,21 +58,18 @@ class StorageApi {
           .ref(refLocation)
           .putFile(file, metadata)
           .then(
-        (p0) {
+        (_) {
           if (onComplete != null) {
             onComplete(refLocation);
           }
         },
       ).onError(
         (e, stackTrace) {
-          onError('Upload Error (StorageApi.uploadFileWithMetadata)');
+          onError('Upload Error -> (StorageApi.uploadFileWithMetadata)');
         },
       );
 
-      if (onComplete != null) {
-        onComplete(refLocation);
-        return refLocation;
-      }
+      return refLocation;
     } on firebase_core.FirebaseException catch (e) {
       onError('Upload Error (StorageApi.uploadFileWithMetadata): ${e.code}');
     }
@@ -80,7 +77,7 @@ class StorageApi {
 }
 
 class _StorageUploader {
-  get images {
+  _StoreageImageHandler get images {
     return _StoreageImageHandler(
       onComplete: ({
         required File file,

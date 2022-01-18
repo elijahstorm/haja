@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class DashSettingsTeam extends StatelessWidget {
   const DashSettingsTeam({

@@ -49,19 +49,21 @@ class FirestoreImages {
   static Future<List<XFile>?> handleLostDataBeforeNewCall({
     required void Function(String) onError,
   }) async {
-    if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
-      List<XFile> files = [];
-      String? error;
-      await FirestoreImages.handleLostData(
-        onComplete: (XFile f) => files.add(f),
-        onError: (String e) => error = e,
-      );
-      if (files.isNotEmpty) {
-        return files;
-      }
-      if (error != null) {
-        onError(error!);
-      }
+    if (kIsWeb || defaultTargetPlatform != TargetPlatform.android) return null;
+
+    List<XFile> files = [];
+    String? error;
+
+    await FirestoreImages.handleLostData(
+      onComplete: (XFile f) => files.add(f),
+      onError: (String e) => error = e,
+    );
+
+    if (files.isNotEmpty) {
+      return files;
+    }
+    if (error != null) {
+      onError(error!);
     }
   }
 
@@ -70,9 +72,11 @@ class FirestoreImages {
     required void Function(String) onError,
   }) async {
     final LostDataResponse response = await ImagePicker().retrieveLostData();
+
     if (response.isEmpty) {
       return;
     }
+
     if (response.files != null) {
       for (final XFile file in response.files!) {
         onComplete(file);

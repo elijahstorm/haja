@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
@@ -9,7 +10,7 @@ import 'package:haja/display/components/widgets/error.dart';
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/login/user_state.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 import 'package:haja/content/todo/content.dart';
 import 'package:haja/content/files/content.dart';
@@ -87,7 +88,7 @@ class _DrawSnapshot extends StatelessWidget {
           },
           onError: (e) {
             return const Text(
-              'No data',
+              Language.noDataFoundError,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
               ),
@@ -106,8 +107,8 @@ class _DrawSnapshot extends StatelessWidget {
       return Consumer<UserState>(
         builder: (context, userstate, child) {
           return ErrorDisplay(
-            'Please make sure you are logged in',
-            retryPrompt: 'Log Back In',
+            Language.reloginRequest,
+            retryPrompt: Language.reloginButton,
             retry: () {
               userstate.logout();
             },
@@ -242,7 +243,7 @@ class DashboardProfileDisplay extends StatelessWidget {
               return Consumer<UserState>(
                 builder: (context, userstate, child) {
                   return ErrorDisplay(
-                    'Something went wrong... if you keep seeing this, try logging out and logging back in',
+                    Language.userstateError,
                     retry: () {
                       userstate.notify();
                     },
@@ -261,8 +262,8 @@ class DashboardProfileDisplay extends StatelessWidget {
               return Consumer<UserState>(
                 builder: (context, userstate, child) {
                   return ErrorDisplay(
-                    'Please make sure you are logged in',
-                    retryPrompt: 'Log Back In',
+                    Language.reloginRequest,
+                    retryPrompt: Language.reloginButton,
                     retry: () {
                       userstate.logout();
                     },

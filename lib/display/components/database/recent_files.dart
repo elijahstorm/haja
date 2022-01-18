@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/content/files/content.dart';
 
 class RecentFiles extends StatelessWidget {
@@ -20,12 +21,12 @@ class RecentFiles extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Recent Files',
+            Language.appScreenHeaderRecentFiles,
             style: Theme.of(context).textTheme.subtitle1,
           ),
           const SizedBox(
             width: double.infinity,
-            child: Text('not yet'),
+            child: Text(Language.inDevelopmentApology),
           ),
         ],
       ),

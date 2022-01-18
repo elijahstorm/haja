@@ -1,12 +1,15 @@
-import 'package:haja/responsive.dart';
+import 'package:flutter/foundation.dart';
+import 'package:haja/controllers/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/pages/search/page.dart';
+import 'package:haja/display/pages/debug/page.dart';
 import 'package:haja/display/pages/settings/page.dart';
 import 'package:haja/login/user_state.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class Header extends StatefulWidget {
   final String title;
@@ -73,11 +76,23 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
+                      if (!kReleaseMode)
+                        _drawHeaderDropdownButton(
+                          label: Language.debugTestingOption,
+                          icon: Icons.bug_report,
+                          onTap: () => Navigator.pushNamed(
+                            context,
+                            DebugTestingPage.routeName,
+                          ),
+                        ),
+                      const SizedBox(height: Constants.defaultPadding),
                       _drawHeaderDropdownButton(
-                        label: 'Account Settings',
+                        label: Language.accountSettings,
                         icon: Icons.settings,
                         onTap: () => Navigator.pushNamed(
-                            context, AccountSettingsPage.routeName),
+                          context,
+                          AccountSettingsPage.routeName,
+                        ),
                       ),
                       const SizedBox(height: Constants.defaultPadding),
                       Consumer<UserState>(
@@ -88,7 +103,7 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                           );
                         },
                         child: _drawHeaderDropdownButton(
-                          label: 'Log Out',
+                          label: Language.logoutButton,
                           icon: Icons.exit_to_app,
                           onTap: () => {},
                         ),
@@ -226,7 +241,7 @@ class _StateSearchField extends State<SearchField> {
           },
           controller: _controller,
           decoration: InputDecoration(
-            hintText: 'Search',
+            hintText: Language.searchPrompt,
             border: const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
@@ -235,7 +250,10 @@ class _StateSearchField extends State<SearchField> {
             ),
             suffixIcon: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, SearchPage.routeName);
+                Navigator.pushNamed(
+                  context,
+                  SearchPage.routeName,
+                );
               },
               child: Container(
                 margin: const EdgeInsets.symmetric(

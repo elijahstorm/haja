@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:haja/display/components/widgets/skeleton.dart';
-import 'package:haja/constants.dart';
-import 'package:haja/theme.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/theme.dart';
 
 class DashSettingsMain extends StatelessWidget {
   const DashSettingsMain({

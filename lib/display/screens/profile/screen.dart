@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/components/widgets/responsive_screen.dart';
@@ -34,7 +35,7 @@ class ProfileScreen extends StatelessWidget {
           ),
         ],
         child: const ResponsiveScreen(
-          header: 'Profile',
+          header: Language.appNavBarTitlesProfile,
           primaryContent: DashboardProfileDisplay(),
           sideContent: OurTeamMembers(),
         ),

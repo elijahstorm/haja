@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/components/widgets/responsive_screen.dart';
@@ -23,7 +24,7 @@ class TeamsScreen extends StatelessWidget {
               create: (context) => TeamsCache.activeUserTeams()),
         ],
         child: const ResponsiveScreen(
-          header: 'Teams',
+          header: Language.appNavBarTitlesTeams,
           primaryContent: OurTeamMembers(),
         ),
       ),

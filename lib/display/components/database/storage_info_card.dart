@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/content/dashboard/content.dart';
 
 class StorageInfoCard extends StatelessWidget {
@@ -53,7 +54,8 @@ class StorageInfoCard extends StatelessWidget {
                   Opacity(
                     opacity: 0.8,
                     child: Text(
-                      '${storageDetails.data['numOfFiles']} Files',
+                      // Constants.s
+                      '${storageDetails.data['numOfFiles']} ${Language.filesName}',
                     ),
                   )
                 ],

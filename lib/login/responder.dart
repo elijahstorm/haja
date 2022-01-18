@@ -1,4 +1,4 @@
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class ResponseData {
   String user, pass, provider;

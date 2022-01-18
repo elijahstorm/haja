@@ -3,7 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/content/todo/cache.dart';
 import 'package:haja/content/todo/content.dart';
 import 'package:haja/display/components/calendar/focused_date.dart';
@@ -11,9 +12,7 @@ import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/display/components/widgets/skeleton.dart';
 
 class Todo extends StatelessWidget {
-  final TextEditingController _inputController = TextEditingController();
-
-  Todo({
+  const Todo({
     Key? key,
   }) : super(key: key);
 
@@ -48,8 +47,6 @@ class Todo extends StatelessWidget {
 
   void _openNewInput(TodoCache cache, DateTime time) {
     if (_isEditing(cache)) return;
-
-    _inputController.text = '';
 
     _createNew(
       cache,
@@ -114,7 +111,6 @@ class Todo extends StatelessWidget {
 
   void _editTodo(TodoCache cache, TodoContent todo) {
     todo.editing = true;
-    _inputController.text = todo.title;
     cache.notify();
   }
 
@@ -124,7 +120,7 @@ class Todo extends StatelessWidget {
       context: context,
       builder: (BuildContext context) => AlertColorDialog(
         alert: todo.title,
-        subtext: 'Choose a new COLOR',
+        subtext: Language.alertColorPrompt,
         onColorChanged: (color) {
           todo.color = Constants.toHex(color);
           todo.upload();
@@ -141,7 +137,7 @@ class Todo extends StatelessWidget {
       initialDate: todo.date,
       firstDate: DateTime(2017, 1),
       lastDate: DateTime(2023, 7),
-      helpText: 'Change the task date',
+      helpText: Language.alertDateChangePrompt,
     ).then((DateTime? newDate) {
       if (newDate != null) {
         todo.date = newDate;
@@ -208,37 +204,21 @@ class Todo extends StatelessWidget {
     required DateTime time,
   }) =>
       TodoListCasing(
-        mainChild: Focus(
-          child: TextFormField(
-            autofocus: true,
-            inputFormatters: [
-              LengthLimitingTextInputFormatter(500),
-            ],
-            controller: _inputController,
-            onFieldSubmitted: (input) {
-              _closeAndSave(
-                title: input,
-                time: time,
-                cache: cache,
-                todo: todo,
-              );
-
-              _openNewInput(cache, time);
-            },
-            decoration: const InputDecoration(
-              border: UnderlineInputBorder(),
-              hintText: 'start a new Todo',
-            ),
-            style: const TextStyle(
-              fontSize: 14.0,
-              height: 1,
-            ),
-          ),
-          onFocusChange: (hasFocus) {
-            if (hasFocus) return;
-
+        mainChild: EditableFocusLosingField(
+          value: todo.title,
+          onSubmit: (input) {
             _closeAndSave(
-              title: _inputController.text,
+              title: input,
+              time: time,
+              cache: cache,
+              todo: todo,
+            );
+
+            _openNewInput(cache, time);
+          },
+          onExit: (value) {
+            _closeAndSave(
+              title: value,
               time: time,
               cache: cache,
               todo: todo,
@@ -306,7 +286,7 @@ class Todo extends StatelessWidget {
                     _openNewInput(cache, focusedDate.time);
                   },
                   icon: const Icon(Icons.add),
-                  label: const Text('add'),
+                  label: const Text(Language.addButton),
                 ),
                 if (cache.items.isEmpty) const SkeletonLoader(),
                 Column(
@@ -398,5 +378,62 @@ class TodoListCasing extends StatelessWidget {
             ),
           ],
         ),
+      );
+}
+
+class EditableFocusLosingField extends StatefulWidget {
+  final String value;
+  final void Function(String) onSubmit;
+  final void Function(String) onExit;
+
+  const EditableFocusLosingField({
+    required this.value,
+    required this.onSubmit,
+    required this.onExit,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _EditableFocusLosingField createState() => _EditableFocusLosingField();
+}
+
+class _EditableFocusLosingField extends State<EditableFocusLosingField> {
+  TextEditingController inputController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    inputController.text = widget.value;
+  }
+
+  @override
+  void dispose() {
+    inputController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Focus(
+        child: TextFormField(
+          autofocus: true,
+          inputFormatters: [
+            LengthLimitingTextInputFormatter(500),
+          ],
+          controller: inputController,
+          onFieldSubmitted: widget.onSubmit,
+          decoration: const InputDecoration(
+            border: UnderlineInputBorder(),
+            hintText: Language.createNewTodoHint,
+          ),
+          style: const TextStyle(
+            fontSize: 14.0,
+            height: 1,
+          ),
+        ),
+        onFocusChange: (hasFocus) {
+          if (hasFocus) return;
+
+          widget.onExit(inputController.text);
+        },
       );
 }

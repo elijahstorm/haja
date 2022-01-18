@@ -1,12 +1,13 @@
+import 'package:haja/language/language.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:haja/display/components/animations/fade_in_incrementable.dart';
 import 'package:haja/content/todo/content.dart';
 import 'package:haja/display/components/widgets/slivers.dart';
-import 'package:haja/display/components/widgets/video_prebuffer.dart';
+import 'package:haja/display/components/calendar/team_calendar.dart';
 import 'package:haja/display/components/widgets/buttons.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 import 'package:haja/content/teams/content.dart';
 
@@ -28,15 +29,30 @@ class TeamPageDisplay extends StatelessWidget {
           CustomScrollView(
             slivers: [
               DramaticAppbarWithContent(
-                background: const AssetImage('assets/imports/emma.jpg'),
+                background: content.imageUrl,
                 children: [
                   FadeInIncrementable(
-                    child: Text(
-                      content.title,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 40,
-                      ),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: Constants.defaultPadding / 2,
+                            right: Constants.defaultPadding / 2,
+                          ),
+                          child: Icon(
+                            content.private ? Icons.lock : Icons.lock_open,
+                            size: 28,
+                          ),
+                        ),
+                        Text(
+                          content.title,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 40,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: Constants.defaultPadding * 2),
@@ -53,7 +69,7 @@ class TeamPageDisplay extends StatelessWidget {
                                       snapshot.data!.length,
                                       'active Todo',
                                     )
-                                  : 'Loading active Todos...',
+                                  : Language.loadingActiveTeamTodos,
                               style: const TextStyle(
                                 fontSize: 16,
                               ),
@@ -93,7 +109,11 @@ class TeamPageDisplay extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: Constants.defaultPadding * 4),
+                  const SizedBox(height: Constants.defaultPadding),
+                  TeamCalendar(
+                    team: content.id,
+                  ),
+                  const SizedBox(height: Constants.defaultPadding * 2),
                   const FadeInIncrementable(
                     child: Text(
                       'Created',
@@ -134,45 +154,6 @@ class TeamPageDisplay extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: Constants.defaultPadding * 2),
-                  const FadeInIncrementable(
-                    child: Opacity(
-                      opacity: .7,
-                      child: Text(
-                        'Upcoming Todos',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: Constants.defaultPadding * 2),
-                  FadeInIncrementable(
-                    child: SizedBox(
-                      height: 200,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          VideoPrebuffer(
-                            onTap: () {},
-                            imageLink: 'assets/imports/emma-1.jpg',
-                            localImage: true,
-                          ),
-                          VideoPrebuffer(
-                            onTap: () {},
-                            imageLink: 'assets/imports/emma-2.jpg',
-                            localImage: true,
-                          ),
-                          VideoPrebuffer(
-                            onTap: () {},
-                            imageLink: 'assets/imports/emma-3.jpg',
-                            localImage: true,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
                   const SizedBox(height: Constants.defaultPadding * 7),
                 ],
               ),
@@ -184,8 +165,8 @@ class TeamPageDisplay extends StatelessWidget {
               alignment: Alignment.bottomCenter,
               child: FadeInIncrementable(
                 child: GenericFloatingButton(
-                  onTap: () {},
-                  label: 'Edit Team Info', // TODO: fix
+                  onTap: () => content.navigateToEditor(context),
+                  label: Language.editButton,
                 ),
               ),
             ),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/controllers/menu_controller.dart';
-import 'package:haja/responsive.dart';
+import 'package:haja/controllers/responsive.dart';
 import 'package:haja/display/pages/main/components/bottom_nav.dart';
 import 'package:haja/display/pages/main/components/side_menu.dart';
 import 'package:haja/display/pages/main/components/navbar_holder.dart';
@@ -30,36 +31,36 @@ class _ScreenManagerState extends State<MainScreen> {
     NavbarDataHolder(
       name: StatsScreen.screenName,
       child: const StatsScreen(),
-      icon: Icons.home,
-      title: 'Home',
+      icon: Icons.query_stats,
+      title: Language.appNavBarTitlesHome,
       color: (context) => Theme.of(context).colorScheme.secondary,
     ),
     NavbarDataHolder(
       name: TeamsScreen.screenName,
       child: const TeamsScreen(),
       icon: Icons.group,
-      title: 'Teams',
+      title: Language.appNavBarTitlesTeams,
       color: (context) => Colors.purple,
     ),
     NavbarDataHolder(
       name: CalendarScreen.screenName,
       child: const CalendarScreen(),
       icon: Icons.event_available,
-      title: 'Calendar',
+      title: Language.appNavBarTitlesCalendar,
       color: (context) => Theme.of(context).primaryColor,
     ),
     NavbarDataHolder(
       name: NotificationScreen.screenName,
       child: const NotificationScreen(),
       icon: Icons.favorite_border,
-      title: 'Likes',
+      title: Language.appNavBarTitlesNotos,
       color: (context) => Colors.pink,
     ),
     NavbarDataHolder(
       name: ProfileScreen.screenName,
       child: const ProfileScreen(),
       icon: Icons.person,
-      title: 'Profile',
+      title: Language.appNavBarTitlesProfile,
       color: (context) => Colors.teal,
     ),
   ];

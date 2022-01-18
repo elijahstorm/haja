@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class BackablePage extends StatelessWidget {
   final Widget _child;
@@ -25,8 +25,10 @@ class BackablePage extends StatelessWidget {
             Positioned(
               top: Constants.defaultPadding,
               left: Constants.defaultPadding,
-              child: BackButton(
-                onPressed: () => Navigator.pop(context),
+              child: SafeArea(
+                child: BackButton(
+                  onPressed: () => Navigator.pop(context),
+                ),
               ),
             ),
           ],

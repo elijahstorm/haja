@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/display/components/widgets/responsive_screen.dart';
 
 import 'package:haja/display/components/calendar/calendar.dart';
 import 'package:haja/display/components/calendar/focused_date.dart';
-import 'package:haja/display/components/calendar/todo_viewer.dart';
+import 'package:haja/display/components/calendar/todo.dart';
 import 'package:haja/display/components/teams/our_team_members.dart';
 
 import 'package:haja/content/notifications/cache.dart';
@@ -42,10 +43,10 @@ class CalendarScreen extends StatelessWidget {
         behavior: HitTestBehavior.translucent,
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: const ResponsiveScreen.landscapeFriendly(
-          header: 'Haja: Do Together',
+          header: '${Language.appName}: ${Language.appSubtitle}',
           primaryContent: Calendar(),
           mobileHeaderContent: TeamMemberSmallCircleRow(),
-          secondaryContent: TodoViewer(),
+          secondaryContent: Todo(),
           sideContent: RecentFriendActivities(),
         ),
       ),

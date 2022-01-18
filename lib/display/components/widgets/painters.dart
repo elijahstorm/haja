@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/art.dart';
 
 class CurvePainter extends CustomPainter {
   final Color color;
@@ -11,50 +12,20 @@ class CurvePainter extends CustomPainter {
     paint.color = color;
     paint.style = PaintingStyle.fill;
 
-    var width = size.width, height = size.height;
+    Art art = Art(size.width, size.height);
 
-    var path = Path();
-
-    path.moveTo(0, height * 0.9167);
-    path.quadraticBezierTo(
-      width * 0.25,
-      height * 0.875,
-      width * 0.5,
-      height * 0.9167,
+    canvas.drawPath(
+      art.drawBottom(),
+      paint,
     );
-    path.quadraticBezierTo(
-      width * 0.75,
-      height * 0.9584,
-      width * 1.0,
-      height * 0.9167,
-    );
-    path.lineTo(width, height);
-    path.lineTo(0, height);
-
-    canvas.drawPath(path, paint);
 
     paint.color = color.withOpacity(.7);
-    height = 150;
-
-    var pathTop = Path();
-
-    pathTop.moveTo(0, height * 0.9167);
-    pathTop.quadraticBezierTo(
-      width * 0.25,
-      height * 0.675,
-      width * 0.5,
-      height * 0.8167,
+    canvas.drawPath(
+      art.drawTop(
+        height: 150,
+      ),
+      paint,
     );
-    pathTop.quadraticBezierTo(
-      width * 0.75,
-      height * 0.9584,
-      width * 1.0,
-      height * 0.8567,
-    );
-    pathTop.lineTo(width, 0);
-    pathTop.lineTo(0, 0);
-
-    canvas.drawPath(pathTop, paint);
   }
 
   @override

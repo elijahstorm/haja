@@ -1,8 +1,9 @@
-import 'package:haja/responsive.dart';
+import 'package:haja/controllers/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/content/dashboard/cache.dart';
 import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/display/components/database/file_info_card.dart';
@@ -21,7 +22,7 @@ class DashboardFiles extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'My Files',
+              Language.appScreenHeaderMyFiles,
               style: Theme.of(context).textTheme.subtitle1,
             ),
             TextButton.icon(
@@ -34,7 +35,7 @@ class DashboardFiles extends StatelessWidget {
               ),
               onPressed: () {},
               icon: const Icon(Icons.add),
-              label: const Text('Add New'),
+              label: const Text(Language.addButton),
             ),
           ],
         ),

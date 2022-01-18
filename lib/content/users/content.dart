@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/firebase/auth.dart';
 
 import 'display.dart';

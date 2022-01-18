@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:haja/constants.dart';
+import 'package:haja/language.dart';
 
 import 'package:haja/content/store/content.dart';
 
@@ -73,7 +74,7 @@ class _CartItemState extends State<CartItem> with TickerProviderStateMixin {
                 bottom: 5,
                 left: 5,
                 child: Text(
-                  'PROMOTION',
+                  Language.promotionText,
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

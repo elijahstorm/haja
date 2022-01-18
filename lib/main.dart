@@ -7,10 +7,10 @@ import 'package:haja/login/user_state.dart';
 import 'package:haja/login/responder.dart';
 import 'package:haja/content/cache.dart';
 
-import 'package:haja/theme.dart';
-import 'package:haja/routes.dart';
-import 'package:haja/keys.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/language/theme.dart';
+import 'package:haja/language/routes.dart';
+import 'package:haja/controllers/keys.dart';
+import 'package:haja/language/language.dart';
 
 void main() async {
   if (!kReleaseMode && AppDebugLogin.bypass) {
@@ -39,7 +39,7 @@ class HajaDoTogetherApp extends StatelessWidget {
         return MaterialApp(
           scaffoldMessengerKey: GlobalKeys.rootScaffoldMessengerKey,
           debugShowCheckedModeBanner: false,
-          title: '${Constants.appName} | ${Constants.appTitleDesc}',
+          title: '${Language.appName} | ${Language.appSubtitle}',
           theme: Themes.mainLightThem(context),
           darkTheme: Themes.mainDarkThem(context),
           themeMode: enableDarkMode ? ThemeMode.dark : ThemeMode.light,

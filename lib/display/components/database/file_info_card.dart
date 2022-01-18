@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/content/dashboard/content.dart';
 
 class FileInfoCard extends StatelessWidget {

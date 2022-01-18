@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/constants.dart';
+import 'package:haja/language/constants.dart';
 
 class DramaticAppbarWithContent extends StatelessWidget {
-  final ImageProvider background;
+  final String background;
   final List<Widget> children;
 
   const DramaticAppbarWithContent({
@@ -17,32 +17,42 @@ class DramaticAppbarWithContent extends StatelessWidget {
         expandedHeight: 450,
         flexibleSpace: FlexibleSpaceBar(
           collapseMode: CollapseMode.parallax,
-          background: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: background,
-                fit: BoxFit.cover,
-              ),
-            ),
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.bottomRight,
-                  colors: [
-                    Theme.of(context).scaffoldBackgroundColor,
-                    Theme.of(context).scaffoldBackgroundColor.withOpacity(.3),
-                  ],
+          background: Stack(
+            children: [
+              Positioned.fill(
+                child: Image.network(
+                  background,
+                  errorBuilder: (context, _, __) => Image.asset(
+                    Constants.errorImage,
+                    fit: BoxFit.contain,
+                  ),
+                  fit: BoxFit.cover,
                 ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(Constants.defaultPadding),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: children,
+              Positioned.fill(
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.bottomRight,
+                      colors: [
+                        Theme.of(context).scaffoldBackgroundColor,
+                        Theme.of(context)
+                            .scaffoldBackgroundColor
+                            .withOpacity(.3),
+                      ],
+                    ),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(Constants.defaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: children,
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
         ),
       );

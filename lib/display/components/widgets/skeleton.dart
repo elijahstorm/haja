@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
-import 'package:haja/constants.dart';
-import 'package:haja/theme.dart';
+import 'package:haja/language/constants.dart';
+import 'package:haja/language/theme.dart';
 
 enum ShimmerDesign {
   profile,

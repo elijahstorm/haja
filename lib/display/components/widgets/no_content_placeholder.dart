@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/responsive.dart';
-import 'package:haja/constants.dart';
+import 'package:haja/controllers/responsive.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/display/components/animations/blinking_content.dart';
 import 'package:haja/display/components/animations/loading.dart';
+import 'package:haja/language/language.dart';
 
 class NoContentPlaceholder extends StatelessWidget {
   const NoContentPlaceholder({
@@ -20,7 +21,7 @@ class NoContentPlaceholder extends StatelessWidget {
           children: [
             BlinkingContent(
               child: Text(
-                'Awaiting Content...',
+                Language.waitingForContent,
                 style: Theme.of(context).textTheme.subtitle1,
               ),
             ),
