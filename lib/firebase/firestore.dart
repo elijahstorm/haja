@@ -243,6 +243,7 @@ class FirestoreApi {
       if (content.synchedWithDatabase) return;
 
       content.synchedWithDatabase = true;
+      content.id = value.id ?? '';
 
       dynamic docRef =
           FirebaseFirestore.instance.collection(isTeam ? 'teams' : 'users');

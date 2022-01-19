@@ -29,7 +29,7 @@ class _CalendarState extends State<Calendar> {
   Widget eventCircleBuilder(
     BuildContext context,
     TodoContent event, {
-    BlendMode blend = BlendMode.multiply,
+    BlendMode? blend,
     String? color,
   }) =>
       Container(
@@ -60,6 +60,26 @@ class _CalendarState extends State<Calendar> {
     EdgeInsets.zero,
   ];
 
+  static const List<EdgeInsets> largeEventPaddings = [
+    EdgeInsets.only(
+      bottom: multipleEventCirclePadding,
+      right: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      bottom: multipleEventCirclePadding,
+      left: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      top: multipleEventCirclePadding,
+      right: multipleEventCirclePadding,
+    ),
+    EdgeInsets.only(
+      top: multipleEventCirclePadding,
+      left: multipleEventCirclePadding,
+    ),
+    EdgeInsets.zero,
+  ];
+
   Widget eventsStackBuilder(
     BuildContext context,
     List<TodoContent> events,
@@ -73,11 +93,30 @@ class _CalendarState extends State<Calendar> {
             min(events.length, 4) + 2,
             (index) => Center(
               child: index == 0
-                  ? eventCircleBuilder(
-                      context,
-                      events[index],
-                      color: 'ffffff',
-                      blend: BlendMode.plus,
+                  ? Stack(
+                      children: isSmallEventsStack(events)
+                          ? List<Widget>.generate(
+                              events.length,
+                              (index) => Container(
+                                padding: smallEventPaddings[index],
+                                child: eventCircleBuilder(
+                                  context,
+                                  events[0],
+                                  color: 'ffffff',
+                                ),
+                              ),
+                            )
+                          : List<Widget>.generate(
+                              5,
+                              (index) => Container(
+                                padding: largeEventPaddings[index],
+                                child: eventCircleBuilder(
+                                  context,
+                                  events[0],
+                                  color: 'ffffff',
+                                ),
+                              ),
+                            ),
                     )
                   : index == events.length + 1 || index == 5
                       ? allFinished(events)
@@ -104,32 +143,16 @@ class _CalendarState extends State<Calendar> {
                           padding: isSmallEventsStack(events)
                               ? smallEventPaddings[index - 1]
                               : largeEventPaddings[index - 1],
-                          child: eventCircleBuilder(context, events[index - 1]),
+                          child: eventCircleBuilder(
+                            context,
+                            events[index - 1],
+                            blend: BlendMode.multiply,
+                          ),
                         ),
             ),
           ),
         ),
       );
-
-  static const List<EdgeInsets> largeEventPaddings = [
-    EdgeInsets.only(
-      bottom: multipleEventCirclePadding,
-      right: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      bottom: multipleEventCirclePadding,
-      left: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      top: multipleEventCirclePadding,
-      right: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      top: multipleEventCirclePadding,
-      left: multipleEventCirclePadding,
-    ),
-    EdgeInsets.zero,
-  ];
 
   bool allFinished(List<TodoContent> events) {
     for (var e in events) {

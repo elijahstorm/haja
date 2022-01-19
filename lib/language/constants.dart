@@ -31,13 +31,10 @@ class Constants {
 
   // static const String defaultHeaderTitle = 'Haja: Do Together';
 
-  static const String defaultTeamPicture =
-      'users%2FZbDWV5123FadwDAEZnH2K1t4kRf1%2Fprofile.png?alt=media&token=4e533a70-a670-493e-91b3-e7c31eb57ab9';
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';
-  // static const String wavyThemeBackground = 'assets/icons/wavy_background.svg';
-  // static const String wavyThemeBackgroundTempWrong =
-  // 'assets/icons/wavy_background.png';
+  static const String defaultTeamPicture =
+      'users%2FZbDWV5123FadwDAEZnH2K1t4kRf1%2Fprofile.png?alt=media&token=4e533a70-a670-493e-91b3-e7c31eb57ab9';
   static const String buttonBackgroundSmall =
       'assets/images/button-bg-small.png';
   static const String placeholderUserIcon =
@@ -48,7 +45,7 @@ class Constants {
   static const String trainingDataSvgs =
       'https://avatars.dicebear.com/api/jdenticon/';
 
-  static const String logoAsset = 'assets/images/logo.png';
+  static const String logoAsset = 'assets/images/logo/haja_logo_full.png';
   static const String errorImage = 'assets/images/error.png';
   static const String imageAssetPath = 'assets/images/';
 
