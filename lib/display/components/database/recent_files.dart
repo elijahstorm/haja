@@ -55,7 +55,7 @@ DataRow recentFileDataRow(FileContent fileInfo) {
       ),
       DataCell(
         Text(
-          Constants.timeSinceDate(fileInfo.editedOn),
+          Language.timeSinceDate(fileInfo.editedOn),
         ),
       ),
       DataCell(Text(fileInfo.caption)),

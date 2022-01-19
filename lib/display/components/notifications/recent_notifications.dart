@@ -21,7 +21,9 @@ class RecentNotifications extends StatelessWidget {
   }
 
   Widget _buildNotificationList(
-          BuildContext context, NotificationCache cache) =>
+    BuildContext context,
+    NotificationCache cache,
+  ) =>
       Column(
         children: List.generate(
           cache.items.length,
@@ -61,9 +63,10 @@ class RecentNotifications extends StatelessWidget {
                 ),
                 child: Padding(
                   padding: EdgeInsets.only(
-                      bottom: index == cache.items.length - 1
-                          ? 0
-                          : Constants.defaultPadding),
+                    bottom: index == cache.items.length - 1
+                        ? 0
+                        : Constants.defaultPadding,
+                  ),
                   child: _buildNotificationItem(context, cache.items[index]),
                 ),
               ),
@@ -73,88 +76,88 @@ class RecentNotifications extends StatelessWidget {
       );
 
   Widget _buildNotificationItem(
-          BuildContext context, NotificationContent notification) =>
+    BuildContext context,
+    NotificationContent notification,
+  ) =>
       Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(
-            child: Row(
-              children: [
-                notification.hasStory
-                    ? Container(
-                        width: _notificationContainerSize,
-                        height: _notificationContainerSize,
-                        padding: const EdgeInsets.all(2),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Theme.of(context).primaryColor,
-                              Theme.of(context).colorScheme.secondary,
-                            ],
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomLeft,
-                          ),
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipRRect(
-                          child: Container(
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Colors.white,
-                                width: 3,
-                              ),
-                            ),
-                            child: notification.icon,
-                          ),
-                        ),
-                      )
-                    : Container(
-                        width: _notificationContainerSize,
-                        height: _notificationContainerSize,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          border: Border.all(
-                            color: Colors.grey.shade300,
-                            width: 1,
-                          ),
-                        ),
-                        child: ClipRRect(
-                          child: notification.icon,
-                        ),
-                      ),
-                const SizedBox(width: Constants.defaultPadding),
-                Flexible(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            notification.name,
-                            style: const TextStyle(
-                              color: Colors.black,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Text(
-                            notification.caption,
-                            style: const TextStyle(
-                              color: Colors.black,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        Constants.timeSinceDate(notification.date),
-                        style: TextStyle(
-                          color: Colors.grey.shade500,
-                        ),
-                      ),
-                    ],
+          notification.hasStory
+              ? Container(
+                  width: _notificationContainerSize,
+                  height: _notificationContainerSize,
+                  padding: const EdgeInsets.all(2),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        Theme.of(context).primaryColor,
+                        Theme.of(context).colorScheme.secondary,
+                      ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomLeft,
+                    ),
+                    shape: BoxShape.circle,
                   ),
+                  child: ClipRRect(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 3,
+                        ),
+                      ),
+                      child: notification.fromWho.icon,
+                    ),
+                  ),
+                )
+              : Container(
+                  width: _notificationContainerSize,
+                  height: _notificationContainerSize,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.grey.shade300,
+                      width: 1,
+                    ),
+                  ),
+                  child: ClipRRect(
+                    child: notification.fromWho.icon,
+                  ),
+                ),
+          const SizedBox(width: Constants.defaultPadding),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        notification.name,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: Constants.defaultPadding / 4,
+                    ),
+                    Text(
+                      Language.timeSinceDate(
+                        notification.date,
+                        short: true,
+                      ),
+                      style: TextStyle(
+                        color:
+                            Theme.of(context).iconTheme.color!.withOpacity(.7),
+                      ),
+                    ),
+                  ],
+                ),
+                Text(
+                  notification.caption,
                 ),
               ],
             ),
@@ -200,8 +203,10 @@ class RecentNotifications extends StatelessWidget {
           ),
           const SizedBox(height: Constants.defaultPadding),
           Consumer<NotificationCache>(
-            builder: (context, cache, child) =>
-                _buildNotificationList(context, cache),
+            builder: (context, cache, child) => _buildNotificationList(
+              context,
+              cache,
+            ),
           ),
         ],
       );

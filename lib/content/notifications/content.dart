@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haja/content/teams/content.dart';
+import 'package:haja/language/constants.dart';
 
 import 'display.dart';
 import '../content.dart';
@@ -56,6 +58,19 @@ class NotificationContent extends ContentContainer {
   @override
   NotificationContentDisplayPage navigator() {
     return NotificationContentDisplayPage(this);
+  }
+
+  dynamic get fromWho {
+    return TeamContent(
+      users: [],
+      picture: Constants.placeholderUserIcon,
+      private: false,
+      createdOn: DateTime.now(),
+      lastLogin: DateTime.now(),
+      title: 'title',
+      caption: 'caption',
+      id: 'id',
+    );
   }
 
   Widget get icon {

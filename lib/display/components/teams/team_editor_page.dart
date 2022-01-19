@@ -21,52 +21,57 @@ class TeamEditorDisplay extends StatelessWidget {
       title: Language.teamEditorTitle,
       child: Padding(
         padding: const EdgeInsets.all(Constants.defaultPadding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: Constants.defaultPadding),
-            CustomSwitch(
-              label: Language.teamPrivacy,
-              switchText: Language.teamPrivacyAction,
-              help: Language.teamPrivacyHelp,
-              value: content.private,
-              onSave: (value) => content.private = value,
-            ),
-            const SizedBox(height: Constants.defaultPadding),
-            const Padding(
-              padding: EdgeInsets.all(Constants.defaultPadding),
-              child: Divider(
-                thickness: 1,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: Constants.defaultPadding),
+              CustomSwitch(
+                label: Language.teamPrivacy,
+                switchText: Language.teamPrivacyAction,
+                help: Language.teamPrivacyHelp,
+                value: content.private,
+                onSave: (value) => content.private = value,
               ),
-            ),
-            CustomEditablePicture(
-              label: Language.teamPicture,
-              help: Language.teamPictureHelp,
-              value: content.imageUrl,
-              onSave: (value) => content.picture = value,
-            ),
-            const SizedBox(height: Constants.defaultPadding),
-            const Padding(
-              padding: EdgeInsets.all(Constants.defaultPadding),
-              child: Divider(
-                thickness: 1,
+              const SizedBox(height: Constants.defaultPadding),
+              const Padding(
+                padding: EdgeInsets.all(Constants.defaultPadding),
+                child: Divider(
+                  thickness: 1,
+                ),
               ),
-            ),
-            CustomEditableText(
-              value: content.title,
-              help: Language.teamTitleHelp,
-              label: Language.teamTitle,
-              onSave: (value) => content.title = value,
-            ),
-            const SizedBox(height: Constants.defaultPadding),
-            CustomEditableText(
-              value: content.caption,
-              help: Language.teamCaptionHelp,
-              label: Language.teamCaption,
-              onSave: (value) => content.caption = value,
-            ),
-            const SizedBox(height: Constants.defaultPadding * 7),
-          ],
+              CustomEditablePicture(
+                label: Language.teamPicture,
+                help: Language.teamPictureHelp,
+                value: content.imageUrl,
+                onSave: (value) => content.picture = value.replaceAll(
+                  Constants.storageUrlPrefix,
+                  '',
+                ),
+              ),
+              const SizedBox(height: Constants.defaultPadding),
+              const Padding(
+                padding: EdgeInsets.all(Constants.defaultPadding),
+                child: Divider(
+                  thickness: 1,
+                ),
+              ),
+              CustomEditableText(
+                value: content.title,
+                help: Language.teamTitleHelp,
+                label: Language.teamTitle,
+                onSave: (value) => content.title = value,
+              ),
+              const SizedBox(height: Constants.defaultPadding),
+              CustomEditableText(
+                value: content.caption,
+                help: Language.teamCaptionHelp,
+                label: Language.teamCaption,
+                onSave: (value) => content.caption = value,
+              ),
+              const SizedBox(height: Constants.defaultPadding * 7),
+            ],
+          ),
         ),
       ),
     );

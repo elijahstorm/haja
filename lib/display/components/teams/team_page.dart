@@ -65,7 +65,7 @@ class TeamPageDisplay extends StatelessWidget {
                             future: content.activeTodos,
                             builder: (context, snapshot) => Text(
                               snapshot.hasData
-                                  ? Constants.countableWithTrailingS(
+                                  ? Language.countableWithTrailingS(
                                       snapshot.data!.length,
                                       'active Todo',
                                     )
@@ -82,7 +82,7 @@ class TeamPageDisplay extends StatelessWidget {
                         child: Opacity(
                           opacity: .7,
                           child: Text(
-                            Constants.countableWithTrailingS(
+                            Language.countableWithTrailingS(
                               content.users.length,
                               'member',
                             ),

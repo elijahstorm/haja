@@ -1,14 +1,14 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
+import 'package:haja/display/components/calendar/focused_date.dart';
 import 'package:haja/content/todo/cache.dart';
 import 'package:haja/content/todo/content.dart';
-import 'package:haja/display/components/calendar/focused_date.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
+import 'package:haja/display/components/calendar/events_builders.dart';
 
 class Calendar extends StatefulWidget {
   const Calendar({
@@ -23,135 +23,11 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   final calendarBoxWidth = 40.0;
-  static const multipleEventCirclePadding = 10.0;
-  final multipleEventCircleSize = 16.0, eventLabelTextSize = 16.0;
+  final bool _flowerBuilder = false; // TODO change to setting
 
-  Widget eventCircleBuilder(
-    BuildContext context,
-    TodoContent event, {
-    BlendMode? blend,
-    String? color,
-  }) =>
-      Container(
-        width: multipleEventCircleSize,
-        height: multipleEventCircleSize,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          backgroundBlendMode: blend,
-          color: Constants.fromHex(color ?? event.color) ??
-              Theme.of(context).primaryColor,
-        ),
-      );
-
-  Widget allFinishedBuilder(BuildContext context) => Icon(
+  Widget allFinishedBuilder(BuildContext context) => const Icon(
         Icons.check,
         color: Constants.textColorDark,
-        size: eventLabelTextSize,
-      );
-
-  static const List<EdgeInsets> smallEventPaddings = [
-    EdgeInsets.zero,
-    EdgeInsets.only(
-      right: multipleEventCirclePadding * 2,
-    ),
-    EdgeInsets.only(
-      left: multipleEventCirclePadding * 2,
-    ),
-    EdgeInsets.zero,
-  ];
-
-  static const List<EdgeInsets> largeEventPaddings = [
-    EdgeInsets.only(
-      bottom: multipleEventCirclePadding,
-      right: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      bottom: multipleEventCirclePadding,
-      left: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      top: multipleEventCirclePadding,
-      right: multipleEventCirclePadding,
-    ),
-    EdgeInsets.only(
-      top: multipleEventCirclePadding,
-      left: multipleEventCirclePadding,
-    ),
-    EdgeInsets.zero,
-  ];
-
-  Widget eventsStackBuilder(
-    BuildContext context,
-    List<TodoContent> events,
-  ) =>
-      Padding(
-        padding: events.length == 2
-            ? EdgeInsets.only(left: multipleEventCircleSize / 2)
-            : EdgeInsets.zero,
-        child: Stack(
-          children: List.generate(
-            min(events.length, 4) + 2,
-            (index) => Center(
-              child: index == 0
-                  ? Stack(
-                      children: isSmallEventsStack(events)
-                          ? List<Widget>.generate(
-                              events.length,
-                              (index) => Container(
-                                padding: smallEventPaddings[index],
-                                child: eventCircleBuilder(
-                                  context,
-                                  events[0],
-                                  color: 'ffffff',
-                                ),
-                              ),
-                            )
-                          : List<Widget>.generate(
-                              5,
-                              (index) => Container(
-                                padding: largeEventPaddings[index],
-                                child: eventCircleBuilder(
-                                  context,
-                                  events[0],
-                                  color: 'ffffff',
-                                ),
-                              ),
-                            ),
-                    )
-                  : index == events.length + 1 || index == 5
-                      ? allFinished(events)
-                          ? Padding(
-                              padding: events.length == 2
-                                  ? EdgeInsets.only(
-                                      right: multipleEventCircleSize / 2)
-                                  : EdgeInsets.zero,
-                              child: allFinishedBuilder(context),
-                            )
-                          : isSmallEventsStack(events)
-                              ? Container()
-                              : Text(
-                                  events.length <= 9
-                                      ? events.length.toString()
-                                      : '9+',
-                                  style: TextStyle(
-                                    color: Constants.textColorDark,
-                                    fontSize: eventLabelTextSize,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                )
-                      : Container(
-                          padding: isSmallEventsStack(events)
-                              ? smallEventPaddings[index - 1]
-                              : largeEventPaddings[index - 1],
-                          child: eventCircleBuilder(
-                            context,
-                            events[index - 1],
-                            blend: BlendMode.multiply,
-                          ),
-                        ),
-            ),
-          ),
-        ),
       );
 
   bool allFinished(List<TodoContent> events) {
@@ -162,8 +38,6 @@ class _CalendarState extends State<Calendar> {
     }
     return events.isNotEmpty;
   }
-
-  bool isSmallEventsStack(List<TodoContent> events) => events.length <= 3;
 
   @override
   Widget build(BuildContext context) {
@@ -176,6 +50,11 @@ class _CalendarState extends State<Calendar> {
               lastDay: Constants.lastDay,
               focusedDay: focusedDate.day,
               calendarFormat: _calendarFormat,
+              availableCalendarFormats: const {
+                CalendarFormat.month: 'month',
+                CalendarFormat.twoWeeks: 'week',
+                CalendarFormat.week: 'day',
+              },
               holidayPredicate: (date) {
                 return (date.month == 1 && date.day == 1) || // New Year's Day
                     (date.month == 3 && date.day == 17) || // St. Patrick's Day
@@ -213,6 +92,11 @@ class _CalendarState extends State<Calendar> {
               onPageChanged: (focusedDay) {
                 focusedDate.day = focusedDay;
               },
+              headerStyle: const HeaderStyle(
+                formatButtonShowsNext: false,
+                leftChevronPadding: EdgeInsets.zero,
+                rightChevronPadding: EdgeInsets.zero,
+              ),
               calendarBuilders: CalendarBuilders(
                 dowBuilder: (context, date) {
                   final text = DateFormat.E().format(date);
@@ -345,13 +229,18 @@ class _CalendarState extends State<Calendar> {
                     ),
                   ),
                 ),
-                markerBuilder: (context, date, List<TodoContent> events) {
-                  return Center(
-                    child: events.isNotEmpty
-                        ? eventsStackBuilder(context, events)
-                        : Container(),
-                  );
-                },
+                markerBuilder: (context, date, List<TodoContent> events) =>
+                    Center(
+                  child: events.isNotEmpty
+                      ? _flowerBuilder
+                          ? EventsFlowerBuilder(events)
+                          : EventsHouseBuilder(
+                              events,
+                              date,
+                              isSelected: isSameDay(focusedDate.day, date),
+                            )
+                      : Container(),
+                ),
               ),
             );
           },

@@ -99,7 +99,8 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                         builder: (context, userstate, child) {
                           return GestureDetector(
                             child: child,
-                            onTap: () => userstate.logout(),
+                            onTap: () =>
+                                userstate.logout(), // logout button doesnt work
                           );
                         },
                         child: _drawHeaderDropdownButton(
@@ -166,14 +167,20 @@ class DashboardCard extends StatelessWidget {
           builder: (context, userstate, child) {
             return Row(
               children: [
-                SvgPicture.network(
-                  userstate.data.icon,
-                  height: 24,
-                ),
+                kIsWeb
+                    ? Image.asset(
+                        Constants.placeholderUserIcon,
+                        height: 24,
+                      )
+                    : SvgPicture.network(
+                        userstate.data.icon,
+                        height: 24,
+                      ),
                 if (!Responsive.isMobile(context))
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: Constants.defaultPadding / 2),
+                      horizontal: Constants.defaultPadding / 2,
+                    ),
                     child: Text(userstate.data.name),
                   ),
                 const Icon(Icons.keyboard_arrow_down),

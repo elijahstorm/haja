@@ -208,7 +208,7 @@ class CustomEditableText extends EditableContentItem<String> {
           Language.teamEditorEmpty,
           maxLines: lineHeight,
           style: TextStyle(
-            color: Colors.black.withOpacity(.5),
+            color: Theme.of(context).iconTheme.color!.withOpacity(.5),
           ),
         )
       : Text(

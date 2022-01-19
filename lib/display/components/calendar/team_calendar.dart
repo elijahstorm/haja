@@ -8,7 +8,7 @@ import 'package:haja/display/components/widgets/responsive_content.dart';
 import 'package:haja/content/todo/cache.dart';
 
 class TeamCalendar extends StatelessWidget {
-  final String team;
+  final String team; // TODO: A LOT and upload picture
 
   const TeamCalendar({
     required this.team,
@@ -26,7 +26,7 @@ class TeamCalendar extends StatelessWidget {
           ),
         ],
         child: SizedBox(
-          height: 200,
+          height: 400,
           child: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),

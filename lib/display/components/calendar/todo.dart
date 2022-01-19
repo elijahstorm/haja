@@ -347,7 +347,7 @@ class TodoListCasing extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(
-          vertical: Constants.defaultPadding / 2,
+          vertical: Constants.defaultPadding / 4,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,

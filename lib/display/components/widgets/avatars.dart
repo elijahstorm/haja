@@ -31,7 +31,7 @@ class CircleStoryAvatar extends StatelessWidget {
               height: Constants.defaultPadding * 2,
               child: display,
             ),
-            const SizedBox(height: Constants.defaultPadding / 2),
+            const SizedBox(height: Constants.defaultPadding / 4),
             Text(
               label,
               overflow: TextOverflow.ellipsis,

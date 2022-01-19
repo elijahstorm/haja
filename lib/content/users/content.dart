@@ -73,11 +73,12 @@ class UserContent extends ContentContainer {
   Widget get icon => Hero(
         tag: id,
         child: pic == ''
-            ? SvgPicture.network(
-                Constants.liveSvgs + id + '.svg',
+            ? Image.asset(
+                Constants.placeholderUserIcon,
+                // Constants.liveSvgs + id + '.svg',
                 fit: BoxFit.fill,
               )
-            : Image.network(pic),
+            : Image.network(Constants.storageUrlPrefix + pic),
       );
 
   String get pronounsString {

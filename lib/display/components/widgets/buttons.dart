@@ -19,10 +19,11 @@ class GenericFloatingButton extends StatelessWidget {
           margin: const EdgeInsets.symmetric(
             horizontal: Constants.defaultPadding,
           ),
-          height: Constants.defaultPadding * 3,
+          height: Constants.defaultPadding * 2,
           decoration: BoxDecoration(
-            borderRadius:
-                BorderRadius.circular(Constants.defaultCardRadius * 4),
+            borderRadius: BorderRadius.circular(
+              Constants.defaultCardRadius * 4,
+            ),
             color: Theme.of(context).primaryColor,
           ),
           child: Align(

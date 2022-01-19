@@ -302,31 +302,28 @@ class _DrawSnapshot extends StatelessWidget {
             painter: CurvePainterTop(Theme.of(context).primaryColor),
           ),
           children: [
-            Padding(
-              padding: const EdgeInsets.all(Constants.defaultPadding),
-              child: GestureDetector(
-                onTap: _changeImage,
-                child: user.pic == UserContent.defaultData['pic']
-                    ? const CircleAvatar(
-                        radius: 70,
-                        backgroundImage:
-                            AssetImage(Constants.placeholderUserIcon),
-                        backgroundColor: Colors.transparent,
-                        child: Opacity(
-                          opacity: 0.7,
-                          child: Icon(Icons.edit),
-                        ),
-                      )
-                    : CircleAvatar(
-                        radius: 70,
-                        backgroundImage: NetworkImage(user.pic),
-                        backgroundColor: Colors.transparent,
-                        child: const Opacity(
-                          opacity: 0.7,
-                          child: Icon(Icons.edit),
-                        ),
+            GestureDetector(
+              onTap: _changeImage,
+              child: user.pic == UserContent.defaultData['pic']
+                  ? const CircleAvatar(
+                      radius: 70,
+                      backgroundImage:
+                          AssetImage(Constants.placeholderUserIcon),
+                      backgroundColor: Colors.transparent,
+                      child: Opacity(
+                        opacity: 0.7,
+                        child: Icon(Icons.edit),
                       ),
-              ),
+                    )
+                  : CircleAvatar(
+                      radius: 70,
+                      backgroundImage: NetworkImage(user.pic),
+                      backgroundColor: Colors.transparent,
+                      child: const Opacity(
+                        opacity: 0.7,
+                        child: Icon(Icons.edit),
+                      ),
+                    ),
             ),
             const SizedBox(height: Constants.defaultPadding),
             Text(

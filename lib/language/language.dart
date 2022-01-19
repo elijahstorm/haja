@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class Language {
   static const String appName = 'Haja';
   static const String welcome = 'Let\'s do Together';
@@ -84,4 +86,106 @@ class Language {
 
   static const String inDevelopmentApology =
       'Sorry, this feature is still in development.';
+
+  static String countableWithTrailingS(
+    int countable,
+    String output, {
+    bool forceEs = false,
+  }) {
+    return '$countable $output${countable != 1 ? '${forceEs ? 'e' : ''}s' : ''}';
+  }
+
+  static String timeSinceDate(
+    DateTime date, {
+    bool short = false,
+  }) {
+    Duration timeSince = DateTime.now().difference(date);
+
+    if (timeSince.inSeconds < 0) return TimingNames.now.names(short);
+
+    String output = '';
+
+    if (timeSince.inDays == 0) {
+      if (timeSince.inHours == 0) {
+        if (timeSince.inMinutes == 0) {
+          output =
+              timeSince.inSeconds.toString() + TimingNames.second.names(short);
+          if (!short) {
+            if (timeSince.inSeconds > 1) output += 's';
+            output += ' ago';
+          }
+        } else {
+          output =
+              timeSince.inMinutes.toString() + TimingNames.minute.names(short);
+          if (!short) {
+            if (timeSince.inMinutes > 1) output += 's';
+            output += ' ago';
+          }
+        }
+      } else {
+        output = timeSince.inHours.toString() + TimingNames.hour.names(short);
+        if (!short) {
+          if (timeSince.inHours > 1) output += 's';
+          output += ' ago';
+        }
+      }
+    } else {
+      if (timeSince.inDays >= 365) {
+        int years = timeSince.inDays ~/ 365;
+        output = years.toString() + TimingNames.year.names(short);
+        if (!short) {
+          if (years > 1) output += 's';
+          output += ' ago';
+        }
+      } else if (timeSince.inDays >= 29) {
+        int months = timeSince.inDays ~/ 30;
+        output = months.toString() + TimingNames.month.names(short);
+        if (!short) {
+          if (months > 1) output += 's';
+          output += ' ago';
+        }
+      } else {
+        output = timeSince.inDays.toString() + TimingNames.day.names(short);
+        if (!short) {
+          if (timeSince.inDays > 1) output += 's';
+          output += ' ago';
+        }
+      }
+    }
+
+    return output;
+  }
+}
+
+enum TimingNames {
+  now,
+  second,
+  minute,
+  hour,
+  day,
+  month,
+  year,
+}
+
+extension TimingNamesExtension on TimingNames {
+  String names(
+    bool short,
+  ) {
+    switch (this) {
+      case TimingNames.now:
+        return short ? 'now' : 'just now';
+      case TimingNames.second:
+        return short ? 's' : ' second';
+      case TimingNames.minute:
+        return short ? 'min' : ' minute';
+      case TimingNames.hour:
+        return short ? 'h' : ' hour';
+      case TimingNames.day:
+        return short ? 'd' : ' day';
+      case TimingNames.month:
+        return short ? 'mth' : ' month';
+      case TimingNames.year:
+        return short ? 'y' : ' year';
+    }
+  }
 }

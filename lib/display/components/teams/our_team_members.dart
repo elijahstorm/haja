@@ -92,25 +92,34 @@ class TeamMemberSmallCircleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Consumer<TeamsCache>(
-        builder: (context, cache, child) => SizedBox(
-          height: Constants.defaultPadding * 2 + 23,
-          child: ListView.builder(
+        builder: (context, cache, child) => Align(
+          alignment: Alignment.centerLeft,
+          child: SingleChildScrollView(
             scrollDirection: Axis.horizontal,
-            itemCount: cache.items.length + 1,
-            itemExtent: Constants.defaultPadding * 4,
-            itemBuilder: (context, index) => Padding(
+            child: Container(
               padding: const EdgeInsets.symmetric(
-                horizontal: Constants.defaultPadding / 4,
+                horizontal: Constants.defaultPadding / 2,
               ),
-              child: index == 0
-                  ? Consumer<UserState>(
-                      builder: (context, userstate, child) =>
-                          AddMoreTeamsButton(
-                        cache,
-                        userstate: userstate,
-                      ),
-                    )
-                  : TeamDisplay(cache.items[index - 1]),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: List<Widget>.generate(
+                  cache.items.length + 1,
+                  (index) => Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: Constants.defaultPadding / 2,
+                    ),
+                    child: index == 0
+                        ? Consumer<UserState>(
+                            builder: (context, userstate, child) =>
+                                AddMoreTeamsButton(
+                              cache,
+                              userstate: userstate,
+                            ),
+                          )
+                        : TeamDisplay(cache.items[index - 1]),
+                  ),
+                ),
+              ),
             ),
           ),
         ),

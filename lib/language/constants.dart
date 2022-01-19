@@ -25,11 +25,11 @@ class Constants {
   static const Color snackbarBackground = Color(0xFF323232);
   static const Color snackbarText = Color(0xFFCFCFCF);
 
-  static const double defaultPadding = 16.0;
+  static const double defaultPadding = 24.0;
   static const double defaultCardRadius = 15.0;
   static const double defaultBorderRadiusSmall = 6.0;
-
-  // static const String defaultHeaderTitle = 'Haja: Do Together';
+  static const double defaultBorderRadiusMedium = 14.0;
+  static const double defaultBorderRadiusLarge = 18.0;
 
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';
@@ -40,10 +40,6 @@ class Constants {
   static const String placeholderUserIcon =
       'assets/images/placeholder_user.png';
   static const String liveSvgs = 'https://avatars.dicebear.com/api/avataaars/';
-  static const String storeItemsSvgs =
-      'https://avatars.dicebear.com/api/gridy/';
-  static const String trainingDataSvgs =
-      'https://avatars.dicebear.com/api/jdenticon/';
 
   static const String logoAsset = 'assets/images/logo/haja_logo_full.png';
   static const String errorImage = 'assets/images/error.png';
@@ -82,56 +78,5 @@ class Constants {
     }
 
     return '$randStr.${DateTime.now().toString()}';
-  }
-
-  static String countableWithTrailingS(
-    int countable,
-    String output, {
-    bool forceEs = false,
-  }) {
-    return '$countable $output${countable != 1 ? '${forceEs ? 'e' : ''}s' : ''}';
-  }
-
-  static String timeSinceDate(DateTime date) {
-    Duration timeSince = DateTime.now().difference(date);
-    String output = 'just now';
-
-    if (timeSince.inSeconds < 0) return output;
-
-    if (timeSince.inDays == 0) {
-      if (timeSince.inHours == 0) {
-        if (timeSince.inMinutes == 0) {
-          output = timeSince.inSeconds.toString() + ' second';
-          if (timeSince.inSeconds > 1) output += 's';
-          output += ' ago';
-        } else {
-          output = timeSince.inMinutes.toString() + ' minute';
-          if (timeSince.inMinutes > 1) output += 's';
-          output += ' ago';
-        }
-      } else {
-        output = timeSince.inHours.toString() + ' hour';
-        if (timeSince.inHours > 1) output += 's';
-        output += ' ago';
-      }
-    } else {
-      if (timeSince.inDays >= 365) {
-        int years = timeSince.inDays ~/ 365;
-        output = years.toString() + ' year';
-        if (years > 1) output += 's';
-        output += ' ago';
-      } else if (timeSince.inDays >= 29) {
-        int months = timeSince.inDays ~/ 30;
-        output = months.toString() + ' month';
-        if (months > 1) output += 's';
-        output += ' ago';
-      } else {
-        output = timeSince.inDays.toString() + ' day';
-        if (timeSince.inDays > 1) output += 's';
-        output += ' ago';
-      }
-    }
-
-    return output;
   }
 }
