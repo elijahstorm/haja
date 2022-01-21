@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/settings_keys.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
@@ -23,7 +24,6 @@ class _CalendarState extends State<Calendar> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   final calendarBoxWidth = 40.0;
-  final bool _flowerBuilder = false; // TODO change to setting
 
   Widget allFinishedBuilder(BuildContext context) => const Icon(
         Icons.check,
@@ -40,16 +40,21 @@ class _CalendarState extends State<Calendar> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<FocusedDate>(
-      builder: (context, focusedDate, child) {
-        return Consumer<TodoCache>(
-          builder: (context, cache, child) {
-            return TableCalendar(
+  Widget build(BuildContext context) => Consumer<FocusedDate>(
+        builder: (context, focusedDate, child) => Consumer<TodoCache>(
+          builder: (context, cache, child) => SettingsKeyValues.buildWhenReady(
+            key: SettingsKeyValues.settingsCalendarEventType,
+            isBool: true,
+            defaultValue: true,
+            builder: (isBlockyCalendarStyle) => TableCalendar(
               firstDay: Constants.firstDay,
               lastDay: Constants.lastDay,
               focusedDay: focusedDate.day,
               calendarFormat: _calendarFormat,
+              // pageJumpingEnabled: true,
+              calendarStyle: const CalendarStyle(
+                outsideDaysVisible: false,
+              ),
               availableCalendarFormats: const {
                 CalendarFormat.month: 'month',
                 CalendarFormat.twoWeeks: 'week',
@@ -232,20 +237,18 @@ class _CalendarState extends State<Calendar> {
                 markerBuilder: (context, date, List<TodoContent> events) =>
                     Center(
                   child: events.isNotEmpty
-                      ? _flowerBuilder
-                          ? EventsFlowerBuilder(events)
-                          : EventsHouseBuilder(
+                      ? isBlockyCalendarStyle
+                          ? EventsHouseBuilder(
                               events,
                               date,
                               isSelected: isSameDay(focusedDate.day, date),
                             )
+                          : EventsFlowerBuilder(events)
                       : Container(),
                 ),
               ),
-            );
-          },
-        );
-      },
-    );
-  }
+            ),
+          ),
+        ),
+      );
 }

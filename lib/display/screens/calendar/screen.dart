@@ -7,7 +7,7 @@ import 'package:haja/display/components/widgets/responsive_screen.dart';
 import 'package:haja/display/components/calendar/calendar.dart';
 import 'package:haja/display/components/calendar/focused_date.dart';
 import 'package:haja/display/components/calendar/todo.dart';
-import 'package:haja/display/components/teams/our_team_members.dart';
+import 'package:haja/display/components/teams/team_avatars.dart';
 
 import 'package:haja/content/notifications/cache.dart';
 import 'package:haja/display/components/notifications/friends_recent.dart';

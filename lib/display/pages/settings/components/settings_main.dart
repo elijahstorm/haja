@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:haja/display/components/widgets/skeleton.dart';
+import 'package:haja/display/components/widgets/dividers.dart';
+import 'package:haja/display/components/widgets/editable.dart';
+import 'package:haja/language/settings_keys.dart';
 import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/language/theme.dart';
 
 class DashSettingsMain extends StatelessWidget {
@@ -30,25 +34,26 @@ class DashSettingsMain extends StatelessWidget {
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
           child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text('Change visual brightness'),
-                  ThemeSwitcher(),
-                ],
+            children: const [
+              CustomEditable(
+                label: Language.settingsVisualBrightness,
+                content: ThemeSwitcher(),
               ),
-              const SizedBox(height: Constants.defaultPadding),
-              Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: Constants.defaultPadding * 5,
+              CustomDivider(),
+              CustomEditable(
+                label: Language.settingsNotosAlarm,
+                content: StoredPreferenceSwitcher(
+                  keyName: SettingsKeyValues.settingsNotosAlarm,
                 ),
-                width: double.infinity,
-                height: 1,
-                color: Theme.of(context).primaryColor,
               ),
-              const SizedBox(height: Constants.defaultPadding * 0.5),
-              const SkeletonLoader(
+              CustomEditable(
+                label: Language.settingsCalendarEventType,
+                content: StoredPreferenceSwitcher(
+                  keyName: SettingsKeyValues.settingsCalendarEventType,
+                ),
+              ),
+              CustomDivider(),
+              SkeletonLoader(
                 amount: 5,
               ),
             ],

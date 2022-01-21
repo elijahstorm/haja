@@ -6,7 +6,7 @@ import 'package:haja/display/components/widgets/responsive_screen.dart';
 
 import 'package:haja/content/teams/cache.dart';
 
-import 'package:haja/display/components/teams/our_team_members.dart';
+import 'package:haja/display/components/teams/team_vertical_scroll.dart';
 
 class TeamsScreen extends StatelessWidget {
   static const screenName = 'store';
@@ -25,7 +25,7 @@ class TeamsScreen extends StatelessWidget {
         ],
         child: const ResponsiveScreen(
           header: Language.appNavBarTitlesTeams,
-          primaryContent: OurTeamMembers(),
+          primaryContent: TeamContentVerticalList(),
         ),
       ),
     );

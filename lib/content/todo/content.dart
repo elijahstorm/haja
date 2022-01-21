@@ -63,6 +63,14 @@ class TodoContent extends ContentContainer {
     }
   }
 
+  bool get isDone {
+    return status == TodoContent.finishedStatus;
+  }
+
+  bool get isNotDone {
+    return status == TodoContent.unfinishedStatus;
+  }
+
   static const String finishedStatus = 'done';
   static const String unfinishedStatus = 'todo';
   static const String typeMessageFromHajaTeam = 'from_haja';

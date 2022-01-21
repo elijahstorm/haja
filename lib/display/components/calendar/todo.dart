@@ -365,15 +365,22 @@ class TodoListCasing extends StatelessWidget {
                   horizontal: Constants.defaultPadding / 3,
                 ),
                 width: 1,
-                // width: MediaQuery.of(context).size.width -
-                //     Constants.defaultPadding * 7,
                 child: mainChild,
               ),
             ),
-            GestureDetector(
-              onTap: onTrailingIconTap,
-              child: const Icon(
-                Icons.more_horiz,
+            SizedBox(
+              width: 48,
+              child: ElevatedButton(
+                onPressed: onTrailingIconTap,
+                style: ElevatedButton.styleFrom(
+                  shape: const CircleBorder(),
+                  primary: Theme.of(context).scaffoldBackgroundColor,
+                ),
+                child: const Icon(
+                  Icons.favorite,
+                  color: Colors.red,
+                  size: Constants.textSizeRegular,
+                ),
               ),
             ),
           ],

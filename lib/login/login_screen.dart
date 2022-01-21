@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
             recoverPasswordSuccess: 'Email Sent',
           ),
           theme: LoginTheme(
-            primaryColor: Theme.of(context).canvasColor,
+            primaryColor: Theme.of(context).cardColor,
             accentColor: Theme.of(context).colorScheme.secondary,
             errorColor: Theme.of(context).errorColor,
             primaryColorAsInputLabel: false,
@@ -129,7 +129,7 @@ class LoginScreen extends StatelessWidget {
               fontStyle: FontStyle.italic,
             ),
             textFieldStyle: TextStyle(
-              color: Theme.of(context).canvasColor,
+              color: Theme.of(context).cardColor,
             ),
             cardTheme: CardTheme(
               color: Theme.of(context).primaryColor,
@@ -142,15 +142,15 @@ class LoginScreen extends StatelessWidget {
               contentPadding: EdgeInsets.zero,
               labelStyle: TextStyle(
                 fontSize: 12,
-                color: Theme.of(context).canvasColor,
+                color: Theme.of(context).cardColor,
               ),
               prefixStyle: TextStyle(
-                color: Theme.of(context).canvasColor,
+                color: Theme.of(context).cardColor,
               ),
             ),
             buttonStyle: TextStyle(
               fontWeight: FontWeight.w800,
-              color: Theme.of(context).canvasColor,
+              color: Theme.of(context).cardColor,
             ),
             buttonTheme: LoginButtonTheme(
               splashColor: Theme.of(context).colorScheme.secondary,

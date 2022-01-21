@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 class Language {
   static const String appName = 'Haja';
   static const String welcome = 'Let\'s do Together';
@@ -17,6 +15,7 @@ class Language {
   static const String searchPrompt = 'search';
 
   /// Team Language
+  static const String teamCacheListHeader = 'your teams';
   static const String teamTitle = 'title';
   static const String teamCaption = 'description';
   static const String teamPrivacy = 'team privacy';
@@ -82,7 +81,12 @@ class Language {
   static const String appScreenHeaderNotos = 'Likes';
   static const String appScreenHeaderActivity = 'Activity';
 
-  static const String loadingActiveTeamTodos = 'Loading active Todos...';
+  static const String loadingActiveTeamTodos = 'loading active Todos...';
+
+  static const String settingsVisualBrightness = 'change visual brightness';
+  static const String settingsCalendarEventType = 'use block calendar style';
+  static const String settingsNotosAlarm = 'notifications alarm';
+  static const String settingsDataSearchHasFailed = 'failed';
 
   static const String inDevelopmentApology =
       'Sorry, this feature is still in development.';

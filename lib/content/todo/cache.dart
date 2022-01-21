@@ -15,7 +15,7 @@ class TodoCache extends ContentCache<TodoContent> {
   bool isTeam = false;
 
   TodoCache.team() {
-    isTeam = true;
+    isTeam = true; // TODO: pull from correct firestore document
     sortStyle = TodoSort.recent;
     filters = [FirestoreFilter.recent()];
     download();

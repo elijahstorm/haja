@@ -26,8 +26,15 @@ class MainScreen extends StatefulWidget {
 class _ScreenManagerState extends State<MainScreen> {
   ValueNotifier<String> _stateIndexNotifier = ValueNotifier('Dashboard');
 
-  final int _defaultScreen = 2;
+  final int _defaultScreen = 0;
   final List<NavbarDataHolder> _navbarStates = [
+    NavbarDataHolder(
+      name: CalendarScreen.screenName,
+      child: const CalendarScreen(),
+      icon: Icons.event_available,
+      title: Language.appNavBarTitlesCalendar,
+      color: (context) => Theme.of(context).primaryColor,
+    ),
     NavbarDataHolder(
       name: StatsScreen.screenName,
       child: const StatsScreen(),
@@ -41,13 +48,6 @@ class _ScreenManagerState extends State<MainScreen> {
       icon: Icons.group,
       title: Language.appNavBarTitlesTeams,
       color: (context) => Colors.purple,
-    ),
-    NavbarDataHolder(
-      name: CalendarScreen.screenName,
-      child: const CalendarScreen(),
-      icon: Icons.event_available,
-      title: Language.appNavBarTitlesCalendar,
-      color: (context) => Theme.of(context).primaryColor,
     ),
     NavbarDataHolder(
       name: NotificationScreen.screenName,

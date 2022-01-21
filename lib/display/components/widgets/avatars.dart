@@ -29,7 +29,10 @@ class CircleStoryAvatar extends StatelessWidget {
               ),
               width: Constants.defaultPadding * 2,
               height: Constants.defaultPadding * 2,
-              child: display,
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(90),
+                child: display,
+              ),
             ),
             const SizedBox(height: Constants.defaultPadding / 4),
             Text(

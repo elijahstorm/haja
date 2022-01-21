@@ -71,7 +71,11 @@ class TeamContent extends ContentContainer {
   }
 
   Widget get icon {
-    return const Icon(Icons.people);
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, _, __) => const Icon(Icons.people),
+    );
   }
 
   String get imageUrl {

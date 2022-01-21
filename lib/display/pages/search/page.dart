@@ -116,7 +116,7 @@ class _SearchPageState extends State<SearchPage> {
               autofocus: widget.initialSearchInput != null,
               decoration: InputDecoration(
                 filled: true,
-                fillColor: Theme.of(context).canvasColor,
+                fillColor: Theme.of(context).cardColor,
                 contentPadding: const EdgeInsets.all(0),
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(

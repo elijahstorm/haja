@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:haja/controllers/responsive.dart';
 
-import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 
 import 'package:haja/display/pages/settings/components/settings_side.dart';
 import 'package:haja/display/pages/settings/components/settings_main.dart';
 import 'package:haja/display/pages/settings/components/settings_team.dart';
+import 'package:haja/display/components/widgets/responsive_content.dart';
+import 'package:haja/login/user_state.dart';
+import 'package:provider/provider.dart';
 
 class AccountSettingsPage extends StatelessWidget {
   static const routeName = '/settings';
@@ -30,7 +31,7 @@ class AccountSettingsPage extends StatelessWidget {
             onChanged: (value) => _onSearch(value),
             decoration: InputDecoration(
                 filled: true,
-                fillColor: Theme.of(context).canvasColor,
+                fillColor: Theme.of(context).cardColor,
                 contentPadding: const EdgeInsets.all(0),
                 prefixIconColor: Colors.red,
                 prefixIcon: Icon(
@@ -48,39 +49,13 @@ class AccountSettingsPage extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(Constants.defaultPadding),
-          child: Column(
-            children: [
-              const SizedBox(height: Constants.defaultPadding),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(
-                    flex: 3,
-                    child: Column(
-                      children: [
-                        const DashSettingsMain(),
-                        const SizedBox(height: Constants.defaultPadding),
-                        const DashSettingsTeam(),
-                        if (Responsive.isMobile(context))
-                          const SizedBox(height: Constants.defaultPadding),
-                        if (Responsive.isMobile(context))
-                          const DashSettingsSide(),
-                      ],
-                    ),
-                  ),
-                  if (!Responsive.isMobile(context))
-                    const SizedBox(width: Constants.defaultPadding),
-                  if (!Responsive.isMobile(context))
-                    const Expanded(
-                      flex: 2,
-                      child: DashSettingsSide(),
-                    ),
-                ],
-              )
-            ],
+      body: Provider(
+        create: (context) => UserState(),
+        builder: (context, __) => const SafeArea(
+          child: ResponsiveContent(
+            primaryContent: DashSettingsMain(),
+            secondaryContent: DashSettingsTeam(),
+            sideContent: DashSettingsSide(),
           ),
         ),
       ),

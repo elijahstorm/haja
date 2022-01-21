@@ -38,7 +38,7 @@ dependencies:
   redux: ^5.0.0
   flutter_redux: ^0.8.2
   flutter_login: ^3.0.0
-  shared_preferences: ^2.0.9
+  shared_preferences: ^2.0.12
   image_picker: ^0.8.4+4
 
     # release management

@@ -25,15 +25,12 @@ class TeamCalendar extends StatelessWidget {
             create: (context) => TodoCache.team(),
           ),
         ],
-        child: SizedBox(
-          height: 400,
-          child: GestureDetector(
-            behavior: HitTestBehavior.translucent,
-            onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: const ResponsiveContent.landscapeFriendly(
-              primaryContent: Calendar(),
-              secondaryContent: Todo(),
-            ),
+        child: GestureDetector(
+          behavior: HitTestBehavior.translucent,
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+          child: const ResponsiveContent.landscapeFriendly(
+            primaryContent: Calendar(),
+            secondaryContent: Todo(),
           ),
         ),
       );

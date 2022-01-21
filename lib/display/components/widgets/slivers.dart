@@ -119,3 +119,24 @@ class PaddedContentSliver extends StatelessWidget {
         ),
       );
 }
+
+class NoPaddingContentSliver extends StatelessWidget {
+  final List<Widget> children;
+
+  const NoPaddingContentSliver({
+    required this.children,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => SliverList(
+        delegate: SliverChildListDelegate(
+          [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: children,
+            ),
+          ],
+        ),
+      );
+}

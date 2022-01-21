@@ -8,7 +8,6 @@ import 'package:haja/content/dashboard/cache.dart';
 
 import 'package:haja/display/components/charts/panel_left_page.dart';
 import 'package:haja/display/components/charts/panel_right_page.dart';
-import 'package:haja/display/components/charts/panel_center_page.dart';
 
 class StatsScreen extends StatelessWidget {
   static const screenName = 'stats';
@@ -26,9 +25,8 @@ class StatsScreen extends StatelessWidget {
         ],
         child: const ResponsiveScreen.thirds(
           header: Language.appNavBarTitlesHome,
-          primaryContent: PanelCenterPage(),
+          primaryContent: PanelRightPage(),
           secondaryContent: PanelLeftPage(),
-          sideContent: PanelRightPage(),
         ),
       ),
     );

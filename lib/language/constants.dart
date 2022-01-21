@@ -7,12 +7,14 @@ class Constants {
   static const Color cardColorLight = Color(0xFFE2F2FF);
   static const Color bgColorLight = Color(0xFFf8f9fa);
   static const Color textColorLight = Color(0xFF000000);
+  static const Color canvasColorLight = Color(0xFFDBDBDB);
 
   static const Color primaryColorDark = Color(0xFF2697FF);
   static const Color secondaryColorDark = Color(0xFF2697FF);
   static const Color cardColorDark = Color(0xFF0F3960);
   static const Color bgColorDark = Color(0xFF061A40);
   static const Color textColorDark = Color(0xFFFFFFFF);
+  static const Color canvasColorDark = Color(0xFF7E7E7E);
 
   static const Color lightShimmerLowlight = Color(0xFFF5F5F5);
   static const Color lightShimmerHighlight = Color(0xFFE0E0E0);
@@ -27,6 +29,8 @@ class Constants {
 
   static const double defaultPadding = 24.0;
   static const double defaultCardRadius = 15.0;
+  static const double textSizeRegular = 16.0;
+  static const double textSizeTitle = 28.0;
   static const double defaultBorderRadiusSmall = 6.0;
   static const double defaultBorderRadiusMedium = 14.0;
   static const double defaultBorderRadiusLarge = 18.0;

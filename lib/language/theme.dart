@@ -55,6 +55,7 @@ class Themes {
         primaryColor: Constants.primaryColorLight,
         scaffoldBackgroundColor: Constants.bgColorLight,
         cardColor: Constants.cardColorLight,
+        canvasColor: Constants.canvasColorLight,
         buttonTheme: const ButtonThemeData(
           buttonColor: Constants.cardColorLight,
           shape: RoundedRectangleBorder(),
@@ -84,6 +85,7 @@ class Themes {
         primaryColor: Constants.primaryColorDark,
         scaffoldBackgroundColor: Constants.bgColorDark,
         cardColor: Constants.cardColorDark,
+        canvasColor: Constants.canvasColorDark,
         buttonTheme: const ButtonThemeData(
           buttonColor: Constants.cardColorDark,
           shape: RoundedRectangleBorder(),

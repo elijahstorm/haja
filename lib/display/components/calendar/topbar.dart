@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/display/components/teams/our_team_members.dart';
+import 'package:haja/display/components/teams/team_avatars.dart';
 import 'package:haja/display/components/calendar/calendar.dart';
 
 class CalendarTopbar extends StatelessWidget {

@@ -1,6 +1,8 @@
 import 'package:flutter/foundation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:haja/language/constants.dart';
+import 'package:haja/language/settings_keys.dart';
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/firestore.dart';
 
@@ -66,6 +68,9 @@ class UserState extends ChangeNotifier {
   }
 
   void logout() {
+    SharedPreferences.getInstance()
+        .then((prefs) => SettingsKeyValues.removeAll(prefs));
+
     AuthApi.logout();
     data = User(exists: false);
     notify();

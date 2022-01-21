@@ -235,6 +235,19 @@ class AlertColorDialog extends AlertTextDialog {
 
   final List<Color> colors = const [
     Constants.primaryColorLight,
+    Color(0xFF1f99fd),
+    Color(0xFF7ac6ff), // TODO
+    Color(0xFF61dfcc),
+    Color(0xFF62ca9c),
+    Color(0xFFffda1e),
+    Color(0xFFf2a005),
+    Color(0xFFf24503),
+    Color(0xFFfe9ad2),
+    Color(0xFF9d9bfe),
+    Colors.black,
+    Colors.black,
+    Colors.black,
+    Colors.black,
     Colors.red,
     Colors.pink,
     Colors.purple,
@@ -249,11 +262,6 @@ class AlertColorDialog extends AlertTextDialog {
     Colors.yellow,
     Colors.amber,
     Colors.orange,
-    Colors.deepOrange,
-    Colors.brown,
-    Colors.grey,
-    Colors.blueGrey,
-    Colors.black,
   ];
 
   Widget pickerLayoutBuilder(

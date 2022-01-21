@@ -107,7 +107,8 @@ class EventsFlowerBuilder extends StatelessWidget {
                           ? Padding(
                               padding: events.length == 2
                                   ? EdgeInsets.only(
-                                      right: multipleEventCircleSize / 2)
+                                      right: multipleEventCircleSize / 2,
+                                    )
                                   : EdgeInsets.zero,
                               child: allFinishedBuilder(context),
                             )
@@ -164,10 +165,15 @@ class EventsHouseBuilder extends StatelessWidget {
   List<Color> colorGradient(
     List<TodoContent> events, {
     required Color fallback,
+    required Color unfinished,
   }) {
     List<Color> colors = [];
 
     for (var event in events) {
+      if (event.isNotDone) {
+        colors.add(unfinished);
+        continue;
+      }
       Color color = Constants.fromHex(event.color) ?? fallback;
 
       if (colors.isNotEmpty && colors.last == color) continue;
@@ -194,10 +200,12 @@ class EventsHouseBuilder extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             Constants.defaultBorderRadiusMedium,
           ),
+          color: const Color(0xFFdbdbdb),
           gradient: SweepGradient(
             colors: colorGradient(
               events,
               fallback: Theme.of(context).primaryColor,
+              unfinished: Theme.of(context).canvasColor,
             ),
             transform: const GradientRotation(5 * pi / 4),
           ),

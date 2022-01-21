@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/content/content.dart';
 import 'package:haja/controllers/keys.dart';
 import 'package:haja/language/language.dart';
-import 'package:provider/provider.dart';
 
 typedef EditableContentChangedSignal = List<void Function()>;
 
@@ -265,5 +267,62 @@ class CustomSwitch extends EditableContentItem<bool> {
             ),
           ),
         ],
+      );
+}
+
+class CustomEditable extends StatelessWidget {
+  final String label;
+  final Widget content;
+
+  const CustomEditable({
+    required this.label,
+    required this.content,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(label),
+          content,
+        ],
+      );
+}
+
+class StoredPreferenceSwitcher extends StatefulWidget {
+  final String keyName;
+  final bool defaultValue;
+
+  const StoredPreferenceSwitcher({
+    required this.keyName,
+    this.defaultValue = true,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _StoredPreferenceSwitcher createState() => _StoredPreferenceSwitcher();
+}
+
+class _StoredPreferenceSwitcher extends State<StoredPreferenceSwitcher> {
+  @override
+  Widget build(BuildContext context) => FutureBuilder<SharedPreferences>(
+        future: SharedPreferences.getInstance(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData || snapshot.data == null) {
+            return const Loading();
+          }
+
+          final prefs = snapshot.data!;
+
+          return Switch(
+            value: prefs.getBool(widget.keyName) ?? widget.defaultValue,
+            onChanged: (updatedValue) {
+              setState(() {
+                prefs.setBool(widget.keyName, updatedValue);
+              });
+            },
+          );
+        },
       );
 }
