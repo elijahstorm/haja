@@ -230,6 +230,56 @@ class _DrawSnapshot extends StatelessWidget {
               ]),
               child: MaterialButton(
                 onPressed: () {
+                  user.navigateToEditor(context);
+                },
+                splashColor: Colors.lightBlue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(36),
+                ),
+                padding: const EdgeInsets.all(0.0),
+                child: Ink(
+                  decoration: BoxDecoration(
+                    image: const DecorationImage(
+                      image: AssetImage(Constants.buttonBackgroundSmall),
+                      fit: BoxFit.cover,
+                    ),
+                    borderRadius: BorderRadius.circular(36),
+                  ),
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      minWidth: 88.0,
+                      minHeight: 36.0,
+                    ),
+                    alignment: Alignment.center,
+                    child: const Text(
+                      Language.userEditorTitle,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      if (user.id != AuthApi.activeUser)
+        SizedBox(
+          width: 200,
+          child: AspectRatio(
+            aspectRatio: 208 / 71,
+            child: Container(
+              decoration: BoxDecoration(boxShadow: [
+                BoxShadow(
+                  offset: const Offset(0, 4),
+                  color: const Color(0xFF4960F9).withOpacity(.3),
+                  spreadRadius: 4,
+                  blurRadius: 50,
+                )
+              ]),
+              child: MaterialButton(
+                onPressed: () {
                   // TODO: add to circle
                 },
                 splashColor: Colors.lightBlue,

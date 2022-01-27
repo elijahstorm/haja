@@ -6,6 +6,7 @@ import 'package:haja/language/constants.dart';
 import 'package:haja/firebase/auth.dart';
 
 import 'display.dart';
+import 'editor.dart';
 import '../content.dart';
 
 class UserContent extends ContentContainer {
@@ -17,6 +18,7 @@ class UserContent extends ContentContainer {
 
   String email, pic;
   List<String> pronouns, following;
+  bool private;
   final bool online, verified;
   final DateTime createdOn, lastLogin;
 
@@ -27,6 +29,7 @@ class UserContent extends ContentContainer {
     required this.following,
     required this.online,
     required this.verified,
+    required this.private,
     required this.createdOn,
     required this.lastLogin,
     required title,
@@ -47,6 +50,7 @@ class UserContent extends ContentContainer {
         following: Constants.toStringList(data['following']),
         online: data['online'] ?? UserContent.defaultData['online'],
         verified: data['verified'] ?? UserContent.defaultData['verified'],
+        private: data['private'] ?? UserContent.defaultData['private'],
         createdOn: (data['createdOn'] ?? UserContent.defaultData['createdOn'])
             .toDate(),
         lastLogin: (data['lastLogin'] ?? UserContent.defaultData['lastLogin'])
@@ -76,6 +80,7 @@ class UserContent extends ContentContainer {
         'following': following,
         'online': online,
         'verified': verified,
+        'private': private,
         'createdOn': Timestamp.fromDate(createdOn),
         'lastLogin': Timestamp.fromDate(lastLogin),
       };
@@ -96,6 +101,10 @@ class UserContent extends ContentContainer {
               ),
       );
 
+  String get imageUrl {
+    return Constants.storageUrlPrefix + pic;
+  }
+
   String get pronounsString {
     String run = '';
     for (var element in pronouns) {
@@ -113,6 +122,7 @@ class UserContent extends ContentContainer {
     'following': [],
     'online': false,
     'verified': false,
+    'private': false,
     'createdOn': Timestamp.now(),
     'lastLogin': Timestamp.now(),
     'id': '',
@@ -121,5 +131,10 @@ class UserContent extends ContentContainer {
   @override
   UserContentDisplayPage navigator() {
     return UserContentDisplayPage(this);
+  }
+
+  @override
+  UserContentEditorPage navigatorEditor() {
+    return UserContentEditorPage(this);
   }
 }

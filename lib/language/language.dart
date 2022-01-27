@@ -13,6 +13,8 @@ class Language {
   static const String retryButton = 'retry';
   static const String createNewTodoHint = 'start a new Todo';
   static const String searchPrompt = 'search';
+  static const String friends = 'friends';
+  static const String upcomingTodos = 'upcoming Todos';
 
   /// Team Language
   static const String teamCacheListHeader = 'your teams';
@@ -30,7 +32,30 @@ class Language {
   static const String teamCaptionHelp = 'some information about your team.';
   static const String teamPrivacyHelp =
       'if you choose to keep this team private, it keeps this team from being searchable.';
-  static const String upcomingTodos = 'Upcoming Todos';
+
+  /// User Language
+  static const String userTitle = 'name';
+  static const String userCaption = 'bio';
+  static const String userPrivacy = 'privacy';
+  static const String userPrivacyAction = 'make your account private';
+  static const String userAlarm = 'alarm';
+  static const String userAlarmAction = 'notofications';
+  static const String userDarkMode = 'dark mode';
+  static const String userDarkModeAction = 'change app theme';
+  static const String userPicture = 'profile picture';
+  static const String userEditorTitle = 'edit your profile';
+  static const String userEditorEmpty = '[empty]';
+  static const String userEditorPlaceholder = 'get creative...';
+  static const String userPictureHelp =
+      'your picture can be seen by anyone, even if your account is private.';
+  static const String userTitleHelp = 'your public name.';
+  static const String userCaptionHelp = 'can be up to 500 characters.';
+  static const String userPrivacyHelp =
+      'if you make your profile private, you will not be searchable and your secure information is hidden to people not on your friends list.';
+  static const String userAlarmHelp =
+      'Notifications will be turned off for your device.';
+  static const String userDarkModeHelp =
+      'Switch the app theme, it might be easiler on the eyes.';
 
   static const String accountSettings = 'account settings';
   static const String debugTestingOption = 'debug page';

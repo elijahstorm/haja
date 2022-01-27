@@ -85,15 +85,16 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                             DebugTestingPage.routeName,
                           ),
                         ),
-                      const SizedBox(height: Constants.defaultPadding),
-                      _drawHeaderDropdownButton(
-                        label: Language.accountSettings,
-                        icon: Icons.settings,
-                        onTap: () => Navigator.pushNamed(
-                          context,
-                          AccountSettingsPage.routeName,
-                        ),
-                      ),
+                      // TODO: REmove
+                      // const SizedBox(height: Constants.defaultPadding),
+                      // _drawHeaderDropdownButton(
+                      //   label: Language.accountSettings,
+                      //   icon: Icons.settings,
+                      //   onTap: () => Navigator.pushNamed(
+                      //     context,
+                      //     AccountSettingsPage.routeName,
+                      //   ),
+                      // ),
                       const SizedBox(height: Constants.defaultPadding),
                       Consumer<UserState>(
                         builder: (context, userstate, child) {
