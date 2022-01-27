@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:haja/display/components/teams/full_user_page.dart';
+import 'package:haja/display/components/teams/user_profile_view.dart';
 
 import 'content.dart';
 
@@ -13,5 +13,5 @@ class UserContentDisplayPage extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => DashboardProfileDisplay(user);
+  Widget build(BuildContext context) => UserProfileView(user.id);
 }

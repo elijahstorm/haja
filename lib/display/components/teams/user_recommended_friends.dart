@@ -7,10 +7,10 @@ import 'package:haja/controllers/responsive.dart';
 import 'package:haja/content/users/cache.dart';
 import 'package:haja/language/constants.dart';
 
-import 'package:haja/display/components/teams/person_card_info.dart';
+import 'package:haja/display/components/teams/user_card.dart';
 
-class RecommendedFriends extends StatelessWidget {
-  const RecommendedFriends({
+class UserRecommendedFriends extends StatelessWidget {
+  const UserRecommendedFriends({
     Key? key,
   }) : super(key: key);
 
@@ -89,7 +89,7 @@ class PersonCardInfoGridView extends StatelessWidget {
             childAspectRatio: childAspectRatio,
           ),
           itemCount: min(8, filter.length),
-          itemBuilder: (context, index) => PersonCardInfo(filter[index]),
+          itemBuilder: (context, index) => UserCard(filter[index]),
         );
       },
     );

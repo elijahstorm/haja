@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haja/firebase/firestore.dart';
 
 import 'package:haja/language/constants.dart';
 import 'package:haja/firebase/auth.dart';
@@ -53,6 +54,18 @@ class UserContent extends ContentContainer {
         id: data['id'] ?? UserContent.defaultData['id'],
       );
 
+  static Future<UserContent?> fromUserId(String id) async {
+    var data = await FirestoreApi.get(
+      id: id,
+    );
+
+    if (data == null || !data.exists) {
+      return null;
+    }
+
+    return UserContent.fromJson(data.data()!);
+  }
+
   @override
   Map<String, dynamic> toJson() => {
         'title': title,
@@ -77,7 +90,10 @@ class UserContent extends ContentContainer {
                 // Constants.liveSvgs + id + '.svg',
                 fit: BoxFit.fill,
               )
-            : Image.network(Constants.storageUrlPrefix + pic),
+            : Image.network(
+                Constants.storageUrlPrefix + pic,
+                fit: BoxFit.fill,
+              ),
       );
 
   String get pronounsString {

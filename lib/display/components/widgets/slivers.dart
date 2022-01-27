@@ -83,10 +83,12 @@ class CenteredAppbarWithContent extends StatelessWidget {
               Positioned.fill(
                 child: Container(
                   padding: const EdgeInsets.all(Constants.defaultPadding),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: children,
+                  child: SafeArea(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: children,
+                    ),
                   ),
                 ),
               ),
@@ -108,11 +110,13 @@ class PaddedContentSliver extends StatelessWidget {
   Widget build(BuildContext context) => SliverList(
         delegate: SliverChildListDelegate(
           [
-            Padding(
-              padding: const EdgeInsets.all(Constants.defaultPadding),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: children,
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(Constants.defaultPadding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: children,
+                ),
               ),
             ),
           ],

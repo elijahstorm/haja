@@ -32,7 +32,7 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
   Widget _drawHeaderDropdownButton({
     required String label,
     required IconData icon,
-    required VoidCallback onTap,
+    required VoidCallback? onTap,
   }) =>
       GestureDetector(
         onTap: onTap,
@@ -99,14 +99,13 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                         builder: (context, userstate, child) {
                           return GestureDetector(
                             child: child,
-                            onTap: () =>
-                                userstate.logout(), // logout button doesnt work
+                            onTap: () => userstate.logout(),
                           );
                         },
                         child: _drawHeaderDropdownButton(
                           label: Language.logoutButton,
                           icon: Icons.exit_to_app,
-                          onTap: () => {},
+                          onTap: null,
                         ),
                       ),
                     ],

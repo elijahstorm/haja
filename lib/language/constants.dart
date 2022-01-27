@@ -34,6 +34,7 @@ class Constants {
   static const double defaultBorderRadiusSmall = 6.0;
   static const double defaultBorderRadiusMedium = 14.0;
   static const double defaultBorderRadiusLarge = 18.0;
+  static const double defaultBorderRadiusXLarge = 25.0;
 
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';

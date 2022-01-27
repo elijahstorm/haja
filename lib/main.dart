@@ -5,7 +5,6 @@ import 'package:flutter_redux/flutter_redux.dart';
 import 'package:haja/firebase/core.dart';
 import 'package:haja/login/user_state.dart';
 import 'package:haja/login/responder.dart';
-import 'package:haja/content/cache.dart';
 
 import 'package:haja/language/theme.dart';
 import 'package:haja/language/routes.dart';
@@ -15,7 +14,6 @@ import 'package:haja/language/language.dart';
 void main() async {
   if (!kReleaseMode && AppDebugLogin.bypass) {
     // lanching in debug mode
-    ContentCache.loadMockData = true;
     UserState.loadMockData = true;
     FirebaseApi.disabled = true;
   }

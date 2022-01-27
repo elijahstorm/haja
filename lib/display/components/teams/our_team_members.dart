@@ -7,7 +7,7 @@ import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/content/users/cache.dart';
 
-import 'package:haja/display/components/teams/person_card_info.dart';
+import 'package:haja/display/components/teams/user_card.dart';
 import 'package:haja/display/components/teams/team_avatars.dart';
 
 class OurTeamMembers extends StatelessWidget {
@@ -72,7 +72,7 @@ class TeamMemberCardInfoGridView extends StatelessWidget {
             childAspectRatio: childAspectRatio,
           ),
           itemCount: min(8, cache.items.length),
-          itemBuilder: (context, index) => PersonCardInfo(cache.items[index]),
+          itemBuilder: (context, index) => UserCard(cache.items[index]),
         );
       },
     );

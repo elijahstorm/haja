@@ -135,7 +135,6 @@ class FirestoreApi {
 
     return FutureBuilder<DocumentSnapshot<Map<String, dynamic>>?>(
       future: FirestoreApi.get(
-        field: field,
         id: id,
         collection: collection,
         document: document,
@@ -156,7 +155,6 @@ class FirestoreApi {
   }
 
   static Future<DocumentSnapshot<Map<String, dynamic>>?> get({
-    required String field,
     required String id,
     String? collection,
     String? document,
@@ -243,7 +241,9 @@ class FirestoreApi {
       if (content.synchedWithDatabase) return;
 
       content.synchedWithDatabase = true;
-      content.id = value.id ?? '';
+      if (value != null) {
+        content.id = value.id ?? '';
+      }
 
       dynamic docRef =
           FirebaseFirestore.instance.collection(isTeam ? 'teams' : 'users');

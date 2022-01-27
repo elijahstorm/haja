@@ -1,13 +1,10 @@
 import '../cache.dart';
 import 'content.dart';
-import 'mock_content.dart';
 
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/auth.dart';
 
 class TodoCache extends ContentCache<TodoContent> {
-  @override
-  List<Map<String, dynamic>> get mockData => MockContent.all;
   @override
   TodoContent fromJson(dynamic data) => TodoContent.fromJson(data);
 

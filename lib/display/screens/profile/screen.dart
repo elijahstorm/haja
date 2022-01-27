@@ -9,7 +9,7 @@ import 'package:haja/content/users/cache.dart';
 import 'package:haja/content/teams/cache.dart';
 import 'package:haja/firebase/auth.dart';
 
-import 'package:haja/display/components/teams/profile_dash.dart';
+import 'package:haja/display/components/teams/user_profile_dash.dart';
 import 'package:haja/display/components/teams/our_team_members.dart';
 
 class ProfileScreen extends StatelessWidget {

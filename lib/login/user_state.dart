@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:haja/language/language.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:haja/language/constants.dart';
@@ -129,7 +130,8 @@ class UserState extends ChangeNotifier {
           date: DateTime.now(),
           status: TodoContent.unfinishedStatus,
           color: Constants.toHex(Constants.primaryColorLight),
-          title: 'Welcome to Haja! Get started by tapping [+ Add]',
+          title:
+              'Welcome to Haja! Get started by tapping [${Language.addButton}]',
           caption: 'We are glad to help you :)',
           type: TodoContent.typeMessageFromHajaTeam,
           id: '',

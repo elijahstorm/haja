@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:haja/content/users/content.dart';
 import 'package:haja/language/constants.dart';
 
-class PersonCardInfo extends StatelessWidget {
+class UserCard extends StatelessWidget {
   final UserContent info;
 
-  const PersonCardInfo(
+  const UserCard(
     this.info, {
     Key? key,
   }) : super(key: key);

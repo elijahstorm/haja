@@ -20,18 +20,18 @@ class Art {
     path.moveTo(0, height * 0.9167);
     path.quadraticBezierTo(
       width * 0.25,
-      height * 0.875,
+      height * 0.675,
       width * 0.5,
-      height * 0.9167,
+      height * 0.8167,
     );
     path.quadraticBezierTo(
       width * 0.75,
       height * 0.9584,
       width * 1.0,
-      height * 0.9167,
+      height * 0.8567,
     );
-    path.lineTo(width, height);
-    path.lineTo(0, height);
+    path.lineTo(width, 0);
+    path.lineTo(0, 0);
 
     return path;
   }
@@ -48,18 +48,18 @@ class Art {
     path.moveTo(0, height * 0.9167);
     path.quadraticBezierTo(
       width * 0.25,
-      height * 0.675,
+      height * 0.875,
       width * 0.5,
-      height * 0.8167,
+      height * 0.9167,
     );
     path.quadraticBezierTo(
       width * 0.75,
       height * 0.9584,
       width * 1.0,
-      height * 0.8567,
+      height * 0.9167,
     );
-    path.lineTo(width, 0);
-    path.lineTo(0, 0);
+    path.lineTo(width, height);
+    path.lineTo(0, height);
 
     return path;
   }

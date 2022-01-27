@@ -8,7 +8,7 @@ import 'package:haja/content/notifications/cache.dart';
 import 'package:haja/content/users/cache.dart';
 import 'package:haja/firebase/auth.dart';
 
-import 'package:haja/display/components/teams/recommended_friends.dart';
+import 'package:haja/display/components/teams/user_recommended_friends.dart';
 import 'package:haja/display/components/notifications/recent_notifications.dart';
 
 class NotificationScreen extends StatelessWidget {
@@ -31,7 +31,7 @@ class NotificationScreen extends StatelessWidget {
         child: const ResponsiveScreen(
           header: Language.appNavBarTitlesNotos,
           primaryContent: RecentNotifications(),
-          sideContent: RecommendedFriends(),
+          sideContent: UserRecommendedFriends(),
         ),
       ),
     );

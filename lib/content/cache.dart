@@ -5,15 +5,6 @@ import 'package:haja/firebase/firestore.dart';
 import 'content.dart';
 
 class ContentCache<T extends ContentContainer> extends ChangeNotifier {
-  static bool loadMockData = false;
-  List<Map<String, dynamic>> get mockData => [
-        {
-          'title': '',
-          'caption': '',
-          'id': '',
-        }
-      ];
-
   final List<T> _items = [];
   List<T> get items => List.unmodifiable(_items);
   void download() {}
@@ -83,7 +74,7 @@ class ContentCache<T extends ContentContainer> extends ChangeNotifier {
     return content;
   }
 
-  T at(String query) {
+  T? at(String query) {
     var list = items;
 
     for (int i = 0; i < list.length; i++) {
@@ -91,19 +82,5 @@ class ContentCache<T extends ContentContainer> extends ChangeNotifier {
         return list[i];
       }
     }
-
-    return fromJson(mockData[0])!;
-  }
-
-  List<T> getMockData() {
-    List<T> mocks = [];
-
-    var list = mockData;
-
-    for (int i = 0; i < list.length; i++) {
-      mocks.add(fromJson(list[i])!);
-    }
-
-    return mocks;
   }
 }

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:haja/content/users/content.dart';
+import 'package:haja/content/todo/content.dart';
 
 import 'display.dart';
 import 'editor.dart';
 import '../content.dart';
 
 import 'package:haja/language/constants.dart';
-import 'package:haja/content/todo/content.dart';
 
 class TeamContent extends ContentContainer {
   static const String collectionName = 'teams';
@@ -68,6 +69,15 @@ class TeamContent extends ContentContainer {
   @override
   TeamContentEditorPage navigatorEditor() {
     return TeamContentEditorPage(this);
+  }
+
+  List<Future<UserContent?>> get usersContent {
+    return List.generate(
+      users.length,
+      (index) => UserContent.fromUserId(
+        users[index],
+      ),
+    );
   }
 
   Widget get icon {

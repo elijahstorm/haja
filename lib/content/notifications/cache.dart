@@ -1,14 +1,10 @@
 import '../cache.dart';
 import 'content.dart';
-import 'mock_content.dart';
 
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/auth.dart';
 
 class NotificationCache extends ContentCache<NotificationContent> {
-  @override
-  List<Map<String, dynamic>> get mockData => MockContent.all;
-
   NotificationCache.friends();
   NotificationCache();
 

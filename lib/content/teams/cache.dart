@@ -1,13 +1,9 @@
 import '../cache.dart';
 import 'content.dart';
-import 'mock_content.dart';
 
 import 'package:haja/firebase/firestore.dart';
 
 class TeamsCache extends ContentCache<TeamContent> {
-  @override
-  List<Map<String, dynamic>> get mockData => MockContent.all;
-
   @override
   TeamContent fromJson(dynamic data) => TeamContent.fromJson(data);
 

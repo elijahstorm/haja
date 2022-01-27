@@ -46,3 +46,32 @@ class CircleStoryAvatar extends StatelessWidget {
         ),
       );
 }
+
+class CircleOverlappableAvatar extends StatelessWidget {
+  final Widget display;
+  final double? size;
+
+  const CircleOverlappableAvatar({
+    required this.display,
+    this.size = Constants.defaultPadding * 2,
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Container(
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          border: Border.all(
+            width: 1,
+            color: Theme.of(context).scaffoldBackgroundColor,
+          ),
+          color: Theme.of(context).scaffoldBackgroundColor,
+        ),
+        width: size ?? Constants.defaultPadding * 2,
+        height: size ?? Constants.defaultPadding * 2,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(90),
+          child: display,
+        ),
+      );
+}

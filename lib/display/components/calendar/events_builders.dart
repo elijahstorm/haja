@@ -200,7 +200,6 @@ class EventsHouseBuilder extends StatelessWidget {
           borderRadius: BorderRadius.circular(
             Constants.defaultBorderRadiusMedium,
           ),
-          color: const Color(0xFFdbdbdb),
           gradient: SweepGradient(
             colors: colorGradient(
               events,

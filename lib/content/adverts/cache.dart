@@ -1,13 +1,9 @@
 import '../cache.dart';
 import 'content.dart';
-import 'mock_content.dart';
 
 import 'package:haja/firebase/firestore.dart';
 
 class AdvertisementCache extends ContentCache<AdvertisementContent> {
-  @override
-  List<Map<String, dynamic>> get mockData => MockContent.all;
-
   @override
   AdvertisementContent fromJson(dynamic data) =>
       AdvertisementContent.fromJson(data);
