@@ -167,8 +167,8 @@ class Language {
           output += ' ago';
         }
       } else if (timeSince.inDays >= 29) {
-        int months = timeSince.inDays ~/ 30;
-        output = months.toString() + TimingNames.month.names(short);
+        int months = timeSince.inDays ~/ 7;
+        output = months.toString() + TimingNames.week.names(short);
         if (!short) {
           if (months > 1) output += 's';
           output += ' ago';
@@ -192,6 +192,7 @@ enum TimingNames {
   minute,
   hour,
   day,
+  week,
   month,
   year,
 }
@@ -206,11 +207,13 @@ extension TimingNamesExtension on TimingNames {
       case TimingNames.second:
         return short ? 's' : ' second';
       case TimingNames.minute:
-        return short ? 'min' : ' minute';
+        return short ? 'm' : ' minute';
       case TimingNames.hour:
         return short ? 'h' : ' hour';
       case TimingNames.day:
         return short ? 'd' : ' day';
+      case TimingNames.week:
+        return short ? 'w' : ' week';
       case TimingNames.month:
         return short ? 'mth' : ' month';
       case TimingNames.year:
