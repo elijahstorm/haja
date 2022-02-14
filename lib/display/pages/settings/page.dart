@@ -4,7 +4,6 @@ import 'package:haja/language/language.dart';
 
 import 'package:haja/display/pages/settings/components/settings_side.dart';
 import 'package:haja/display/pages/settings/components/settings_main.dart';
-import 'package:haja/display/pages/settings/components/settings_team.dart';
 import 'package:haja/display/components/widgets/responsive_content.dart';
 import 'package:haja/login/user_state.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +53,6 @@ class AccountSettingsPage extends StatelessWidget {
         builder: (context, __) => const SafeArea(
           child: ResponsiveContent(
             primaryContent: DashSettingsMain(),
-            secondaryContent: DashSettingsTeam(),
             sideContent: DashSettingsSide(),
           ),
         ),

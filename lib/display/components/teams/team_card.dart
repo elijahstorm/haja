@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:haja/content/teams/content.dart';
 import 'package:haja/display/components/teams/team_user_avatars.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/language/constants.dart';
 
 class TeamCard extends StatelessWidget {
@@ -74,7 +75,10 @@ class TeamCard extends StatelessWidget {
                     bottom: Constants.defaultPadding,
                     child: Row(
                       children: [
-                        UserAvatarStack(team.usersContent),
+                        UserAvatarStack(
+                          team.usersContent,
+                          onTap: () => team.navigatorUserListEditor(context),
+                        ),
                         const SizedBox(
                           width: Constants.defaultPadding / 2,
                         ),
@@ -100,9 +104,25 @@ class TeamCard extends StatelessWidget {
                         Icons.more_horiz,
                         color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                      onTap: () {
-                        print('open options');
-                      },
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (BuildContext context) => AlertButtonsDialog(
+                          alert: team.title,
+                          subtext: 'subtitle',
+                          buttons: [
+                            AlertButton(
+                              label: 'Edit',
+                              action: () {},
+                              icon: AlertIcon.edit,
+                            ),
+                            AlertButton(
+                              label: 'Leave',
+                              action: () {},
+                              stopPop: true,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],

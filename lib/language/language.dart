@@ -32,6 +32,7 @@ class Language {
   static const String teamCaptionHelp = 'some information about your team.';
   static const String teamPrivacyHelp =
       'if you choose to keep this team private, it keeps this team from being searchable.';
+  static const String leaveTeamButton = 'leave team';
 
   /// User Language
   static const String userTitle = 'name';
@@ -68,8 +69,10 @@ class Language {
 
   static const String waitingForContent = 'Awaiting Content...';
   static const String noDataFoundError = 'no data found';
-  static const String oopsFriendlyError = 'Ooops! 😓';
-  static const String pageNotFoundError = 'Page not found';
+  static const String oopsFriendlyError = 'ooops! 😓';
+  static const String noTeamsPlaceholder =
+      'try starting by adding your friends to a "international style dinner cookout" team';
+  static const String pageNotFoundError = 'page not found';
 
   static const String alertColorPrompt = 'Choose a new COLOR';
   static const String alertDateChangePrompt = 'Change the task date';

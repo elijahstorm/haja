@@ -18,17 +18,28 @@ class TeamContentVerticalList extends StatelessWidget {
           children: [
             const Text(Language.teamCacheListHeader),
             Consumer<TeamsCache>(
-              builder: (context, cache, child) => Column(
-                children: List.generate(
-                  cache.items.length,
-                  (index) => Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: Constants.defaultPadding,
+              builder: (context, cache, child) {
+                if (cache.items.isEmpty) {
+                  return Column(
+                    children: [
+                      Image.asset(Constants.noTeamsPlaceholder),
+                      const Text(Language.noTeamsPlaceholder),
+                    ],
+                  );
+                }
+
+                return Column(
+                  children: List.generate(
+                    cache.items.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: Constants.defaultPadding,
+                      ),
+                      child: TeamCard(cache.items[index]),
                     ),
-                    child: TeamCard(cache.items[index]),
                   ),
-                ),
-              ),
+                );
+              },
             ),
           ],
         ),

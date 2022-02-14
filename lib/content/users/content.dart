@@ -87,19 +87,20 @@ class UserContent extends ContentContainer {
 
   bool get isFollowing => following.contains(AuthApi.activeUser);
 
-  Widget get icon => Hero(
-        tag: id,
-        child: pic == ''
-            ? Image.asset(
-                Constants.placeholderUserIcon,
-                // Constants.liveSvgs + id + '.svg',
-                fit: BoxFit.fill,
-              )
-            : Image.network(
-                Constants.storageUrlPrefix + pic,
-                fit: BoxFit.fill,
-              ),
-      );
+  Widget get icon =>
+      // Hero( TODO put back in hero animation
+      //       tag: id,
+      //       child:
+      pic == ''
+          ? Image.asset(
+              Constants.placeholderUserIcon,
+              fit: BoxFit.fill,
+            )
+          : Image.network(
+              Constants.storageUrlPrefix + pic,
+              fit: BoxFit.fill,
+              // ),
+            );
 
   String get imageUrl {
     return Constants.storageUrlPrefix + pic;
@@ -137,4 +138,8 @@ class UserContent extends ContentContainer {
   UserContentEditorPage navigatorEditor() {
     return UserContentEditorPage(this);
   }
+
+  String get shareLink {
+    return '${Constants.linkUri}todo?owner=${'owner'}&id=$id&isTeam=${'isTeam'}';
+  } // TODO: share link
 }

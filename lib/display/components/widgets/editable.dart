@@ -48,6 +48,9 @@ class CloseAndSaveEditor extends StatelessWidget {
               );
             }),
             title: Text(title),
+            centerTitle: false,
+            backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+            foregroundColor: Theme.of(context).textTheme.bodyLarge!.color,
             actions: [
               IconButton(
                 icon: const Icon(Icons.close),
@@ -171,6 +174,53 @@ class CustomEditablePicture extends EditableContentItem<String> {
       );
 }
 
+class CustomEditableWidget<T> extends StatefulWidget {
+  final void Function(T) onSave;
+  final Widget child;
+  final Widget? editor;
+  final VoidCallback? onTap;
+  final EditableValueTracker<T?> changableValue = EditableValueTracker(null);
+
+  CustomEditableWidget({
+    required this.onSave,
+    required this.child,
+    this.editor,
+    this.onTap,
+    Key? key,
+  }) : super(key: key);
+
+  Widget generateEditing(BuildContext context) => editor ?? child;
+  Widget generateView(BuildContext context) => child;
+
+  void saver() {
+    if (changableValue.value == null) return;
+
+    onSave(changableValue.value!);
+  }
+
+  @override
+  _CustomEditableWidgetState createState() => _CustomEditableWidgetState();
+}
+
+class _CustomEditableWidgetState extends State<CustomEditableWidget> {
+  bool isEditing = false;
+
+  @override
+  Widget build(BuildContext context) => Consumer<EditableContentChangedSignal>(
+        builder: (context, signal, child) => GestureDetector(
+          onTap: () {
+            signal.add(widget.saver);
+            setState(() => isEditing = true);
+            if (widget.onTap != null) widget.onTap!();
+          },
+          child: child,
+        ),
+        child: isEditing
+            ? widget.generateEditing(context)
+            : widget.generateView(context),
+      );
+}
+
 class CustomEditableText extends EditableContentItem<String> {
   final int lineHeight;
 
@@ -197,6 +247,7 @@ class CustomEditableText extends EditableContentItem<String> {
           if (value == null || value.isEmpty) {
             return '$label cannot be empty';
           }
+          return null;
         },
         decoration: const InputDecoration(
           hintText: Language.teamEditorPlaceholder,

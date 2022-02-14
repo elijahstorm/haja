@@ -8,7 +8,7 @@ import 'package:haja/display/components/widgets/responsive_content.dart';
 import 'package:haja/content/todo/cache.dart';
 
 class TeamCalendar extends StatelessWidget {
-  final String team; // TODO: A LOT and upload picture
+  final String team;
 
   const TeamCalendar({
     required this.team,
@@ -22,7 +22,7 @@ class TeamCalendar extends StatelessWidget {
             create: (context) => FocusedDate(),
           ),
           ChangeNotifierProvider(
-            create: (context) => TodoCache.team(),
+            create: (context) => TodoCache.team(team),
           ),
         ],
         child: GestureDetector(

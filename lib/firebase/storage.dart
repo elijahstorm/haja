@@ -73,6 +73,8 @@ class StorageApi {
     } on firebase_core.FirebaseException catch (e) {
       onError('Upload Error (StorageApi.uploadFileWithMetadata): ${e.code}');
     }
+
+    return null;
   }
 }
 

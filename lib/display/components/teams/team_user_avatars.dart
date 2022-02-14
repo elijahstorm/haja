@@ -22,15 +22,17 @@ class UserAvatars extends CircleOverlappableAvatar {
 class UserAvatarStack extends StatelessWidget {
   final List<Future<UserContent?>> users;
   final double avatarSize = Constants.defaultPadding * 1.5;
+  final VoidCallback? onTap;
 
   const UserAvatarStack(
     this.users, {
+    this.onTap,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
-        onTap: () => print('send to edit page'),
+        onTap: onTap,
         child: SizedBox(
           width: avatarSize + (users.length - 1) * avatarSize,
           height: avatarSize,

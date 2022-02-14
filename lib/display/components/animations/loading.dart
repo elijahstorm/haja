@@ -26,7 +26,7 @@ class LoadingAvatar extends CircleOverlappableAvatar {
           key: key,
           display: Center(
             child: SpinKitCircle(
-              color: Constants.primaryColorLight, //TODO check padding
+              color: Constants.primaryColorLight,
               size: size ?? Constants.defaultPadding,
             ),
           ),

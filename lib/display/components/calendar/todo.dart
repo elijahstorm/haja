@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:intl/intl.dart';
+import 'package:share_plus/share_plus.dart';
 
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
@@ -114,21 +114,8 @@ class Todo extends StatelessWidget {
     cache.notify();
   }
 
-  void _changeTodoColor(
-      BuildContext context, TodoCache cache, TodoContent todo) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertColorDialog(
-        alert: todo.title,
-        subtext: Language.alertColorPrompt,
-        onColorChanged: (color) {
-          todo.color = Constants.toHex(color);
-          todo.upload();
-          cache.notify();
-          Navigator.of(context).pop();
-        },
-      ),
-    ).then((_) => Navigator.of(context).pop());
+  void _share(TodoContent todo) {
+    Share.share('check out my website ${todo.shareLink}');
   }
 
   void _changeDate(BuildContext context, TodoCache cache, TodoContent todo) {
@@ -144,47 +131,12 @@ class Todo extends StatelessWidget {
         todo.upload();
         cache.notify();
       }
-
-      Navigator.of(context).pop();
     });
   }
 
   void _deleteTodo(TodoCache cache, TodoContent todo) {
     todo.delete();
     cache.remove(todo);
-  }
-
-  void _openOptions(BuildContext context, TodoCache cache, TodoContent todo) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) => AlertButtonsDialog(
-        alert: todo.title,
-        subtext: '${todo.status}: ${DateFormat('MM / dd').format(todo.date)}',
-        buttons: [
-          AlertButton(
-            label: 'Edit',
-            action: () => _editTodo(cache, todo),
-            icon: AlertIcon.edit,
-          ),
-          AlertButton(
-            label: 'Colors',
-            action: () => _changeTodoColor(context, cache, todo),
-            stopPop: true,
-            icon: AlertIcon.color,
-          ),
-          AlertButton(
-            label: 'Date',
-            action: () => _changeDate(context, cache, todo),
-            stopPop: true,
-          ),
-          AlertButton(
-            label: 'Delete',
-            action: () => _deleteTodo(cache, todo),
-            icon: AlertIcon.delete,
-          ),
-        ],
-      ),
-    );
   }
 
   void _openMenuOptions(BuildContext context) {
@@ -233,21 +185,50 @@ class Todo extends StatelessWidget {
     required TodoContent todo,
   }) =>
       TodoListCasing(
-        mainChild: GestureDetector(
-          onTap: () => _openOptions(context, cache, todo),
-          child: Text(
-            todo.title,
-          ),
+        mainChild: Text(
+          todo.title,
         ),
         leadingIcon: Icon(
           todo.status == TodoContent.finishedStatus
-              ? Icons.check_circle_outlined
-              : Icons.circle,
+              ? Icons.check_circle
+              : Icons.circle_outlined,
           color:
               Constants.fromHex(todo.color) ?? Theme.of(context).primaryColor,
         ),
+        trailingIcon: GestureDetector(
+          onTap: () {
+            // TODO like
+          },
+          child: const Icon(
+            Icons.favorite,
+            color: Colors.red, // TODO liked
+            size: Constants.textSizeRegular,
+          ),
+        ),
+        options: [
+          Option(
+            icon: Icons.edit,
+            open: () => _editTodo(cache, todo),
+          ),
+          Option(
+            icon: Icons.calendar_today,
+            open: () => _changeDate(context, cache, todo),
+          ),
+          Option(
+            icon: Icons.delete,
+            open: () => _deleteTodo(cache, todo),
+          ),
+          Option(
+            icon: Icons.share,
+            open: () => _share(todo),
+          ),
+        ],
+        onColorChanged: (color) {
+          todo.color = Constants.toHex(color);
+          todo.upload();
+          cache.notify();
+        },
         onLeadingIconTap: () => _toggleFinished(cache, todo),
-        onTrailingIconTap: () => _openOptions(context, cache, todo),
       );
 
   Widget _buildMoreOptionsButton(BuildContext context) => GestureDetector(
@@ -332,17 +313,41 @@ class Todo extends StatelessWidget {
   }
 }
 
-class TodoListCasing extends StatelessWidget {
-  final Widget mainChild, leadingIcon;
-  final VoidCallback? onLeadingIconTap, onTrailingIconTap;
+class Option {
+  final IconData icon;
+  final VoidCallback open;
+
+  const Option({
+    required this.icon,
+    required this.open,
+  });
+}
+
+class TodoListCasing extends StatefulWidget {
+  final Widget mainChild, leadingIcon, trailingIcon;
+  final VoidCallback? onLeadingIconTap;
+  final void Function(Color)? onColorChanged;
+  final List<Option> options;
 
   const TodoListCasing({
     required this.mainChild,
+    this.onColorChanged,
+    this.options = const [],
     this.leadingIcon = const Icon(Icons.circle),
+    this.trailingIcon = const SizedBox(
+      width: 0,
+      height: 0,
+    ),
     this.onLeadingIconTap,
-    this.onTrailingIconTap,
     Key? key,
   }) : super(key: key);
+
+  @override
+  _TodoListCasingState createState() => _TodoListCasingState();
+}
+
+class _TodoListCasingState extends State<TodoListCasing> {
+  bool showOptions = false;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -351,12 +356,12 @@ class TodoListCasing extends StatelessWidget {
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             GestureDetector(
-              onTap: onLeadingIconTap,
+              onTap: widget.onLeadingIconTap,
               child: Container(
-                child: leadingIcon,
+                child: widget.leadingIcon,
               ),
             ),
             Expanded(
@@ -365,24 +370,66 @@ class TodoListCasing extends StatelessWidget {
                   horizontal: Constants.defaultPadding / 3,
                 ),
                 width: 1,
-                child: mainChild,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GestureDetector(
+                      child: widget.mainChild,
+                      onTap: () => setState(() => showOptions = !showOptions),
+                    ),
+                    const SizedBox(
+                      height: Constants.defaultPadding / 2,
+                    ),
+                    if (showOptions)
+                      Row(
+                        children: List.generate(
+                          widget.options.length,
+                          (index) => GestureDetector(
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: Constants.defaultPadding / 4 + 2.5,
+                                left: 3,
+                              ),
+                              child: Icon(
+                                widget.options[index].icon,
+                                size: 18,
+                              ),
+                            ),
+                            onTap: widget.options[index].open,
+                          ),
+                        ),
+                      ),
+                    if (showOptions)
+                      const SizedBox(
+                        height: Constants.defaultPadding / 2,
+                      ),
+                    if (showOptions && widget.onColorChanged != null)
+                      Row(
+                        children: List.generate(
+                          Constants.todoColorOptions.length,
+                          (index) => GestureDetector(
+                            onTap: () {
+                              widget.onColorChanged!(
+                                Constants.todoColorOptions[index],
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                right: Constants.defaultPadding / 4,
+                              ),
+                              child: Icon(
+                                Icons.circle,
+                                color: Constants.todoColorOptions[index],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
               ),
             ),
-            SizedBox(
-              width: 48,
-              child: ElevatedButton(
-                onPressed: onTrailingIconTap,
-                style: ElevatedButton.styleFrom(
-                  shape: const CircleBorder(),
-                  primary: Theme.of(context).scaffoldBackgroundColor,
-                ),
-                child: const Icon(
-                  Icons.favorite,
-                  color: Colors.red,
-                  size: Constants.textSizeRegular,
-                ),
-              ),
-            ),
+            widget.trailingIcon,
           ],
         ),
       );

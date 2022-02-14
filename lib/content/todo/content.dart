@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:haja/language/constants.dart';
+
 import 'display.dart';
 import '../content.dart';
 
@@ -54,6 +56,10 @@ class TodoContent extends ContentContainer {
   TodoContentDisplayPage navigator() {
     return TodoContentDisplayPage(this);
   }
+
+  String get shareLink {
+    return '${Constants.linkUri}todo?owner=${'owner'}&id=$id&isTeam=${'isTeam'}';
+  } // TODO: share link
 
   void toggleFinished() {
     if (status == TodoContent.finishedStatus) {

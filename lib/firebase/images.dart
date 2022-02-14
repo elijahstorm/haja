@@ -65,6 +65,8 @@ class FirestoreImages {
     if (error != null) {
       onError(error!);
     }
+
+    return null;
   }
 
   static Future<void> handleLostData({

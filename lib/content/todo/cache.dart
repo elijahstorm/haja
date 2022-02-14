@@ -9,10 +9,10 @@ class TodoCache extends ContentCache<TodoContent> {
   TodoContent fromJson(dynamic data) => TodoContent.fromJson(data);
 
   TodoSort sortStyle = TodoSort.none;
-  bool isTeam = false;
+  String? teamId;
 
-  TodoCache.team() {
-    isTeam = true; // TODO: pull from correct firestore document
+  TodoCache.team(String team) {
+    teamId = team;
     sortStyle = TodoSort.recent;
     filters = [FirestoreFilter.recent()];
     download();
@@ -34,15 +34,12 @@ class TodoCache extends ContentCache<TodoContent> {
   }
 
   @override
-  void download({
-    String? id,
-  }) async =>
-      FirestoreApi.download(
+  void download() async => FirestoreApi.download(
         TodoContent.collectionName,
-        isTeam: isTeam,
+        isTeam: teamId != null,
         limit: 500,
         filters: filters,
-        id: id ?? AuthApi.activeUser,
+        id: teamId ?? AuthApi.activeUser,
         populate: (dynamic data) => populate(
           TodoContent.fromJson(data),
         ),

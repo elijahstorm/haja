@@ -82,5 +82,7 @@ class ContentCache<T extends ContentContainer> extends ChangeNotifier {
         return list[i];
       }
     }
+
+    return null;
   }
 }

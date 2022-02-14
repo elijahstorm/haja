@@ -7,7 +7,6 @@ import 'package:provider/provider.dart';
 
 import 'package:haja/display/pages/search/page.dart';
 import 'package:haja/display/pages/debug/page.dart';
-import 'package:haja/display/pages/settings/page.dart';
 import 'package:haja/login/user_state.dart';
 import 'package:haja/language/constants.dart';
 
@@ -85,16 +84,6 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
                             DebugTestingPage.routeName,
                           ),
                         ),
-                      // TODO: REmove
-                      // const SizedBox(height: Constants.defaultPadding),
-                      // _drawHeaderDropdownButton(
-                      //   label: Language.accountSettings,
-                      //   icon: Icons.settings,
-                      //   onTap: () => Navigator.pushNamed(
-                      //     context,
-                      //     AccountSettingsPage.routeName,
-                      //   ),
-                      // ),
                       const SizedBox(height: Constants.defaultPadding),
                       Consumer<UserState>(
                         builder: (context, userstate, child) {
@@ -160,8 +149,8 @@ class DashboardCard extends StatelessWidget {
       onTap: _openMenuOptionsAction,
       child: Container(
         margin: const EdgeInsets.only(left: Constants.defaultPadding),
-        padding: const EdgeInsets.symmetric(
-          horizontal: Constants.defaultPadding,
+        padding: const EdgeInsets.only(
+          left: Constants.defaultPadding,
         ),
         child: Consumer<UserState>(
           builder: (context, userstate, child) {
@@ -183,7 +172,6 @@ class DashboardCard extends StatelessWidget {
                     ),
                     child: Text(userstate.data.name),
                   ),
-                const Icon(Icons.keyboard_arrow_down),
               ],
             );
           },
