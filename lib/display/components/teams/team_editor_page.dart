@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 
+import 'package:haja/firebase/storage.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/display/components/widgets/editable.dart';
+import 'package:haja/display/components/teams/vertical_user_list.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 
 import 'package:haja/content/teams/content.dart';
+import 'package:haja/language/settings_keys.dart';
 
 class TeamEditorDisplay extends StatelessWidget {
-  final TeamContent content;
+  final TeamContent team;
 
   const TeamEditorDisplay(
-    this.content, {
+    this.team, {
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return CloseAndSaveEditor(
-      content: content,
+      content: team,
       title: Language.teamEditorTitle,
       child: Padding(
         padding: const EdgeInsets.all(Constants.defaultPadding),
@@ -25,51 +29,141 @@ class TeamEditorDisplay extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const SizedBox(height: Constants.defaultPadding),
+              CustomEditableWidget<String>(
+                onSave: (value) => team.picture = value.replaceAll(
+                  Constants.storageUrlPrefix,
+                  '',
+                ),
+                onTap: () async {
+                  var url = await StorageApi.upload.images.gallery(
+                    onError: (err) {
+                      print('we errored: $err');
+                    },
+                  );
+                },
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(
+                    Radius.circular(
+                      Constants.defaultBorderRadiusXLarge,
+                    ),
+                  ),
+                  child: SizedBox(
+                    height: 200,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: Image.network(
+                            team.imageUrl,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, err, stacktrace) =>
+                                Image.asset(
+                              Constants.defaultTeamPicture,
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        Positioned.fill(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.bottomRight,
+                                end: Alignment.center,
+                                colors: [
+                                  Theme.of(context)
+                                      .iconTheme
+                                      .color!
+                                      .withOpacity(.5),
+                                  Theme.of(context)
+                                      .iconTheme
+                                      .color!
+                                      .withOpacity(.2),
+                                  Colors.transparent,
+                                  Colors.transparent,
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        Positioned(
+                          bottom: Constants.defaultPadding,
+                          right: Constants.defaultPadding,
+                          child: Icon(
+                            Icons.edit,
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: Constants.defaultPadding,
+              ),
+              CustomEditableText(
+                value: team.title,
+                onSave: (value) => team.title = value,
+                label: Language.teamTitle,
+                help: Language.teamTitleHelp,
+              ),
               CustomSwitch(
                 label: Language.teamPrivacy,
                 switchText: Language.teamPrivacyAction,
                 help: Language.teamPrivacyHelp,
-                value: content.private,
-                onSave: (value) => content.private = value,
+                value: team.private,
+                onSave: (value) => team.private = value,
               ),
-              const SizedBox(height: Constants.defaultPadding),
-              const Padding(
-                padding: EdgeInsets.all(Constants.defaultPadding),
-                child: Divider(
-                  thickness: 1,
+              const CustomEditable(
+                label: Language.settingsNotosAlarm,
+                content: StoredPreferenceSwitcher(
+                  keyName: SettingsKeyValues.settingsNotosAlarm,
                 ),
               ),
-              CustomEditablePicture(
-                label: Language.teamPicture,
-                help: Language.teamPictureHelp,
-                value: content.imageUrl,
-                onSave: (value) => content.picture = value.replaceAll(
-                  Constants.storageUrlPrefix,
-                  '',
+              const SizedBox(
+                height: Constants.defaultPadding,
+              ),
+              const Text(
+                Language.teamMembers,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
-              const SizedBox(height: Constants.defaultPadding),
-              const Padding(
-                padding: EdgeInsets.all(Constants.defaultPadding),
-                child: Divider(
-                  thickness: 1,
+              const SizedBox(
+                height: Constants.defaultPadding / 2,
+              ),
+              CustomEditableWidget(
+                onSave: (s) {},
+                child: VerticalUserList(team.usersContent),
+              ),
+              const SizedBox(
+                height: Constants.defaultPadding,
+              ),
+              ElevatedButton(
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (BuildContext context) => const AlertTextDialog(
+                    alert: 'main',
+                    subtext: 'sub',
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                  shadowColor: Colors.red,
+                  elevation: 5,
+                  minimumSize: const Size.fromHeight(
+                    Constants.defaultPadding * 2,
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(
+                      Constants.defaultBorderRadiusXLarge,
+                    ),
+                  ),
+                ),
+                child: const Text(
+                  Language.leaveTeamButton,
                 ),
               ),
-              CustomEditableText(
-                value: content.title,
-                help: Language.teamTitleHelp,
-                label: Language.teamTitle,
-                onSave: (value) => content.title = value,
-              ),
-              const SizedBox(height: Constants.defaultPadding),
-              CustomEditableText(
-                value: content.caption,
-                help: Language.teamCaptionHelp,
-                label: Language.teamCaption,
-                onSave: (value) => content.caption = value,
-              ),
-              const SizedBox(height: Constants.defaultPadding * 7),
             ],
           ),
         ),

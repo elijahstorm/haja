@@ -61,8 +61,7 @@ class TeamPageDisplay extends StatelessWidget {
                             ),
                             UserAvatarStack(
                               content.usersContent,
-                              onTap: () =>
-                                  content.navigatorUserListEditor(context),
+                              onTap: () => content.navigateToEditor(context),
                             ),
                           ],
                         ),

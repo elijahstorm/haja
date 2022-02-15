@@ -19,7 +19,7 @@ class Constants {
   static const Color cardColorLight = Color(0xFFE2F2FF);
   static const Color bgColorLight = Color(0xFFf8f9fa);
   static const Color textColorLight = Color(0xFF000000);
-  static const Color canvasColorLight = Color(0xFFDBDBDB);
+  static const Color canvasColorLight = Color(0xFFe6e4ef);
 
   static const Color primaryColorDark = Color(0xFF1E9AFE);
   static const Color secondaryColorDark = Color(0xFF60dfcd);

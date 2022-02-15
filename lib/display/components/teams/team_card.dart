@@ -77,7 +77,7 @@ class TeamCard extends StatelessWidget {
                       children: [
                         UserAvatarStack(
                           team.usersContent,
-                          onTap: () => team.navigatorUserListEditor(context),
+                          onTap: () => team.navigateToEditor(context),
                         ),
                         const SizedBox(
                           width: Constants.defaultPadding / 2,

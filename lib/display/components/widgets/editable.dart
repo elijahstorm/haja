@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/constants.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -33,20 +34,21 @@ class CloseAndSaveEditor extends StatelessWidget {
         builder: (context, _) => Scaffold(
           appBar: AppBar(
             leading: Consumer<EditableContentChangedSignal>(
-                builder: (context, signals, child) {
-              return IconButton(
-                icon: const Icon(Icons.arrow_back),
-                onPressed: () {
-                  if (signals.isNotEmpty) {
-                    for (var signal in signals) {
-                      signal();
+              builder: (context, signals, child) {
+                return IconButton(
+                  icon: const Icon(Icons.arrow_back),
+                  onPressed: () {
+                    if (signals.isNotEmpty) {
+                      for (var signal in signals) {
+                        signal();
+                      }
+                      content.upload();
                     }
-                    content.upload();
-                  }
-                  Navigator.of(context).pop();
-                },
-              );
-            }),
+                    Navigator.of(context).pop();
+                  },
+                );
+              },
+            ),
             title: Text(title),
             centerTitle: false,
             backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -67,22 +69,14 @@ class CloseAndSaveEditor extends StatelessWidget {
       );
 }
 
-class EditableContentItem<T> extends StatefulWidget {
+class SaveableStatefulWidget<T> extends StatefulWidget {
   final void Function(T) onSave;
-  final T value;
-  final String label, help;
   final EditableValueTracker<T?> changableValue = EditableValueTracker(null);
 
-  EditableContentItem({
+  SaveableStatefulWidget({
     required this.onSave,
-    required this.value,
-    required this.label,
-    required this.help,
     Key? key,
   }) : super(key: key);
-
-  Widget generateEditing(BuildContext context) => Container();
-  Widget generateView(BuildContext context) => Container();
 
   void saver() {
     if (changableValue.value == null) return;
@@ -90,61 +84,90 @@ class EditableContentItem<T> extends StatefulWidget {
     onSave(changableValue.value!);
   }
 
+  void signalOnce(EditableContentChangedSignal signals) {
+    if (signals.contains(saver)) return;
+
+    signals.add(saver);
+  }
+
   @override
-  _EditableContentItemState createState() => _EditableContentItemState();
+  createState() => _EditableContentItemState();
+}
+
+class EditableContentItem<T> extends SaveableStatefulWidget<T> {
+  final T value;
+  final String label, help;
+  final bool inline;
+
+  EditableContentItem({
+    required onSave,
+    required this.value,
+    required this.label,
+    required this.help,
+    this.inline = false,
+    Key? key,
+  }) : super(
+          onSave: onSave,
+          key: key,
+        );
+
+  Widget generateEditing(BuildContext context) => Container();
+  Widget generateView(BuildContext context) => Container();
 }
 
 class _EditableContentItemState extends State<EditableContentItem> {
   bool isEditing = false;
 
   @override
-  Widget build(BuildContext context) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text(widget.label),
-                  IconButton(
-                    onPressed: () {
-                      if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
-                          null) {
-                        return;
-                      }
-                      GlobalKeys.rootScaffoldMessengerKey.currentState!
-                          .showSnackBar(SnackBar(
-                        content: Text(widget.help),
-                      ));
-                    },
-                    icon: const Icon(
-                      Icons.help,
-                      size: 16,
-                    ),
-                  ),
-                ],
-              ),
-              isEditing
-                  ? Container()
-                  : Consumer<EditableContentChangedSignal>(
-                      builder: (context, signal, child) => IconButton(
-                        onPressed: () {
-                          signal.add(widget.saver);
-                          setState(() => isEditing = true);
-                        },
-                        icon: child!,
+  Widget build(BuildContext context) => widget.inline
+      ? widget.generateEditing(context)
+      : Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text(widget.label),
+                    IconButton(
+                      onPressed: () {
+                        if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                            null) {
+                          return;
+                        }
+                        GlobalKeys.rootScaffoldMessengerKey.currentState!
+                            .showSnackBar(SnackBar(
+                          content: Text(widget.help),
+                        ));
+                      },
+                      icon: const Icon(
+                        Icons.help,
+                        size: 16,
                       ),
-                      child: const Icon(Icons.edit),
                     ),
-            ],
-          ),
-          isEditing
-              ? widget.generateEditing(context)
-              : widget.generateView(context),
-        ],
-      );
+                  ],
+                ),
+                isEditing
+                    ? Container()
+                    : Consumer<EditableContentChangedSignal>(
+                        builder: (context, signals, child) => IconButton(
+                          onPressed: () {
+                            widget.signalOnce(signals);
+                            setState(() => isEditing = true);
+                          },
+                          icon: child!,
+                        ),
+                        child: const Icon(Icons.edit),
+                      ),
+              ],
+            ),
+            isEditing
+                ? widget.generateEditing(context)
+                : widget.generateView(context),
+          ],
+        );
 }
 
 class CustomEditablePicture extends EditableContentItem<String> {
@@ -174,29 +197,24 @@ class CustomEditablePicture extends EditableContentItem<String> {
       );
 }
 
-class CustomEditableWidget<T> extends StatefulWidget {
-  final void Function(T) onSave;
+class CustomEditableWidget<T> extends SaveableStatefulWidget {
   final Widget child;
   final Widget? editor;
   final VoidCallback? onTap;
-  final EditableValueTracker<T?> changableValue = EditableValueTracker(null);
 
   CustomEditableWidget({
-    required this.onSave,
+    required onSave,
     required this.child,
     this.editor,
     this.onTap,
     Key? key,
-  }) : super(key: key);
+  }) : super(
+          onSave: onSave,
+          key: key,
+        );
 
   Widget generateEditing(BuildContext context) => editor ?? child;
   Widget generateView(BuildContext context) => child;
-
-  void saver() {
-    if (changableValue.value == null) return;
-
-    onSave(changableValue.value!);
-  }
 
   @override
   _CustomEditableWidgetState createState() => _CustomEditableWidgetState();
@@ -207,9 +225,9 @@ class _CustomEditableWidgetState extends State<CustomEditableWidget> {
 
   @override
   Widget build(BuildContext context) => Consumer<EditableContentChangedSignal>(
-        builder: (context, signal, child) => GestureDetector(
+        builder: (context, signals, child) => GestureDetector(
           onTap: () {
-            signal.add(widget.saver);
+            widget.signalOnce(signals);
             setState(() => isEditing = true);
             if (widget.onTap != null) widget.onTap!();
           },
@@ -236,23 +254,43 @@ class CustomEditableText extends EditableContentItem<String> {
           onSave: onSave,
           label: label,
           help: help,
+          inline: true,
           key: key,
         );
 
   @override
-  Widget generateEditing(BuildContext context) => TextFormField(
-        autofocus: true,
-        onChanged: (value) => changableValue.value = value,
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return '$label cannot be empty';
-          }
-          return null;
-        },
-        decoration: const InputDecoration(
-          hintText: Language.teamEditorPlaceholder,
+  Widget generateEditing(BuildContext context) =>
+      Consumer<EditableContentChangedSignal>(
+        builder: (context, signals, child) => TextFormField(
+          onChanged: (value) {
+            signalOnce(signals);
+            changableValue.value = value;
+          },
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return '$label cannot be empty';
+            }
+            return null;
+          },
+          decoration: InputDecoration(
+            hintText: Language.teamEditorPlaceholder,
+            fillColor: Theme.of(context).canvasColor,
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(
+                Constants.defaultBorderRadiusXLarge * 2,
+              ),
+              borderSide: BorderSide.none,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              vertical: Constants.defaultPadding / 2,
+              horizontal: Constants.defaultPadding,
+            ),
+            filled: true,
+          ),
+          maxLines: lineHeight,
+          initialValue: value,
+          maxLength: 20,
         ),
-        maxLines: lineHeight,
       );
 
   @override
@@ -285,20 +323,40 @@ class CustomSwitch extends EditableContentItem<bool> {
           onSave: onSave,
           label: label,
           help: help,
+          inline: true,
           key: key,
         );
 
   @override
   Widget generateEditing(BuildContext context) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(switchText),
+          IconButton(
+            onPressed: () {
+              if (GlobalKeys.rootScaffoldMessengerKey.currentState == null) {
+                return;
+              }
+              GlobalKeys.rootScaffoldMessengerKey.currentState!
+                  .showSnackBar(SnackBar(
+                content: Text(help),
+              ));
+            },
+            icon: const Icon(
+              Icons.help,
+              size: 16,
+            ),
+          ),
+          const Expanded(child: SizedBox()),
           StatefulBuilder(
             builder: (context, StateSetter setState) {
-              return Switch(
-                value: changableValue.value ?? false,
-                onChanged: (value) =>
-                    setState(() => changableValue.value = value),
+              return Consumer<EditableContentChangedSignal>(
+                builder: (context, signals, child) => Switch(
+                  value: changableValue.value ?? false,
+                  onChanged: (value) {
+                    signalOnce(signals);
+                    setState(() => changableValue.value = value);
+                  },
+                ),
               );
             },
           ),

@@ -17,13 +17,15 @@ class Language {
   static const String upcomingTodos = 'upcoming Todos';
 
   /// Team Language
+  static const String teamMembers = 'members';
+  static const String teamMembersAddButton = 'add others';
   static const String teamCacheListHeader = 'your teams';
   static const String teamTitle = 'title';
   static const String teamCaption = 'description';
   static const String teamPrivacy = 'team privacy';
   static const String teamPrivacyAction = 'make your team private';
   static const String teamPicture = 'team picture';
-  static const String teamEditorTitle = 'edit your team';
+  static const String teamEditorTitle = 'edit team';
   static const String teamEditorEmpty = '[empty]';
   static const String teamEditorPlaceholder = 'get creative...';
   static const String teamPictureHelp =

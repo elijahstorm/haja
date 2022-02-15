@@ -71,13 +71,6 @@ class TeamContent extends ContentContainer {
     return TeamContentEditorPage(this);
   }
 
-  void navigatorUserListEditor(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
-      builder: (context) => Material(child: TeamUserListEditorPage(this)),
-      fullscreenDialog: true,
-    ));
-  }
-
   String get shareLink {
     return '${Constants.linkUri}team?id=$id';
   }
