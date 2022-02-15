@@ -16,7 +16,7 @@ class UserContent extends ContentContainer {
   String get collection => collectionName;
   final contentType = CONTENT.user;
 
-  String email, pic;
+  String email, picture;
   List<String> pronouns, following;
   bool private;
   final bool online, verified;
@@ -24,7 +24,7 @@ class UserContent extends ContentContainer {
 
   UserContent({
     required this.email,
-    required this.pic,
+    required this.picture,
     required this.pronouns,
     required this.following,
     required this.online,
@@ -43,7 +43,7 @@ class UserContent extends ContentContainer {
 
   factory UserContent.fromJson(dynamic data) => UserContent(
         email: data['email'] ?? UserContent.defaultData['email'],
-        pic: data['pic'] ?? UserContent.defaultData['pic'],
+        picture: data['picture'] ?? UserContent.defaultData['picture'],
         title: data['title'] ?? UserContent.defaultData['title'],
         caption: data['caption'] ?? UserContent.defaultData['caption'],
         pronouns: Constants.toStringList(data['pronouns']),
@@ -75,7 +75,7 @@ class UserContent extends ContentContainer {
         'title': title,
         'caption': caption,
         'email': email,
-        'pic': pic,
+        'picture': picture,
         'pronouns': pronouns,
         'following': following,
         'online': online,
@@ -91,19 +91,23 @@ class UserContent extends ContentContainer {
       // Hero( TODO put back in hero animation
       //       tag: id,
       //       child:
-      pic == ''
+      picture == ''
           ? Image.asset(
               Constants.placeholderUserIcon,
               fit: BoxFit.fill,
             )
           : Image.network(
-              Constants.storageUrlPrefix + pic,
+              Constants.storageUrlPrefix + picture,
               fit: BoxFit.fill,
+              errorBuilder: (context, _, __) => Image.asset(
+                Constants.placeholderUserIcon,
+                fit: BoxFit.fill,
+              ),
               // ),
             );
 
   String get imageUrl {
-    return Constants.storageUrlPrefix + pic;
+    return Constants.storageUrlPrefix + picture;
   }
 
   String get pronounsString {
@@ -118,7 +122,7 @@ class UserContent extends ContentContainer {
     'title': 'Anonymous',
     'caption': '',
     'email': '',
-    'pic': '',
+    'picture': '',
     'pronouns': [],
     'following': [],
     'online': false,
@@ -137,6 +141,10 @@ class UserContent extends ContentContainer {
   @override
   UserContentEditorPage navigatorEditor() {
     return UserContentEditorPage(this);
+  }
+
+  List<Future<UserContent>> get followingListContent {
+    return [];
   }
 
   String get shareLink {

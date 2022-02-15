@@ -333,7 +333,10 @@ class TodoListCasing extends StatefulWidget {
     required this.mainChild,
     this.onColorChanged,
     this.options = const [],
-    this.leadingIcon = const Icon(Icons.circle),
+    this.leadingIcon = const Icon(
+      Icons.circle,
+      color: Constants.primaryColorLight,
+    ),
     this.trailingIcon = const SizedBox(
       width: 0,
       height: 0,

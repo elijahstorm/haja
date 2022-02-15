@@ -200,7 +200,7 @@ class CustomEditablePicture extends EditableContentItem<String> {
 class CustomEditableWidget<T> extends SaveableStatefulWidget {
   final Widget child;
   final Widget? editor;
-  final VoidCallback? onTap;
+  final Future<void> Function()? onTap;
 
   CustomEditableWidget({
     required onSave,
@@ -226,10 +226,10 @@ class _CustomEditableWidgetState extends State<CustomEditableWidget> {
   @override
   Widget build(BuildContext context) => Consumer<EditableContentChangedSignal>(
         builder: (context, signals, child) => GestureDetector(
-          onTap: () {
+          onTap: () async {
             widget.signalOnce(signals);
+            if (widget.onTap != null) await widget.onTap!();
             setState(() => isEditing = true);
-            if (widget.onTap != null) widget.onTap!();
           },
           child: child,
         ),
@@ -240,7 +240,7 @@ class _CustomEditableWidgetState extends State<CustomEditableWidget> {
 }
 
 class CustomEditableText extends EditableContentItem<String> {
-  final int lineHeight;
+  final int lineHeight, maxLength;
 
   CustomEditableText({
     required String value,
@@ -248,6 +248,7 @@ class CustomEditableText extends EditableContentItem<String> {
     required String label,
     required String help,
     this.lineHeight = 1,
+    this.maxLength = 20,
     Key? key,
   }) : super(
           value: value,
@@ -289,7 +290,7 @@ class CustomEditableText extends EditableContentItem<String> {
           ),
           maxLines: lineHeight,
           initialValue: value,
-          maxLength: 20,
+          maxLength: maxLength,
         ),
       );
 

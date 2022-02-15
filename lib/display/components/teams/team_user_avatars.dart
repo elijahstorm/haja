@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:haja/display/components/widgets/avatars.dart';
@@ -38,7 +40,7 @@ class UserAvatarStack extends StatelessWidget {
           height: avatarSize,
           child: Stack(
             children: List.generate(
-              users.length,
+              max(users.length, 3),
               (index) => Positioned(
                 top: 0,
                 bottom: 0,

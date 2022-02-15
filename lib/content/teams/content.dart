@@ -95,8 +95,4 @@ class TeamContent extends ContentContainer {
   String get imageUrl {
     return Constants.storageUrlPrefix + picture;
   }
-
-  Future<List<TodoContent>> get activeTodos async {
-    return [];
-  }
 }

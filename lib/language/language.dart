@@ -15,6 +15,7 @@ class Language {
   static const String searchPrompt = 'search';
   static const String friends = 'friends';
   static const String upcomingTodos = 'upcoming Todos';
+  static const String removeAccount = 'remove account';
 
   /// Team Language
   static const String teamMembers = 'members';
@@ -114,7 +115,7 @@ class Language {
   static const String loadingActiveTeamTodos = 'loading active Todos...';
 
   static const String settingsVisualBrightness = 'change visual brightness';
-  static const String settingsCalendarEventType = 'use block calendar style';
+  static const String settingsCalendarEventType = 'use square calendar style';
   static const String settingsNotosAlarm = 'notifications alarm';
   static const String settingsDataSearchHasFailed = 'failed';
 

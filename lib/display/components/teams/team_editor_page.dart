@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:haja/controllers/keys.dart';
 
 import 'package:haja/firebase/storage.dart';
 import 'package:haja/language/language.dart';
@@ -30,15 +32,31 @@ class TeamEditorDisplay extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomEditableWidget<String>(
-                onSave: (value) => team.picture = value.replaceAll(
-                  Constants.storageUrlPrefix,
-                  '',
-                ),
+                onSave: (value) {},
                 onTap: () async {
                   var url = await StorageApi.upload.images.gallery(
-                    onError: (err) {
-                      print('we errored: $err');
+                    onError: (error) {
+                      if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                          null) return;
+                      GlobalKeys.rootScaffoldMessengerKey.currentState!
+                          .showSnackBar(
+                        SnackBar(
+                          content: Text(
+                            '${team.title} upload failed. $error',
+                          ),
+                          duration: kReleaseMode
+                              ? const Duration(seconds: 4)
+                              : const Duration(seconds: 20),
+                        ),
+                      );
                     },
+                  );
+
+                  if (url == null) return;
+
+                  team.picture = url.replaceAll(
+                    Constants.storageUrlPrefix,
+                    '',
                   );
                 },
                 child: ClipRRect(
@@ -163,6 +181,9 @@ class TeamEditorDisplay extends StatelessWidget {
                 child: const Text(
                   Language.leaveTeamButton,
                 ),
+              ),
+              const SizedBox(
+                height: Constants.defaultPadding,
               ),
             ],
           ),
