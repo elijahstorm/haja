@@ -59,18 +59,20 @@ class ContentContainer {
     );
   }
 
-  void navigateTo(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
+  void navigateTo(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Material(child: navigator()),
       fullscreenDialog: true,
     ));
+    (context as Element).markNeedsBuild();
   }
 
-  void navigateToEditor(BuildContext context) {
-    Navigator.of(context).push(MaterialPageRoute(
+  void navigateToEditor(BuildContext context) async {
+    await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Material(child: navigatorEditor()),
       fullscreenDialog: true,
     ));
+    (context as Element).markNeedsBuild();
   }
 
   Widget navigator() => const Scaffold();

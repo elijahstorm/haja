@@ -126,7 +126,7 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
             if (!Responsive.isMobile(context))
               Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
             const Expanded(child: SearchField()),
-            DashboardCard(_toggleMenuOptions),
+            // DashboardCard(_toggleMenuOptions),
           ],
         ),
         _drawMenuOptions(),

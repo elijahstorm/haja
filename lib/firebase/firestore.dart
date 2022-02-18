@@ -202,7 +202,12 @@ class FirestoreApi {
     }
 
     if (id == null) {
-      id = AuthApi.activeUser;
+      if (content.collection == 'teams') {
+        isTeam = true;
+        id = content.id;
+      } else {
+        id = AuthApi.activeUser;
+      }
 
       if (id == null) {
         if (onError != null) {
@@ -228,7 +233,7 @@ class FirestoreApi {
         if (isTeam) {
           docRef = docRef.add(content.toJson());
         } else {
-          docRef = docRef.doc(id).set(content.toJson());
+          docRef = docRef.add(content.toJson());
         }
       } else {
         docRef = docRef.doc(id).update(content.toJson());

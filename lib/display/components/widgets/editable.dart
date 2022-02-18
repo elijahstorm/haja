@@ -285,6 +285,26 @@ class CustomEditableText extends EditableContentItem<String> {
             }
             return null;
           },
+          buildCounter: (
+            context, {
+            required currentLength,
+            required isFocused,
+            maxLength,
+          }) {
+            return Container(
+              transform:
+                  Matrix4.translationValues(0, -kToolbarHeight / 1.35, 0),
+              child: Opacity(
+                opacity: .5,
+                child: Text(
+                  '$currentLength/$maxLength',
+                  style: const TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            );
+          },
           decoration: InputDecoration(
             hintText: Language.teamEditorPlaceholder,
             fillColor: Theme.of(context).canvasColor,

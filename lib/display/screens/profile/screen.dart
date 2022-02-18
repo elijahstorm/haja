@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/display/components/teams/logout_button.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
@@ -38,6 +39,7 @@ class ProfileScreen extends StatelessWidget {
           header: Language.appNavBarTitlesProfile,
           primaryContent: DashboardProfileDisplay(),
           sideContent: OurTeamMembers(),
+          secondaryContent: LogoutButton(),
         ),
       ),
     );
