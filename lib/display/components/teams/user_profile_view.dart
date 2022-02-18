@@ -332,12 +332,21 @@ class _DrawSnapshot extends StatelessWidget {
                       minHeight: 36.0,
                     ),
                     alignment: Alignment.center,
-                    child: const Text(
-                      Language.editButton,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Icon(Icons.edit),
+                        SizedBox(
+                          width: Constants.defaultPadding / 2,
+                        ),
+                        Text(
+                          Language.editButton,
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),

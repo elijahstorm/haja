@@ -125,6 +125,15 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
               ),
             if (!Responsive.isMobile(context))
               Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
+
+            Image.asset(
+              Constants.logoAsset,
+              height: Constants.defaultPadding * 1.5,
+            ),
+            Text('AJA'),
+            const SizedBox(
+              width: Constants.defaultPadding,
+            ),
             const Expanded(child: SearchField()),
             // DashboardCard(_toggleMenuOptions),
           ],

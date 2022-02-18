@@ -70,10 +70,16 @@ class ResponsiveScreen extends StatelessWidget {
             ),
             child: Header(header),
           ),
-          const SizedBox(height: Constants.defaultPadding),
-          if (Responsive.isMobile(context)) mobileHeaderContent ?? Container(),
-          if (Responsive.isMobile(context))
-            const SizedBox(height: Constants.defaultPadding),
+          if (mobileHeaderContent != null && Responsive.isMobile(context))
+            Padding(
+              padding: const EdgeInsets.only(
+                top: Constants.defaultPadding,
+              ),
+              child: mobileHeaderContent,
+            ),
+          const SizedBox(
+            height: Constants.defaultPadding,
+          ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: Constants.defaultPadding,
@@ -125,10 +131,7 @@ class ResponsiveScreen extends StatelessWidget {
               children: [
                 if (header != '') Header(header),
                 const SizedBox(height: Constants.defaultPadding),
-                ConstrainedBox(
-                  constraints: BoxConstraints(
-                    maxHeight: MediaQuery.of(context).size.height - 150,
-                  ),
+                Expanded(
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -140,9 +143,6 @@ class ResponsiveScreen extends StatelessWidget {
                             children: [
                               if (Responsive.isMobile(context))
                                 mobileHeaderContent ?? Container(),
-                              if (Responsive.isMobile(context))
-                                const SizedBox(
-                                    height: Constants.defaultPadding),
                               primaryContent ?? Container(),
                             ],
                           ),

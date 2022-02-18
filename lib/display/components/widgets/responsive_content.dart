@@ -133,7 +133,8 @@ class ResponsiveContent extends StatelessWidget {
                                 mobileHeaderContent ?? Container(),
                               if (Responsive.isMobile(context))
                                 const SizedBox(
-                                    height: Constants.defaultPadding),
+                                  height: Constants.defaultPadding,
+                                ),
                               primaryContent ?? Container(),
                             ],
                           ),
