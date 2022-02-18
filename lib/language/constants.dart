@@ -50,7 +50,7 @@ class Constants {
 
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';
-  static const String defaultTeamPicture =
+  static const String defaultTeamPicture = storageUrlPrefix +
       'users%2FZbDWV5123FadwDAEZnH2K1t4kRf1%2Fprofile.png?alt=media&token=4e533a70-a670-493e-91b3-e7c31eb57ab9';
   static const String buttonBackgroundSmall =
       'assets/images/button-bg-small.png';

@@ -91,20 +91,15 @@ class UserContent extends ContentContainer {
       // Hero( TODO put back in hero animation
       //       tag: id,
       //       child:
-      picture == ''
-          ? Image.asset(
-              Constants.placeholderUserIcon,
-              fit: BoxFit.fill,
-            )
-          : Image.network(
-              Constants.storageUrlPrefix + picture,
-              fit: BoxFit.fill,
-              errorBuilder: (context, _, __) => Image.asset(
-                Constants.placeholderUserIcon,
-                fit: BoxFit.fill,
-              ),
-              // ),
-            );
+      Image.network(
+        imageUrl,
+        fit: BoxFit.fill,
+        errorBuilder: (context, _, __) => Image.asset(
+          Constants.placeholderUserIcon,
+          fit: BoxFit.fill,
+        ),
+        // ),
+      );
 
   String get imageUrl {
     return Constants.storageUrlPrefix + picture;

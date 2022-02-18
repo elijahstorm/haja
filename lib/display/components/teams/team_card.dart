@@ -32,14 +32,7 @@ class TeamCard extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned.fill(
-                    child: Image.network(
-                      team.imageUrl,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, err, stacktrace) => Image.asset(
-                        Constants.defaultTeamPicture,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
+                    child: team.responsiveImage,
                   ),
                   Positioned.fill(
                     child: Container(

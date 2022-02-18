@@ -58,14 +58,15 @@ class ResponsiveContent extends StatelessWidget {
     Widget? mobileHeaderContent,
   }) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        vertical: Constants.defaultPadding,
-      ),
       child: Column(
         children: [
-          if (Responsive.isMobile(context)) mobileHeaderContent ?? Container(),
-          if (Responsive.isMobile(context))
-            const SizedBox(height: Constants.defaultPadding),
+          if (mobileHeaderContent != null && Responsive.isMobile(context))
+            Padding(
+              padding: const EdgeInsets.only(
+                bottom: Constants.defaultPadding,
+              ),
+              child: mobileHeaderContent,
+            ),
           Padding(
             padding: const EdgeInsets.symmetric(
               horizontal: Constants.defaultPadding,

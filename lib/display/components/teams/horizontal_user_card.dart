@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:haja/content/users/content.dart';
+import 'package:haja/display/components/teams/team_user_avatars.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 
@@ -18,7 +19,7 @@ class HorizontalUserCard extends StatelessWidget {
         children: [
           SizedBox(
             height: Constants.defaultPadding * 2,
-            child: user.icon,
+            child: UserAvatars(user),
           ),
           const SizedBox(
             width: Constants.defaultPadding,

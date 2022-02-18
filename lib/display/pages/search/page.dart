@@ -120,8 +120,9 @@ class _SearchPageState extends State<SearchPage> {
                 contentPadding: const EdgeInsets.all(0),
                 prefixIcon: const Icon(Icons.search),
                 border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(50),
-                    borderSide: BorderSide.none),
+                  borderRadius: BorderRadius.circular(50),
+                  borderSide: BorderSide.none,
+                ),
                 hintStyle: const TextStyle(
                   fontSize: 14,
                 ),
@@ -153,35 +154,41 @@ class _SearchPageState extends State<SearchPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Row(children: [
-            SizedBox(
+          Row(
+            children: [
+              SizedBox(
                 width: 60,
                 height: 60,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(50),
                   child: Image.network(user.image),
-                )),
-            const SizedBox(width: 10),
-            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Text(
-                user.name,
-                style: const TextStyle(
-                  fontWeight: FontWeight.w500,
                 ),
               ),
-              const SizedBox(height: 5),
-              Text(
-                user.username,
-                style: TextStyle(
-                  color: Theme.of(context)
-                      .textTheme
-                      .subtitle1!
-                      .color!
-                      .withOpacity(.8),
-                ),
-              ),
-            ])
-          ]),
+              const SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user.name,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const SizedBox(height: 5),
+                  Text(
+                    user.username,
+                    style: TextStyle(
+                      color: Theme.of(context)
+                          .textTheme
+                          .subtitle1!
+                          .color!
+                          .withOpacity(.8),
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
           GestureDetector(
             onTap: () {
               setState(() {

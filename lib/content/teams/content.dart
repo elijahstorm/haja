@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haja/content/users/content.dart';
-import 'package:haja/content/todo/content.dart';
 
 import 'display.dart';
 import 'editor.dart';
@@ -89,6 +88,17 @@ class TeamContent extends ContentContainer {
       imageUrl,
       fit: BoxFit.cover,
       errorBuilder: (context, _, __) => const Icon(Icons.people),
+    );
+  }
+
+  Widget get responsiveImage {
+    return Image.network(
+      imageUrl,
+      fit: BoxFit.cover,
+      errorBuilder: (context, err, stacktrace) => Image.asset(
+        Constants.defaultTeamPicture,
+        fit: BoxFit.contain,
+      ),
     );
   }
 

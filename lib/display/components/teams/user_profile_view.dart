@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:haja/content/stream.dart';
-import 'package:haja/display/components/widgets/border_display.dart';
-import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 import 'package:number_slide_animation/number_slide_animation.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'package:haja/login/user_state.dart';
 import 'package:haja/display/components/widgets/error.dart';
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/auth.dart';
-import 'package:haja/firebase/storage.dart';
-import 'package:haja/login/user_state.dart';
+import 'package:haja/display/components/teams/team_user_avatars.dart';
+import 'package:haja/display/components/widgets/border_display.dart';
+import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 
 import 'package:haja/content/todo/content.dart';
@@ -172,7 +172,7 @@ class _DrawSnapshot extends StatelessWidget {
       SizedBox(
         height: 150,
         width: 150,
-        child: user.icon,
+        child: UserAvatars(user),
       ),
       const SizedBox(height: Constants.defaultPadding),
       Text(

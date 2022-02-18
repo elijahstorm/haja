@@ -1,10 +1,8 @@
-import 'package:haja/language/language.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import 'package:haja/display/components/animations/fade_in_incrementable.dart';
 import 'package:haja/display/components/widgets/slivers.dart';
-import 'package:haja/display/components/widgets/buttons.dart';
 import 'package:haja/display/components/calendar/team_calendar.dart';
 import 'package:haja/display/components/teams/team_user_avatars.dart';
 import 'package:haja/language/constants.dart';
@@ -131,22 +129,10 @@ class TeamPageDisplay extends StatelessWidget {
                           ),
                         ),
                       ),
-                      const SizedBox(height: Constants.defaultPadding * 4),
+                      const SizedBox(height: Constants.defaultPadding * 2),
                     ],
                   ),
                 ],
-              ),
-              Positioned.fill(
-                bottom: Constants.defaultPadding * 2,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: FadeInIncrementable(
-                    child: GenericFloatingButton(
-                      onTap: () => content.navigateToEditor(context),
-                      label: Language.editButton,
-                    ),
-                  ),
-                ),
               ),
             ],
           ),

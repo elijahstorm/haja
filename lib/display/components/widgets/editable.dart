@@ -63,7 +63,19 @@ class CloseAndSaveEditor extends StatelessWidget {
           body: GestureDetector(
             behavior: HitTestBehavior.translucent,
             onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-            child: child,
+            child: Padding(
+              padding: const EdgeInsets.only(
+                bottom: Constants.defaultPadding,
+              ),
+              child: ListView(
+                children: [
+                  const SizedBox(
+                    height: Constants.defaultPadding,
+                  ),
+                  child,
+                ],
+              ),
+            ),
           ),
         ),
       );

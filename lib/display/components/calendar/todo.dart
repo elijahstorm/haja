@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -481,6 +482,10 @@ class _EditableFocusLosingField extends State<EditableFocusLosingField> {
           decoration: const InputDecoration(
             border: UnderlineInputBorder(),
             hintText: Language.createNewTodoHint,
+            isDense: true,
+            contentPadding: EdgeInsets.symmetric(
+              vertical: Constants.defaultPadding / 4 - 2,
+            ),
           ),
           style: const TextStyle(
             fontSize: 14.0,

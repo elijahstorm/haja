@@ -6,8 +6,22 @@ import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/images.dart';
 
 class StorageApi {
+  static StorageOptions set({
+    bool? isTeam,
+    String? id,
+    String? type,
+    String? fileExtension,
+  }) {
+    return StorageOptions(
+      isTeam: isTeam,
+      id: id,
+      type: type,
+      fileExtension: fileExtension,
+    );
+  }
+
   static _StorageUploader get upload {
-    return _StorageUploader();
+    return _StorageUploader(StorageOptions());
   }
 
   static Future<void> downloadURLExample({
@@ -34,9 +48,9 @@ class StorageApi {
   static Future<String?> uploadFileWithMetadata(
     File file, {
     required String id,
-    bool isTeam = false,
-    String type = 'profile',
-    String fileExtension = 'png',
+    required bool isTeam,
+    required String type,
+    required String fileExtension,
     void Function(String)? onComplete,
     required void Function(String) onError,
   }) async {
@@ -78,23 +92,46 @@ class StorageApi {
   }
 }
 
+class StorageOptions {
+  bool? isTeam;
+  String? id, type, fileExtension;
+
+  StorageOptions({
+    this.isTeam,
+    this.id,
+    this.type,
+    this.fileExtension,
+  });
+
+  _StorageUploader get upload {
+    return _StorageUploader(this);
+  }
+}
+
 class _StorageUploader {
+  StorageOptions options;
+
+  _StorageUploader(this.options);
+
   _StoreageImageHandler get images {
     return _StoreageImageHandler(
       onComplete: ({
         required File file,
         required void Function(String) onError,
       }) async {
-        String? user = AuthApi.activeUser;
-
-        if (user == null) {
+        if (AuthApi.activeUser == null) {
           onError('Currently not logged in.');
           return null;
         }
 
+        String id = options.id ?? AuthApi.activeUser!;
+
         String? refLocation = await StorageApi.uploadFileWithMetadata(
           file,
-          id: user,
+          id: id,
+          isTeam: options.isTeam ?? false,
+          type: options.type ?? 'profile',
+          fileExtension: options.fileExtension ?? 'png',
           onError: onError,
         );
 

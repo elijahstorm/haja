@@ -25,8 +25,10 @@ class TeamEditorDisplay extends StatelessWidget {
     return CloseAndSaveEditor(
       content: team,
       title: Language.teamEditorTitle,
-      child: Padding(
-        padding: const EdgeInsets.all(Constants.defaultPadding),
+      child: Container(
+        padding: const EdgeInsets.symmetric(
+          horizontal: Constants.defaultPadding,
+        ),
         child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,7 +36,10 @@ class TeamEditorDisplay extends StatelessWidget {
               CustomEditableWidget<String>(
                 onSave: (value) {},
                 onTap: () async {
-                  var url = await StorageApi.upload.images.gallery(
+                  var url = await StorageApi.set(
+                    isTeam: true,
+                    id: team.id,
+                  ).upload.images.gallery(
                     onError: (error) {
                       if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
                           null) return;
