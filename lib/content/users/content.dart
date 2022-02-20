@@ -87,18 +87,17 @@ class UserContent extends ContentContainer {
 
   bool get isFollowing => following.contains(AuthApi.activeUser);
 
-  Widget get icon =>
-      // Hero( TODO put back in hero animation
-      //       tag: id,
-      //       child:
-      Image.network(
-        imageUrl,
-        fit: BoxFit.fill,
-        errorBuilder: (context, _, __) => Image.asset(
-          Constants.placeholderUserIcon,
+  Widget get icon => Hero(
+        //TODO put back in hero animation
+        tag: id,
+        child: Image.network(
+          imageUrl,
           fit: BoxFit.fill,
+          errorBuilder: (context, _, __) => Image.asset(
+            Constants.placeholderUserIcon,
+            fit: BoxFit.fill,
+          ),
         ),
-        // ),
       );
 
   String get imageUrl {

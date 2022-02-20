@@ -11,7 +11,7 @@ class TodoCache extends ContentCache<TodoContent> {
   TodoSort sortStyle = TodoSort.none;
   String? teamId;
 
-  TodoCache.team(String team) {
+  TodoCache.team(String team) : super(haltDownload: true) {
     teamId = team;
     sortStyle = TodoSort.recent;
     filters = [FirestoreFilter.recent()];

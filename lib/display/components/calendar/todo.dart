@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -13,9 +12,23 @@ import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/display/components/widgets/skeleton.dart';
 
 class Todo extends StatelessWidget {
-  const Todo({
+  final TodoSourceHandler todoSourceHandler = TodoSourceHandler();
+
+  Todo({
     Key? key,
   }) : super(key: key);
+
+  void _upload(TodoContent todo) {
+    todo.upload(
+      teamId: todoSourceHandler.teamId,
+    );
+  }
+
+  void _delete(TodoContent todo) {
+    todo.delete(
+      teamId: todoSourceHandler.teamId,
+    );
+  }
 
   void _createNew(
     TodoCache cache, {
@@ -42,7 +55,8 @@ class Todo extends StatelessWidget {
     cache.add(todo);
 
     if (upload) {
-      todo.upload();
+      _upload(todo);
+      // todo.upload();
     }
   }
 
@@ -100,13 +114,15 @@ class Todo extends StatelessWidget {
       cache.remove(todo);
       cache.add(updatedContent);
       updatedContent.synchedWithDatabase = true;
-      updatedContent.upload();
+      // updatedContent.upload();
+      _upload(updatedContent);
     }
   }
 
   void _toggleFinished(TodoCache cache, TodoContent todo) {
     todo.toggleFinished();
-    todo.upload();
+    _upload(todo);
+    // todo.upload();
     cache.notify();
   }
 
@@ -129,14 +145,16 @@ class Todo extends StatelessWidget {
     ).then((DateTime? newDate) {
       if (newDate != null) {
         todo.date = newDate;
-        todo.upload();
+        _upload(todo);
+        // todo.upload();
         cache.notify();
       }
     });
   }
 
   void _deleteTodo(TodoCache cache, TodoContent todo) {
-    todo.delete();
+    _delete(todo);
+    // todo.delete();
     cache.remove(todo);
   }
 
@@ -226,7 +244,8 @@ class Todo extends StatelessWidget {
         ],
         onColorChanged: (color) {
           todo.color = Constants.toHex(color);
-          todo.upload();
+          _upload(todo);
+          // todo.upload();
           cache.notify();
         },
         onLeadingIconTap: () => _toggleFinished(cache, todo),
@@ -255,6 +274,8 @@ class Todo extends StatelessWidget {
               focusedDate.start,
               focusedDate.end,
             );
+
+            todoSourceHandler.teamId = cache.teamId;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,6 +333,10 @@ class Todo extends StatelessWidget {
       },
     );
   }
+}
+
+class TodoSourceHandler {
+  String? teamId;
 }
 
 class Option {

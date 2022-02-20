@@ -12,7 +12,10 @@ class ContentCache<T extends ContentContainer> extends ChangeNotifier {
 
   List<FirestoreFilter> filters = [];
 
-  ContentCache() {
+  ContentCache({
+    bool haltDownload = false,
+  }) {
+    if (haltDownload) return;
     download();
   }
 

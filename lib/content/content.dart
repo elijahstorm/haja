@@ -43,18 +43,24 @@ class ContentContainer {
     return title.contains(query) || caption.contains(query) || id == query;
   }
 
-  void upload() {
+  void upload({
+    String? teamId,
+  }) {
     FirestoreApi.upload(
       this,
-      isTeam: isTeam,
+      isTeam: teamId == null ? isTeam : true,
+      id: teamId,
       onError: ContentErrors.retryContentUploadDialog,
     );
   }
 
-  void delete() {
+  void delete({
+    String? teamId,
+  }) {
     FirestoreApi.delete(
       this,
-      isTeam: isTeam,
+      isTeam: teamId == null ? isTeam : true,
+      id: teamId,
       onError: ContentErrors.retryContentDeleteDialog,
     );
   }

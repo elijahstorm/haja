@@ -51,7 +51,10 @@ class _CalendarState extends State<Calendar> {
               lastDay: Constants.lastDay,
               focusedDay: focusedDate.day,
               calendarFormat: _calendarFormat,
-              // pageJumpingEnabled: true,
+              availableGestures:
+                  MediaQuery.of(context).orientation == Orientation.landscape
+                      ? AvailableGestures.horizontalSwipe
+                      : AvailableGestures.all,
               calendarStyle: const CalendarStyle(
                 outsideDaysVisible: false,
               ),

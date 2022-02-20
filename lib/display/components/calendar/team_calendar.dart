@@ -28,7 +28,7 @@ class TeamCalendar extends StatelessWidget {
         child: GestureDetector(
           behavior: HitTestBehavior.translucent,
           onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-          child: const ResponsiveContent.landscapeFriendly(
+          child: ResponsiveContent.landscapeFriendly(
             primaryContent: Calendar(),
             secondaryContent: Todo(),
           ),
