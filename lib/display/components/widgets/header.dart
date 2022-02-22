@@ -23,10 +23,7 @@ class Header extends StatefulWidget {
 }
 
 class _HeaderState extends State<Header> with TickerProviderStateMixin {
-  bool _showMenuOptions = false;
-  void _toggleMenuOptions() {
-    setState(() => _showMenuOptions = !_showMenuOptions);
-  }
+  final bool _showMenuOptions = false;
 
   Widget _drawHeaderDropdownButton({
     required String label,
@@ -130,7 +127,7 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
               Constants.logoAsset,
               height: Constants.defaultPadding * 1.5,
             ),
-            Text('AJA'),
+            const Text('AJA'),
             const SizedBox(
               width: Constants.defaultPadding,
             ),

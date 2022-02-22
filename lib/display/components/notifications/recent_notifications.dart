@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/content/users/content.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
@@ -24,56 +25,71 @@ class RecentNotifications extends StatelessWidget {
     BuildContext context,
     NotificationCache cache,
   ) =>
-      Column(
-        children: List.generate(
-          cache.items.length,
-          (index) {
-            return GestureDetector(
-              onTap: () {
-                cache.items[index].navigateTo(context);
-              },
-              child: Slidable(
-                endActionPane: ActionPane(
-                  motion: const DrawerMotion(),
-                  extentRatio: 0.25,
-                  children: [
-                    SlidableAction(
-                      label: Language.deleteButton,
-                      backgroundColor: Colors.red,
-                      icon: Icons.delete,
-                      onPressed: (context) {
-                        _delete(cache, index);
-                      },
-                    ),
-                  ],
-                ),
-                startActionPane: ActionPane(
-                  motion: const DrawerMotion(),
-                  extentRatio: 0.25,
-                  children: [
-                    SlidableAction(
-                      label: Language.deleteButton,
-                      backgroundColor: Colors.red,
-                      icon: Icons.delete,
-                      onPressed: (context) {
-                        _delete(cache, index);
-                      },
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    bottom: index == cache.items.length - 1
-                        ? 0
-                        : Constants.defaultPadding,
+      cache.items.isEmpty
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    vertical: Constants.defaultPadding,
                   ),
-                  child: _buildNotificationItem(context, cache.items[index]),
+                  child: Image.asset(Constants.noNotosPlaceholder),
+                ),
+                const Text(
+                  Language.noNotosPlaceholder,
+                  textAlign: TextAlign.center,
+                ),
+              ],
+            )
+          : Column(
+              children: List.generate(
+                cache.items.length,
+                (index) => GestureDetector(
+                  onTap: () {
+                    cache.items[index].navigateTo(context);
+                  },
+                  child: Slidable(
+                    endActionPane: ActionPane(
+                      motion: const DrawerMotion(),
+                      extentRatio: 0.25,
+                      children: [
+                        SlidableAction(
+                          label: Language.deleteButton,
+                          backgroundColor: Colors.red,
+                          icon: Icons.delete,
+                          onPressed: (context) {
+                            _delete(cache, index);
+                          },
+                        ),
+                      ],
+                    ),
+                    startActionPane: ActionPane(
+                      motion: const DrawerMotion(),
+                      extentRatio: 0.25,
+                      children: [
+                        SlidableAction(
+                          label: Language.deleteButton,
+                          backgroundColor: Colors.red,
+                          icon: Icons.delete,
+                          onPressed: (context) {
+                            _delete(cache, index);
+                          },
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: index == cache.items.length - 1
+                            ? 0
+                            : Constants.defaultPadding,
+                      ),
+                      child:
+                          _buildNotificationItem(context, cache.items[index]),
+                    ),
+                  ),
                 ),
               ),
             );
-          },
-        ),
-      );
 
   Widget _buildNotificationItem(
     BuildContext context,
@@ -107,7 +123,16 @@ class RecentNotifications extends StatelessWidget {
                           width: 3,
                         ),
                       ),
-                      child: notification.fromWho.icon,
+                      child: FutureBuilder<UserContent?>(
+                        future: notification.from,
+                        builder: (context, snapshot) {
+                          if (snapshot.hasData) {
+                            return UserContent.placeholderIcon;
+                          }
+
+                          return snapshot.data!.icon;
+                        },
+                      ),
                     ),
                   ),
                 )
@@ -122,7 +147,16 @@ class RecentNotifications extends StatelessWidget {
                     ),
                   ),
                   child: ClipRRect(
-                    child: notification.fromWho.icon,
+                    child: FutureBuilder<UserContent?>(
+                      future: notification.from,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return UserContent.placeholderIcon;
+                        }
+
+                        return snapshot.data!.icon;
+                      },
+                    ),
                   ),
                 ),
           const SizedBox(width: Constants.defaultPadding),

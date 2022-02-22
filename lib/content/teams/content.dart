@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:haja/content/users/content.dart';
+import 'package:haja/firebase/firestore.dart';
 
 import 'display.dart';
 import 'editor.dart';
@@ -14,8 +15,6 @@ class TeamContent extends ContentContainer {
   @override
   String get collection => collectionName;
 
-  @override
-  bool get isTeam => true;
   final contentType = CONTENT.team;
 
   List<String> users;
@@ -36,7 +35,27 @@ class TeamContent extends ContentContainer {
           title: title,
           caption: caption,
           id: id,
-        );
+        ) {
+    isTeam = true;
+  }
+
+  static Future<TeamContent?> fromId(String? id) async {
+    if (id == null) return null;
+
+    var data = await FirestoreApi.get(
+      id: id,
+      isTeam: true,
+    );
+
+    if (data == null || !data.exists) {
+      return null;
+    }
+
+    var content = data.data()!;
+    content['id'] = id;
+
+    return TeamContent.fromJson(content);
+  }
 
   factory TeamContent.fromJson(dynamic data) => TeamContent(
         title: data['title'],
@@ -77,19 +96,22 @@ class TeamContent extends ContentContainer {
   List<Future<UserContent?>> get usersContent {
     return List.generate(
       users.length,
-      (index) => UserContent.fromUserId(
+      (index) => UserContent.fromId(
         users[index],
       ),
     );
   }
 
-  Widget get icon {
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.cover,
-      errorBuilder: (context, _, __) => const Icon(Icons.people),
-    );
-  }
+  Widget get icon => Hero(
+        tag: '$collectionName$id',
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+          errorBuilder: (context, _, __) => const Icon(
+            Icons.people,
+          ),
+        ),
+      );
 
   Widget get responsiveImage {
     return Image.network(
@@ -102,7 +124,5 @@ class TeamContent extends ContentContainer {
     );
   }
 
-  String get imageUrl {
-    return Constants.storageUrlPrefix + picture;
-  }
+  String get imageUrl => Constants.storageUrlPrefix + picture;
 }

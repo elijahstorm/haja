@@ -154,6 +154,41 @@ class FirestoreApi {
     );
   }
 
+  static Future<T?> feelings<T>({
+    required String type,
+    required String id,
+    required String field,
+  }) async {
+    if (_denyDownload()) return null;
+
+    var doc = await FirebaseFirestore.instance.collection(type).doc(id).get();
+
+    var data = doc.data();
+
+    if (data == null) return null;
+
+    return data[field];
+  }
+
+  static void feel<T>({
+    required String type,
+    required String id,
+    required String field,
+    required T value,
+  }) async {
+    if (_denyUpload()) return null;
+
+    var doc = FirebaseFirestore.instance.collection(type).doc(id);
+
+    doc.update({
+      field: value,
+    }).catchError((err) {
+      doc.set({
+        field: value,
+      });
+    });
+  }
+
   static Future<DocumentSnapshot<Map<String, dynamic>>?> get({
     required String id,
     String? collection,
@@ -345,7 +380,10 @@ class FirestoreFilter {
 
   FirestoreFilter.recent() {
     filter = FirestoreFilterTypes.timeFrame;
-    data = [DateTime.now().subtract(const Duration(days: 30)), DateTime.now()];
+    data = [
+      DateTime.now().subtract(const Duration(days: 180)),
+      DateTime.now().add(const Duration(days: 180)),
+    ];
   }
 
   FirestoreFilter.search(String search) {

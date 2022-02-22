@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import 'package:haja/firebase/auth.dart';
+import 'package:haja/firebase/firestore.dart';
 import 'package:haja/language/constants.dart';
 
 import 'display.dart';
@@ -61,12 +63,50 @@ class TodoContent extends ContentContainer {
     return '${Constants.linkUri}todo?owner=${'owner'}&id=$id&isTeam=${'isTeam'}';
   } // TODO: share link
 
-  void toggleFinished() {
+  Future<bool> toggleLiked() async {
+    like = !await liked;
+    return liked;
+  }
+
+  bool? _likeHandler;
+  Future<bool> get liked async {
+    if (AuthApi.activeUser == null) return false;
+
+    if (_likeHandler != null) {
+      return _likeHandler!;
+    }
+
+    _likeHandler = await FirestoreApi.feelings(
+          type: 'feelings',
+          id: '${AuthApi.activeUser}:$id',
+          field: 'todoLiked',
+        ) ??
+        false;
+
+    return _likeHandler!;
+  }
+
+  set like(bool value) {
+    if (AuthApi.activeUser == null) return;
+
+    FirestoreApi.feel<bool>(
+      type: 'feelings',
+      id: '${AuthApi.activeUser}:$id',
+      field: 'todoLiked',
+      value: value,
+    );
+
+    _likeHandler = value;
+  }
+
+  bool toggleFinished() {
     if (status == TodoContent.finishedStatus) {
       status = TodoContent.unfinishedStatus;
     } else {
       status = TodoContent.finishedStatus;
     }
+
+    return status == TodoContent.finishedStatus;
   }
 
   bool get isDone {

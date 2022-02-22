@@ -75,6 +75,8 @@ class Language {
   static const String oopsFriendlyError = 'ooops! 😓';
   static const String noTeamsPlaceholder =
       'try starting by adding your friends to a "international style dinner cookout" team';
+  static const String noNotosPlaceholder =
+      'you have no new notifications right now :)';
   static const String pageNotFoundError = 'page not found';
 
   static const String alertColorPrompt = 'Choose a new COLOR';

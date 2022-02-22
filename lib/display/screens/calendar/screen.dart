@@ -42,12 +42,12 @@ class CalendarScreen extends StatelessWidget {
       child: GestureDetector(
         behavior: HitTestBehavior.translucent,
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
-        child: ResponsiveScreen.landscapeFriendly(
+        child: const ResponsiveScreen.landscapeFriendly(
           header: '${Language.appName}: ${Language.appSubtitle}',
-          primaryContent: const Calendar(),
-          mobileHeaderContent: const TeamMemberSmallCircleRow(),
+          primaryContent: Calendar(),
+          mobileHeaderContent: TeamMemberSmallCircleRow(),
           secondaryContent: Todo(),
-          sideContent: const RecentFriendActivities(),
+          sideContent: RecentFriendActivities(),
         ),
       ),
     );

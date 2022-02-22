@@ -18,7 +18,8 @@ class ContentContainer {
   static const String collectionName = '';
   String get collection => collectionName;
   bool get privateData => false;
-  bool get isTeam => false;
+  bool isTeam = false;
+  String? sourceId;
 
   String title, caption, id;
   bool synchedWithDatabase = false;
@@ -39,28 +40,33 @@ class ContentContainer {
         'caption': caption,
       };
 
+  @override
+  bool operator ==(Object other) =>
+      other is ContentContainer &&
+      id == other.id &&
+      collection == other.collection;
+
+  @override
+  int get hashCode => id.hashCode;
+
   bool find(String query) {
     return title.contains(query) || caption.contains(query) || id == query;
   }
 
-  void upload({
-    String? teamId,
-  }) {
+  void upload() {
     FirestoreApi.upload(
       this,
-      isTeam: teamId == null ? isTeam : true,
-      id: teamId,
+      isTeam: isTeam,
+      id: sourceId,
       onError: ContentErrors.retryContentUploadDialog,
     );
   }
 
-  void delete({
-    String? teamId,
-  }) {
+  void delete() {
     FirestoreApi.delete(
       this,
-      isTeam: teamId == null ? isTeam : true,
-      id: teamId,
+      isTeam: isTeam,
+      id: sourceId,
       onError: ContentErrors.retryContentDeleteDialog,
     );
   }

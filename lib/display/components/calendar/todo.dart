@@ -1,33 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:haja/content/teams/content.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 
+import 'package:haja/firebase/notos.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/content/todo/cache.dart';
 import 'package:haja/content/todo/content.dart';
+import 'package:haja/content/notifications/content.dart';
 import 'package:haja/display/components/calendar/focused_date.dart';
 import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/display/components/widgets/skeleton.dart';
 
 class Todo extends StatelessWidget {
-  final TodoSourceHandler todoSourceHandler = TodoSourceHandler();
-
-  Todo({
+  const Todo({
     Key? key,
   }) : super(key: key);
 
   void _upload(TodoContent todo) {
-    todo.upload(
-      teamId: todoSourceHandler.teamId,
-    );
+    todo.upload();
   }
 
   void _delete(TodoContent todo) {
-    todo.delete(
-      teamId: todoSourceHandler.teamId,
-    );
+    todo.delete();
   }
 
   void _createNew(
@@ -56,7 +53,6 @@ class Todo extends StatelessWidget {
 
     if (upload) {
       _upload(todo);
-      // todo.upload();
     }
   }
 
@@ -114,15 +110,44 @@ class Todo extends StatelessWidget {
       cache.remove(todo);
       cache.add(updatedContent);
       updatedContent.synchedWithDatabase = true;
-      // updatedContent.upload();
       _upload(updatedContent);
     }
   }
 
+  void _sendNotification(
+    NotificationContent? noto,
+    TodoContent todo,
+  ) async {
+    if (noto == null) return;
+
+    NotificationsApi.instance.add(
+      noto: noto,
+      to: await TeamContent.fromId(todo.sourceId),
+    );
+  }
+
+  void _removeNotification(NotificationContent? noto) {
+    if (noto == null) return;
+
+    NotificationsApi.instance.remove(noto);
+  }
+
   void _toggleFinished(TodoCache cache, TodoContent todo) {
-    todo.toggleFinished();
+    if (todo.toggleFinished()) {
+      _sendNotification(NotificationsApi.instance.todoComplete(todo), todo);
+    } else {
+      _removeNotification(NotificationsApi.instance.todoLiked(todo));
+    }
     _upload(todo);
-    // todo.upload();
+    cache.notify();
+  }
+
+  void _toggleLiked(TodoCache cache, TodoContent todo) async {
+    if (await todo.toggleLiked()) {
+      _sendNotification(NotificationsApi.instance.todoLiked(todo), todo);
+    } else {
+      _removeNotification(NotificationsApi.instance.todoLiked(todo));
+    }
     cache.notify();
   }
 
@@ -132,7 +157,8 @@ class Todo extends StatelessWidget {
   }
 
   void _share(TodoContent todo) {
-    Share.share('check out my website ${todo.shareLink}');
+    // TODO: sharek linke
+    Share.share('TODO: ${todo.shareLink}');
   }
 
   void _changeDate(BuildContext context, TodoCache cache, TodoContent todo) {
@@ -146,7 +172,6 @@ class Todo extends StatelessWidget {
       if (newDate != null) {
         todo.date = newDate;
         _upload(todo);
-        // todo.upload();
         cache.notify();
       }
     });
@@ -154,7 +179,6 @@ class Todo extends StatelessWidget {
 
   void _deleteTodo(TodoCache cache, TodoContent todo) {
     _delete(todo);
-    // todo.delete();
     cache.remove(todo);
   }
 
@@ -215,13 +239,19 @@ class Todo extends StatelessWidget {
               Constants.fromHex(todo.color) ?? Theme.of(context).primaryColor,
         ),
         trailingIcon: GestureDetector(
-          onTap: () {
-            // TODO like
-          },
-          child: const Icon(
-            Icons.favorite,
-            color: Colors.red, // TODO liked
-            size: Constants.textSizeRegular,
+          onTap: () => _toggleLiked(cache, todo),
+          child: FutureBuilder<bool>(
+            future: todo.liked,
+            builder: (context, snapshot) => snapshot.hasData && snapshot.data!
+                ? const Icon(
+                    Icons.favorite,
+                    color: Colors.red,
+                    size: Constants.textSizeRegular,
+                  )
+                : const Icon(
+                    Icons.favorite_border,
+                    size: Constants.textSizeRegular,
+                  ),
           ),
         ),
         options: [
@@ -245,7 +275,6 @@ class Todo extends StatelessWidget {
         onColorChanged: (color) {
           todo.color = Constants.toHex(color);
           _upload(todo);
-          // todo.upload();
           cache.notify();
         },
         onLeadingIconTap: () => _toggleFinished(cache, todo),
@@ -274,8 +303,6 @@ class Todo extends StatelessWidget {
               focusedDate.start,
               focusedDate.end,
             );
-
-            todoSourceHandler.teamId = cache.teamId;
 
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -333,10 +360,6 @@ class Todo extends StatelessWidget {
       },
     );
   }
-}
-
-class TodoSourceHandler {
-  String? teamId;
 }
 
 class Option {

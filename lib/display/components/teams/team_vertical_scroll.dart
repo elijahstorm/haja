@@ -21,9 +21,18 @@ class TeamContentVerticalList extends StatelessWidget {
               builder: (context, cache, child) {
                 if (cache.items.isEmpty) {
                   return Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      Image.asset(Constants.noTeamsPlaceholder),
-                      const Text(Language.noTeamsPlaceholder),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: Constants.defaultPadding,
+                        ),
+                        child: Image.asset(Constants.noTeamsPlaceholder),
+                      ),
+                      const Text(
+                        Language.noTeamsPlaceholder,
+                        textAlign: TextAlign.center,
+                      ),
                     ],
                   );
                 }

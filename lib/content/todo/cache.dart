@@ -40,9 +40,12 @@ class TodoCache extends ContentCache<TodoContent> {
         limit: 500,
         filters: filters,
         id: teamId ?? AuthApi.activeUser,
-        populate: (dynamic data) => populate(
-          TodoContent.fromJson(data),
-        ),
+        populate: (dynamic data) {
+          var content = TodoContent.fromJson(data);
+          content.sourceId = teamId;
+          content.isTeam = true;
+          populate(content);
+        },
       );
 
   List<TodoContent> filterByDates(DateTime start, DateTime end) {

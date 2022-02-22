@@ -58,7 +58,9 @@ class UserContent extends ContentContainer {
         id: data['id'] ?? UserContent.defaultData['id'],
       );
 
-  static Future<UserContent?> fromUserId(String id) async {
+  static Future<UserContent?> fromId(String? id) async {
+    if (id == null) return null;
+
     var data = await FirestoreApi.get(
       id: id,
     );
@@ -67,7 +69,10 @@ class UserContent extends ContentContainer {
       return null;
     }
 
-    return UserContent.fromJson(data.data()!);
+    var content = data.data()!;
+    content['id'] = id;
+
+    return UserContent.fromJson(content);
   }
 
   @override
@@ -87,22 +92,21 @@ class UserContent extends ContentContainer {
 
   bool get isFollowing => following.contains(AuthApi.activeUser);
 
+  static Widget get placeholderIcon => Image.asset(
+        Constants.placeholderUserIcon,
+        fit: BoxFit.fill,
+      );
+
   Widget get icon => Hero(
-        //TODO put back in hero animation
-        tag: id,
+        tag: '$collectionName$id',
         child: Image.network(
           imageUrl,
           fit: BoxFit.fill,
-          errorBuilder: (context, _, __) => Image.asset(
-            Constants.placeholderUserIcon,
-            fit: BoxFit.fill,
-          ),
+          errorBuilder: (context, _, __) => placeholderIcon,
         ),
       );
 
-  String get imageUrl {
-    return Constants.storageUrlPrefix + picture;
-  }
+  String get imageUrl => Constants.storageUrlPrefix + picture;
 
   String get pronounsString {
     String run = '';

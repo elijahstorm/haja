@@ -58,6 +58,8 @@ class Constants {
       'assets/images/placeholder_user.png';
   static const String noTeamsPlaceholder =
       'assets/images/placeholder_no_teams.png';
+  static const String noNotosPlaceholder =
+      'assets/images/placeholder_no_notos.png';
   static const String noInternetPlaceholder =
       'assets/images/placeholder_no_internet.png';
   static const String liveSvgs = 'https://avatars.dicebear.com/api/avataaars/';
