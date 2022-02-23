@@ -132,11 +132,16 @@ class Todo extends StatelessWidget {
     NotificationsApi.instance.remove(noto);
   }
 
-  void _toggleFinished(TodoCache cache, TodoContent todo) {
+  void _toggleFinished(TodoCache cache, TodoContent todo) async {
     if (todo.toggleFinished()) {
-      _sendNotification(NotificationsApi.instance.todoComplete(todo), todo);
+      _sendNotification(
+        await NotificationsApi.instance.todoComplete(todo),
+        todo,
+      );
     } else {
-      _removeNotification(NotificationsApi.instance.todoLiked(todo));
+      _removeNotification(
+        await NotificationsApi.instance.todoComplete(todo),
+      );
     }
     _upload(todo);
     cache.notify();
@@ -144,9 +149,14 @@ class Todo extends StatelessWidget {
 
   void _toggleLiked(TodoCache cache, TodoContent todo) async {
     if (await todo.toggleLiked()) {
-      _sendNotification(NotificationsApi.instance.todoLiked(todo), todo);
+      _sendNotification(
+        await NotificationsApi.instance.todoLiked(todo),
+        todo,
+      );
     } else {
-      _removeNotification(NotificationsApi.instance.todoLiked(todo));
+      _removeNotification(
+        await NotificationsApi.instance.todoLiked(todo),
+      );
     }
     cache.notify();
   }

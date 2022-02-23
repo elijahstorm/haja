@@ -108,4 +108,9 @@ class NotificationContent extends ContentContainer {
       ),
     );
   }
+
+  static String todoLikedType = 'tl';
+  static String todoCompleteType = 'tc';
+  static String unreadStatus = 'ur';
+  static String readStatus = 'r';
 }

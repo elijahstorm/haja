@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:haja/display/components/widgets/error.dart';
 import 'package:haja/language/language.dart';
 
-class PageNotFound extends StatelessWidget {
-  const PageNotFound({
+class TermsOfService extends StatelessWidget {
+  const TermsOfService({
     Key? key,
   }) : super(key: key);
 

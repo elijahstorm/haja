@@ -24,6 +24,8 @@ class NotificationsApi {
       noto.isTeam = true;
     }
 
+    instance.desynch(noto);
+
     noto.upload();
   }
 }
@@ -54,39 +56,50 @@ class _NotificationHandler {
     active[noto] = false;
   }
 
-  NotificationContent? todoLiked(TodoContent todo) {
+  Future<NotificationContent?> todoLiked(TodoContent todo) async {
     if (AuthApi.activeUser == null) return null;
 
     if (synchedFromContent[todo] != null) return synchedFromContent[todo]!;
 
+    var team = await TeamContent.fromId(todo.sourceId);
+    var user = await UserContent.fromId(AuthApi.activeUser);
+
     synchedFromContent[todo] = NotificationContent(
+      title:
+          '${user == null ? 'someone' : user.title} liked that ${todo.title} is done',
+      caption: team == null ? '' : team.title,
       date: DateTime.now(),
-      type: '',
-      status: '',
-      title: '',
-      caption: '',
-      id: '98fa9s7fa',
+      type: NotificationContent.todoLikedType,
+      status: NotificationContent.unreadStatus,
+      id: DateTime.now().toString(),
       fromId: AuthApi.activeUser!,
     );
 
     return synchedFromContent[todo]!;
   }
 
-  NotificationContent? todoComplete(TodoContent todo) {
+  Future<NotificationContent?> todoComplete(TodoContent todo) async {
     if (AuthApi.activeUser == null) return null;
 
     if (synchedFromContent[todo] != null) return synchedFromContent[todo]!;
 
+    var team = await TeamContent.fromId(todo.sourceId);
+    var user = await UserContent.fromId(AuthApi.activeUser);
+
     synchedFromContent[todo] = NotificationContent(
+      title: '${user == null ? 'someone' : user.title} completed ${todo.title}',
+      caption: team == null ? '' : team.title,
       date: DateTime.now(),
-      type: 'teting',
-      status: '',
-      title: '',
-      caption: '',
-      id: '1234',
+      type: NotificationContent.todoCompleteType,
+      status: NotificationContent.unreadStatus,
+      id: DateTime.now().toString(),
       fromId: AuthApi.activeUser!,
     );
 
     return synchedFromContent[todo]!;
+  }
+
+  void desynch(NotificationContent noto) {
+    synchedFromContent.removeWhere((key, value) => value == noto);
   }
 }

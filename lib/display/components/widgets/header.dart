@@ -124,10 +124,9 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
               Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
 
             Image.asset(
-              Constants.logoAsset,
+              Constants.logoTitleAsset,
               height: Constants.defaultPadding * 1.5,
             ),
-            const Text('AJA'),
             const SizedBox(
               width: Constants.defaultPadding,
             ),
