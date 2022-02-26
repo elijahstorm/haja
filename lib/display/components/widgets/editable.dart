@@ -211,22 +211,27 @@ class CustomEditablePicture extends EditableContentItem<String> {
 
 class CustomEditableWidget<T> extends SaveableStatefulWidget {
   final Widget child;
-  final Widget? editor;
-  final Future<void> Function()? onTap;
+  final Function(T?)? editor;
+  Function(Widget)? container;
+  final Future<T?> Function()? onTap;
 
   CustomEditableWidget({
     required onSave,
     required this.child,
     this.editor,
+    this.container,
     this.onTap,
     Key? key,
   }) : super(
           onSave: onSave,
           key: key,
-        );
+        ) {
+    container ??= (child) => child;
+  }
 
-  Widget generateEditing(BuildContext context) => editor ?? child;
-  Widget generateView(BuildContext context) => child;
+  Widget generateView(BuildContext context) => container!(child);
+  Widget generateEditing(BuildContext context) =>
+      container!(editor == null ? child : editor!(changableValue.value));
 
   @override
   _CustomEditableWidgetState createState() => _CustomEditableWidgetState();
@@ -240,8 +245,12 @@ class _CustomEditableWidgetState extends State<CustomEditableWidget> {
         builder: (context, signals, child) => GestureDetector(
           onTap: () async {
             widget.signalOnce(signals);
-            if (widget.onTap != null) await widget.onTap!();
-            setState(() => isEditing = true);
+            if (widget.onTap != null) {
+              widget.changableValue.value = await widget.onTap!();
+            }
+            if (widget.changableValue.value != null) {
+              setState(() => isEditing = true);
+            }
           },
           child: child,
         ),

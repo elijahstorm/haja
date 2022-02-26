@@ -89,6 +89,10 @@ class TeamContent extends ContentContainer {
     return TeamContentEditorPage(this);
   }
 
+  void leaveTeam() {
+    // TODO leave team
+  }
+
   String get shareLink {
     return '${Constants.linkUri}team?id=$id';
   }

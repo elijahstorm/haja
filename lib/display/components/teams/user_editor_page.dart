@@ -32,10 +32,12 @@ class UserEditorDisplay extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const SizedBox(height: Constants.defaultPadding),
-              CustomEditableWidget<String>(
-                onSave: (value) {},
-                onTap: () async {
-                  var url = await StorageApi.upload.images.gallery(
+              CustomEditableWidget<StorageFile>(
+                onSave: (file) async {
+                  if (file == null) return;
+
+                  var url = await StorageApi.upload.images.file(
+                    file,
                     onError: (error) {
                       if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
                           null) return;
@@ -59,7 +61,26 @@ class UserEditorDisplay extends StatelessWidget {
                     Constants.storageUrlPrefix,
                     '',
                   );
+
+                  user.upload();
                 },
+                onTap: () async => await StorageApi.file.gallery(
+                  onError: (error) {
+                    if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                        null) return;
+                    GlobalKeys.rootScaffoldMessengerKey.currentState!
+                        .showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${user.title} upload failed. $error',
+                        ),
+                        duration: kReleaseMode
+                            ? const Duration(seconds: 4)
+                            : const Duration(seconds: 20),
+                      ),
+                    );
+                  },
+                ),
                 child: ClipRRect(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(

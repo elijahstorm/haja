@@ -5,6 +5,8 @@ import 'package:firebase_core/firebase_core.dart' as firebase_core;
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/images.dart';
 
+typedef StorageFile = File;
+
 class StorageApi {
   static StorageOptions set({
     bool? isTeam,
@@ -22,6 +24,10 @@ class StorageApi {
 
   static _StorageUploader get upload {
     return _StorageUploader(StorageOptions());
+  }
+
+  static _StorageFile get file {
+    return _StorageFile(StorageOptions());
   }
 
   static Future<void> downloadURLExample({
@@ -46,7 +52,7 @@ class StorageApi {
   }
 
   static Future<String?> uploadFileWithMetadata(
-    File file, {
+    StorageFile file, {
     required String id,
     required bool isTeam,
     required String type,
@@ -106,17 +112,35 @@ class StorageOptions {
   _StorageUploader get upload {
     return _StorageUploader(this);
   }
+
+  _StorageFile get file {
+    return _StorageFile(this);
+  }
 }
 
-class _StorageUploader {
+class _StorageFile {
   StorageOptions options;
 
-  _StorageUploader(this.options);
+  _StorageFile(this.options);
+
+  Future<StorageFile?> gallery({
+    required void Function(String) onError,
+  }) async {
+    var temp = await FirestoreImages.gallery(onError: onError);
+
+    if (temp == null) return null;
+
+    return StorageFile(temp.path);
+  }
+}
+
+class _StorageUploader extends _StorageFile {
+  _StorageUploader(StorageOptions options) : super(options);
 
   _StoreageImageHandler get images {
     return _StoreageImageHandler(
       onComplete: ({
-        required File file,
+        required StorageFile file,
         required void Function(String) onError,
       }) async {
         if (AuthApi.activeUser == null) {
@@ -150,13 +174,23 @@ class _StorageUploader {
 
 class _StoreageImageHandler {
   final Future<String?> Function({
-    required File file,
+    required StorageFile file,
     required void Function(String) onError,
   }) onComplete;
 
   _StoreageImageHandler({
     required this.onComplete,
   });
+
+  Future<String?> file(
+    StorageFile file, {
+    required void Function(String) onError,
+  }) async {
+    return onComplete(
+      file: file,
+      onError: onError,
+    );
+  }
 
   Future<String?> gallery({
     required void Function(String) onError,
@@ -166,7 +200,7 @@ class _StoreageImageHandler {
     if (temp == null) return null;
 
     return onComplete(
-      file: File(temp.path),
+      file: StorageFile(temp.path),
       onError: onError,
     );
   }

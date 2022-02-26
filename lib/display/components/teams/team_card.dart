@@ -105,12 +105,15 @@ class TeamCard extends StatelessWidget {
                           buttons: [
                             AlertButton(
                               label: 'Edit',
-                              action: () {},
+                              action: () {
+                                // Navigator.pop(context); // TODO goto edit ???
+                                // team.navigateToEditor(context);
+                              },
                               icon: AlertIcon.edit,
                             ),
                             AlertButton(
                               label: 'Leave',
-                              action: () {},
+                              action: () => team.leaveTeam(),
                               stopPop: true,
                             ),
                           ],

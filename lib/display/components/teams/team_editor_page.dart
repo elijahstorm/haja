@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:haja/controllers/keys.dart';
+import 'package:haja/display/components/animations/loading.dart';
 
 import 'package:haja/firebase/storage.dart';
 import 'package:haja/language/language.dart';
@@ -33,13 +34,15 @@ class TeamEditorDisplay extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CustomEditableWidget<String>(
-                onSave: (value) {},
-                onTap: () async {
+              CustomEditableWidget<StorageFile>(
+                onSave: (file) async {
+                  if (file == null) return;
+
                   var url = await StorageApi.set(
                     isTeam: true,
                     id: team.id,
-                  ).upload.images.gallery(
+                  ).upload.images.file(
+                    file,
                     onError: (error) {
                       if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
                           null) return;
@@ -63,8 +66,27 @@ class TeamEditorDisplay extends StatelessWidget {
                     Constants.storageUrlPrefix,
                     '',
                   );
+
+                  team.upload();
                 },
-                child: ClipRRect(
+                onTap: () async => await StorageApi.file.gallery(
+                  onError: (error) {
+                    if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                        null) return;
+                    GlobalKeys.rootScaffoldMessengerKey.currentState!
+                        .showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          '${team.title} upload failed. $error',
+                        ),
+                        duration: kReleaseMode
+                            ? const Duration(seconds: 4)
+                            : const Duration(seconds: 20),
+                      ),
+                    );
+                  },
+                ),
+                container: (child) => ClipRRect(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(
                       Constants.defaultBorderRadiusXLarge,
@@ -75,15 +97,7 @@ class TeamEditorDisplay extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: Image.network(
-                            team.imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, err, stacktrace) =>
-                                Image.asset(
-                              Constants.defaultTeamPicture,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                          child: child,
                         ),
                         Positioned.fill(
                           child: Container(
@@ -117,6 +131,24 @@ class TeamEditorDisplay extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                editor: (value) => value == null
+                    ? const Loading()
+                    : Image.asset(
+                        value.path,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, err, stacktrace) => Image.asset(
+                          Constants.defaultTeamPicture,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                child: Image.network(
+                  team.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, err, stacktrace) => Image.asset(
+                    Constants.defaultTeamPicture,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -165,9 +197,13 @@ class TeamEditorDisplay extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => showDialog(
                   context: context,
-                  builder: (BuildContext context) => const AlertTextDialog(
-                    alert: 'main',
-                    subtext: 'sub',
+                  builder: (BuildContext context) => AlertTextDialog(
+                    // TODO: Change promt to confirm type
+                    alert: 'Are you sure you want to leave ${team.title}?',
+                    subtext: team.private
+                        ? 'This team is private, so you will have to be invited back in'
+                        : 'You can rejoin at any time',
+                    // onConfim: () => team.leaveTeam(), TODO: Leave team
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
