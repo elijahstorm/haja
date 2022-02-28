@@ -166,10 +166,7 @@ class Todo extends StatelessWidget {
     cache.notify();
   }
 
-  void _share(TodoContent todo) {
-    // TODO: sharek linke
-    Share.share('TODO: ${todo.shareLink}');
-  }
+  void _share(TodoContent todo) => Share.share(todo.shareLink);
 
   void _changeDate(BuildContext context, TodoCache cache, TodoContent todo) {
     showDatePicker(

@@ -1,11 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:haja/controllers/keys.dart';
-import 'package:haja/display/components/animations/loading.dart';
 
+import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/storage.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
+import 'package:haja/controllers/keys.dart';
+import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/display/components/widgets/editable.dart';
 import 'package:haja/display/components/teams/vertical_user_list.dart';
 import 'package:haja/display/components/widgets/alerts.dart';
@@ -67,7 +68,24 @@ class TeamEditorDisplay extends StatelessWidget {
                     '',
                   );
 
-                  team.upload();
+                  FirestoreApi.feel(
+                    type: TeamContent.collectionName,
+                    id: team.id,
+                    field: 'picture',
+                    value: team.picture,
+                  );
+
+                  if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                      null) {
+                    return;
+                  }
+                  GlobalKeys.rootScaffoldMessengerKey.currentState!
+                      .showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Picture finished uploading. Refresh the page to see the changes.'),
+                    ),
+                  );
                 },
                 onTap: () async => await StorageApi.file.gallery(
                   onError: (error) {
@@ -197,13 +215,17 @@ class TeamEditorDisplay extends StatelessWidget {
               ElevatedButton(
                 onPressed: () => showDialog(
                   context: context,
-                  builder: (BuildContext context) => AlertTextDialog(
-                    // TODO: Change promt to confirm type
+                  builder: (BuildContext context) => AlertConfirmDialog(
                     alert: 'Are you sure you want to leave ${team.title}?',
                     subtext: team.private
                         ? 'This team is private, so you will have to be invited back in'
                         : 'You can rejoin at any time',
-                    // onConfim: () => team.leaveTeam(), TODO: Leave team
+                    onConfirm: () {
+                      team.leaveTeam();
+                      Navigator.pop(context);
+                    },
+                    actionLabel: 'leave',
+                    heightDevider: 3,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(

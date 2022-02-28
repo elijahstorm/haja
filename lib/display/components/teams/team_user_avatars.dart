@@ -40,7 +40,7 @@ class UserAvatarStack extends StatelessWidget {
           height: avatarSize,
           child: Stack(
             children: List.generate(
-              max(users.length, 3),
+              min(users.length, 3),
               (index) => Positioned(
                 top: 0,
                 bottom: 0,
@@ -48,7 +48,7 @@ class UserAvatarStack extends StatelessWidget {
                 child: FutureBuilder<UserContent?>(
                   future: users[index],
                   builder: (context, snapshot) {
-                    if (snapshot.hasData && snapshot.data != null) {
+                    if (snapshot.hasData) {
                       return UserAvatars(
                         snapshot.data!,
                         size: avatarSize,

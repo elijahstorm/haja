@@ -59,9 +59,8 @@ class TodoContent extends ContentContainer {
     return TodoContentDisplayPage(this);
   }
 
-  String get shareLink {
-    return '${Constants.linkUri}todo?owner=${'owner'}&id=$id&isTeam=${'isTeam'}';
-  } // TODO: share link
+  String get shareLink =>
+      '${Constants.linkUri}$collectionName?owner=${isTeam ? sourceId : AuthApi.activeUser}&id=$id&isTeam=$isTeam';
 
   Future<bool> toggleLiked() async {
     like = !await liked;

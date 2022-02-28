@@ -26,7 +26,7 @@ class SettingsKeyValues {
       FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null) {
+          if (!snapshot.hasData) {
             return loading;
           }
 

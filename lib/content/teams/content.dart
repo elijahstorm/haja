@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:haja/content/users/content.dart';
+import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/firestore.dart';
 
 import 'display.dart';
@@ -90,12 +92,21 @@ class TeamContent extends ContentContainer {
   }
 
   void leaveTeam() {
-    // TODO leave team
+    var activeUserId = AuthApi.activeUser;
+
+    if (activeUserId == null) return;
+
+    users.removeWhere((userId) => activeUserId == userId);
+
+    FirestoreApi.feel<List<String>>(
+      type: collectionName,
+      id: id,
+      field: 'users',
+      value: users,
+    );
   }
 
-  String get shareLink {
-    return '${Constants.linkUri}team?id=$id';
-  }
+  String get shareLink => '${Constants.linkUri}$collectionName?id=$id';
 
   List<Future<UserContent?>> get usersContent {
     return List.generate(

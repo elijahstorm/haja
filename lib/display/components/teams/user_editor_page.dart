@@ -1,12 +1,14 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:haja/controllers/keys.dart';
 
+import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/storage.dart';
 import 'package:haja/language/theme.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/settings_keys.dart';
+import 'package:haja/controllers/keys.dart';
+import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/display/components/widgets/editable.dart';
 import 'package:haja/display/components/teams/vertical_user_list.dart';
 
@@ -36,7 +38,10 @@ class UserEditorDisplay extends StatelessWidget {
                 onSave: (file) async {
                   if (file == null) return;
 
-                  var url = await StorageApi.upload.images.file(
+                  var url = await StorageApi.set(
+                    isTeam: true,
+                    id: user.id,
+                  ).upload.images.file(
                     file,
                     onError: (error) {
                       if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
@@ -62,7 +67,24 @@ class UserEditorDisplay extends StatelessWidget {
                     '',
                   );
 
-                  user.upload();
+                  FirestoreApi.feel(
+                    type: UserContent.collectionName,
+                    id: user.id,
+                    field: 'picture',
+                    value: user.picture,
+                  );
+
+                  if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                      null) {
+                    return;
+                  }
+                  GlobalKeys.rootScaffoldMessengerKey.currentState!
+                      .showSnackBar(
+                    const SnackBar(
+                      content: Text(
+                          'Picture finished uploading. Refresh the page to see the changes.'),
+                    ),
+                  );
                 },
                 onTap: () async => await StorageApi.file.gallery(
                   onError: (error) {
@@ -81,7 +103,7 @@ class UserEditorDisplay extends StatelessWidget {
                     );
                   },
                 ),
-                child: ClipRRect(
+                container: (child) => ClipRRect(
                   borderRadius: const BorderRadius.all(
                     Radius.circular(
                       Constants.defaultBorderRadiusXLarge,
@@ -92,15 +114,7 @@ class UserEditorDisplay extends StatelessWidget {
                     child: Stack(
                       children: [
                         Positioned.fill(
-                          child: Image.network(
-                            user.imageUrl,
-                            fit: BoxFit.cover,
-                            errorBuilder: (context, err, stacktrace) =>
-                                Image.asset(
-                              Constants.defaultTeamPicture,
-                              fit: BoxFit.contain,
-                            ),
-                          ),
+                          child: child,
                         ),
                         Positioned.fill(
                           child: Container(
@@ -134,6 +148,24 @@ class UserEditorDisplay extends StatelessWidget {
                         ),
                       ],
                     ),
+                  ),
+                ),
+                editor: (value) => value == null
+                    ? const Loading()
+                    : Image.asset(
+                        value.path,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, err, stacktrace) => Image.asset(
+                          Constants.defaultTeamPicture,
+                          fit: BoxFit.contain,
+                        ),
+                      ),
+                child: Image.network(
+                  user.imageUrl,
+                  fit: BoxFit.cover,
+                  errorBuilder: (context, err, stacktrace) => Image.asset(
+                    Constants.defaultTeamPicture,
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),

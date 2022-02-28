@@ -211,8 +211,8 @@ class CustomEditablePicture extends EditableContentItem<String> {
 
 class CustomEditableWidget<T> extends SaveableStatefulWidget {
   final Widget child;
-  final Function(T?)? editor;
-  Function(Widget)? container;
+  final Widget Function(T?)? editor;
+  final Widget Function(Widget)? container;
   final Future<T?> Function()? onTap;
 
   CustomEditableWidget({
@@ -225,13 +225,15 @@ class CustomEditableWidget<T> extends SaveableStatefulWidget {
   }) : super(
           onSave: onSave,
           key: key,
-        ) {
-    container ??= (child) => child;
-  }
+        );
 
-  Widget generateView(BuildContext context) => container!(child);
+  Widget renderEditor() =>
+      editor == null ? child : editor!(changableValue.value);
+
+  Widget generateView(BuildContext context) =>
+      container == null ? child : container!(child);
   Widget generateEditing(BuildContext context) =>
-      container!(editor == null ? child : editor!(changableValue.value));
+      container == null ? renderEditor() : container!(renderEditor());
 
   @override
   _CustomEditableWidgetState createState() => _CustomEditableWidgetState();
@@ -460,7 +462,7 @@ class _StoredPreferenceSwitcher extends State<StoredPreferenceSwitcher> {
   Widget build(BuildContext context) => FutureBuilder<SharedPreferences>(
         future: SharedPreferences.getInstance(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData || snapshot.data == null) {
+          if (!snapshot.hasData) {
             return const Loading();
           }
 

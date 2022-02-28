@@ -145,7 +145,5 @@ class UserContent extends ContentContainer {
     return [];
   }
 
-  String get shareLink {
-    return '${Constants.linkUri}todo?owner=${'owner'}&id=$id&isTeam=${'isTeam'}';
-  } // TODO: share link
+  String get shareLink => '${Constants.linkUri}$collectionName?id=$id';
 }

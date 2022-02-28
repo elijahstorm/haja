@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:haja/content/teams/content.dart';
 import 'package:haja/display/components/teams/team_user_avatars.dart';
-import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/language/constants.dart';
 
 class TeamCard extends StatelessWidget {
@@ -97,28 +96,7 @@ class TeamCard extends StatelessWidget {
                         Icons.more_horiz,
                         color: Theme.of(context).scaffoldBackgroundColor,
                       ),
-                      onTap: () => showDialog(
-                        context: context,
-                        builder: (BuildContext context) => AlertButtonsDialog(
-                          alert: team.title,
-                          subtext: 'subtitle',
-                          buttons: [
-                            AlertButton(
-                              label: 'Edit',
-                              action: () {
-                                // Navigator.pop(context); // TODO goto edit ???
-                                // team.navigateToEditor(context);
-                              },
-                              icon: AlertIcon.edit,
-                            ),
-                            AlertButton(
-                              label: 'Leave',
-                              action: () => team.leaveTeam(),
-                              stopPop: true,
-                            ),
-                          ],
-                        ),
-                      ),
+                      onTap: () => team.navigateToEditor(context),
                     ),
                   ),
                 ],

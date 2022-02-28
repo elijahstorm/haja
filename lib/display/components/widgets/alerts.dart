@@ -15,11 +15,7 @@ class AlertTextDialog extends StatelessWidget {
   final String subtext;
   final int heightDevider;
 
-  final primaryColor = const Color(0xff4338CA);
-  final secondaryColor = const Color(0xff6D28D9);
   final accentColor = const Color(0xffffffff);
-  final backgroundColor = const Color(0xffffffff);
-  final errorColor = const Color(0xffEF4444);
 
   Widget generate(BuildContext context) => const SizedBox(
         width: 0,
@@ -41,9 +37,17 @@ class AlertTextDialog extends StatelessWidget {
             : MediaQuery.of(context).size.height / heightDevider,
         decoration: BoxDecoration(
           gradient: LinearGradient(
+            begin: Alignment.bottomLeft,
+            end: Alignment.topRight,
             colors: [
+              Theme.of(context).primaryColor.withRed(83).withGreen(113),
               Theme.of(context).primaryColor,
-              Theme.of(context).colorScheme.secondary,
+              Theme.of(context).primaryColor.withRed(97),
+              Theme.of(context)
+                  .colorScheme
+                  .secondary
+                  .withGreen(172)
+                  .withBlue(223),
             ],
           ),
           borderRadius: BorderRadius.circular(15.0),
@@ -95,6 +99,71 @@ class AlertTextDialog extends StatelessWidget {
       ),
     );
   }
+}
+
+class AlertConfirmDialog extends AlertTextDialog {
+  final VoidCallback onConfirm;
+  final String actionLabel, cancelLabel;
+
+  const AlertConfirmDialog({
+    required this.onConfirm,
+    required this.actionLabel,
+    this.cancelLabel = 'cancel',
+    required alert,
+    subtext = '',
+    heightDevider = 5,
+    Key? key,
+  }) : super(
+          key: key,
+          alert: alert,
+          subtext: subtext,
+          heightDevider: heightDevider,
+        );
+
+  @override
+  Widget generate(BuildContext context) => Padding(
+        padding: const EdgeInsets.only(
+          top: Constants.defaultPadding / 2,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            TextButton(
+              child: Text(
+                cancelLabel,
+                style: TextStyle(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  fontSize: Constants.textSizeButton,
+                ),
+              ),
+              onPressed: () => Navigator.pop(context),
+            ),
+            const SizedBox(
+              width: Constants.defaultPadding,
+            ),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).scaffoldBackgroundColor,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: Constants.defaultPadding,
+                ),
+              ),
+              child: Text(
+                actionLabel,
+                style: TextStyle(
+                  color: Theme.of(context).primaryColor,
+                  fontWeight: FontWeight.bold,
+                  fontSize: Constants.textSizeButton,
+                ),
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+                onConfirm();
+              },
+            ),
+          ],
+        ),
+      );
 }
 
 enum AlertIcon {

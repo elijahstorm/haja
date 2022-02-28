@@ -42,6 +42,7 @@ class Constants {
   static const double defaultPadding = 24.0;
   static const double defaultCardRadius = 15.0;
   static const double textSizeRegular = 16.0;
+  static const double textSizeButton = 18.0;
   static const double textSizeTitle = 22.0;
   static const double defaultBorderRadiusSmall = 6.0;
   static const double defaultBorderRadiusMedium = 14.0;
@@ -64,7 +65,7 @@ class Constants {
       'assets/images/placeholder_no_internet.png';
   static const String liveSvgs = 'https://avatars.dicebear.com/api/avataaars/';
 
-  static const String linkUri = 'haja-project.web.app/';
+  static const String linkUri = 'https://haja-project.web.app/';
   static const String logoAsset = 'assets/images/logo/haja_logo_full.png';
   static const String logoTitleAsset =
       'assets/images/logo/haja logo_horizontal_full.png';
