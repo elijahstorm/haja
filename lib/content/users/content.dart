@@ -17,7 +17,7 @@ class UserContent extends ContentContainer {
   final contentType = CONTENT.user;
 
   String email, picture;
-  List<String> pronouns, following;
+  List<String> pronouns;
   bool private;
   final bool online, verified;
   final DateTime createdOn, lastLogin;
@@ -26,7 +26,6 @@ class UserContent extends ContentContainer {
     required this.email,
     required this.picture,
     required this.pronouns,
-    required this.following,
     required this.online,
     required this.verified,
     required this.private,
@@ -47,7 +46,6 @@ class UserContent extends ContentContainer {
         title: data['title'] ?? UserContent.defaultData['title'],
         caption: data['caption'] ?? UserContent.defaultData['caption'],
         pronouns: Constants.toStringList(data['pronouns']),
-        following: Constants.toStringList(data['following']),
         online: data['online'] ?? UserContent.defaultData['online'],
         verified: data['verified'] ?? UserContent.defaultData['verified'],
         private: data['private'] ?? UserContent.defaultData['private'],
@@ -82,15 +80,12 @@ class UserContent extends ContentContainer {
         'email': email,
         'picture': picture,
         'pronouns': pronouns,
-        'following': following,
         'online': online,
         'verified': verified,
         'private': private,
         'createdOn': Timestamp.fromDate(createdOn),
         'lastLogin': Timestamp.fromDate(lastLogin),
       };
-
-  bool get isFollowing => following.contains(AuthApi.activeUser);
 
   static Widget get placeholderIcon => Image.asset(
         Constants.placeholderUserIcon,
@@ -122,7 +117,6 @@ class UserContent extends ContentContainer {
     'email': '',
     'picture': '',
     'pronouns': [],
-    'following': [],
     'online': false,
     'verified': false,
     'private': false,
@@ -145,5 +139,83 @@ class UserContent extends ContentContainer {
     return [];
   }
 
+  FollowType? _followHandler;
+  void follow({
+    FollowType followType = FollowType.follow,
+  }) {
+    if (AuthApi.activeUser == null || id == AuthApi.activeUser) return;
+
+    FirestoreApi.feel<String>(
+      type: 'follow',
+      id: '${AuthApi.activeUser!}:$id',
+      field: 'type',
+      value: followType.value,
+    );
+
+    _followHandler = followType;
+  }
+
+  Future<bool> following({
+    bool atActiveUser = false,
+  }) async {
+    if (AuthApi.activeUser == null) return false;
+
+    // if (_followHandler != null) {
+    //   return _followHandler!.following;
+    // }
+
+    _followHandler = await FirestoreApi.feelings(
+          type: 'follow',
+          id: atActiveUser
+              ? '$id:${AuthApi.activeUser}'
+              : '${AuthApi.activeUser}:$id',
+          field: 'type',
+        ) ??
+        FollowType.unfollow;
+
+    return _followHandler!.following;
+  }
+
   String get shareLink => '${Constants.linkUri}$collectionName?id=$id';
+}
+
+enum FollowType {
+  follow,
+  unfollow,
+  block,
+}
+
+extension FollowTypeExtension on FollowType {
+  String get value {
+    switch (this) {
+      case FollowType.follow:
+        return 'f';
+      case FollowType.unfollow:
+        return 'u';
+      case FollowType.block:
+        return 'b';
+    }
+  }
+
+  bool compare(String that) {
+    switch (this) {
+      case FollowType.follow:
+        return that == 'f';
+      case FollowType.unfollow:
+        return that == 'u';
+      case FollowType.block:
+        return that == 'b';
+    }
+  }
+
+  bool get following {
+    switch (this) {
+      case FollowType.follow:
+        return true;
+      case FollowType.unfollow:
+        return false;
+      case FollowType.block:
+        return false;
+    }
+  }
 }

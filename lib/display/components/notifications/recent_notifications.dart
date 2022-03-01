@@ -208,18 +208,21 @@ class RecentNotifications extends StatelessWidget {
                     child: notification.postImage,
                   ),
                 )
-              : Container(
-                  height: 35,
-                  width: 110,
-                  decoration: BoxDecoration(
-                    color: Colors.blue[700],
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  child: const Center(
-                    child: Text(
-                      Language.followButton,
-                      style: TextStyle(
-                        color: Colors.white,
+              : GestureDetector(
+                  onTap: () async => (await notification.from)?.follow(),
+                  child: Container(
+                    height: 35,
+                    width: 110,
+                    decoration: BoxDecoration(
+                      color: Colors.blue[700],
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        Language.followButton,
+                        style: TextStyle(
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ),

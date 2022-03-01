@@ -222,6 +222,28 @@ class FirestoreApi {
         .snapshots();
   }
 
+  static void feelArray<T>({
+    required String type,
+    required String id,
+    required String field,
+    required T value,
+    bool remove = false,
+  }) {
+    if (_denyUpload()) return;
+
+    var doc = FirebaseFirestore.instance.collection(type).doc(id);
+
+    doc.update({
+      field: remove
+          ? FieldValue.arrayRemove([value])
+          : FieldValue.arrayUnion([value]),
+    }).catchError((err) {
+      doc.set({
+        field: value,
+      });
+    });
+  }
+
   static void upload(
     ContentContainer content, {
     String? id,

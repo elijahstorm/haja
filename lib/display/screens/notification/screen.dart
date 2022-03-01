@@ -25,8 +25,8 @@ class NotificationScreen extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(create: (context) => NotificationCache()),
           ChangeNotifierProvider(
-              create: (context) =>
-                  UserCache.nonFriends(AuthApi.activeUser ?? '')),
+            create: (context) => UserCache.nonFriends(AuthApi.activeUser ?? ''),
+          ),
         ],
         child: const ResponsiveScreen(
           header: Language.appNavBarTitlesNotos,

@@ -74,9 +74,9 @@ class PersonCardInfoGridView extends StatelessWidget {
         var items = cache.items;
 
         for (int i = 0; i < items.length; i++) {
-          if (!items[i].isFollowing) {
-            filter.add(items[i]);
-          }
+          // if (!items[i].isFollowing) { TODO:
+          filter.add(items[i]);
+          // }
         }
 
         return GridView.builder(

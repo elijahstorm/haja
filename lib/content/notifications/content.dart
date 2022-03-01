@@ -19,12 +19,11 @@ class NotificationContent extends ContentContainer {
   bool get privateData => true;
 
   final DateTime date;
-  final String type, status;
+  final String type, status, fromId;
 
   String get name => title;
   Widget? get postImage => icon;
   bool get hasStory => true;
-  String fromId;
 
   NotificationContent({
     required this.date,

@@ -8,7 +8,7 @@ class Language {
   static const String makeNewButton = 'new';
   static const String editButton = 'edit info';
   static const String followButton = 'follow';
-  static const String unfollowButton = 'follow';
+  static const String unfollowButton = 'unfollow';
   static const String findMoreButton = 'find more';
   static const String retryButton = 'retry';
   static const String createNewTodoHint = 'start a new Todo';

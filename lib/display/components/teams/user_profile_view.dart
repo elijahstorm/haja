@@ -263,7 +263,7 @@ class _DrawSnapshot extends StatelessWidget {
               ]),
               child: MaterialButton(
                 onPressed: () {
-                  // TODO: add to circle
+                  user.follow();
                 },
                 splashColor: Colors.lightBlue,
                 shape: RoundedRectangleBorder(

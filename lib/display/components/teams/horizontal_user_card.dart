@@ -47,7 +47,7 @@ class HorizontalUserCard extends StatelessWidget {
             width: Constants.defaultPadding,
           ),
           TextButton(
-            onPressed: () {},
+            onPressed: () => user.follow(),
             style: TextButton.styleFrom(
               primary: Theme.of(context).scaffoldBackgroundColor,
               backgroundColor: Theme.of(context).primaryColor,
