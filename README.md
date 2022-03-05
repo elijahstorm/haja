@@ -6,7 +6,7 @@ A responsive, cross-platform app built in Flutter to help teams synchronize thei
 
 ## Release links
 
-- [To download the binary](https://flutter.dev/docs/get-started/codelab)
-- [App Store](https://flutter.dev/docs/cookbook)
-- [Play Store](https://flutter.dev/docs/cookbook)
-- [To use our product on the web](https://flutter.dev/docs/get-started/codelab)
+- [App Store](#)
+- [Play Store](#)
+- [To use our product on the web](https://haja-project.web.app/)
+- [Windows](#)
