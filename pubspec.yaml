@@ -68,6 +68,36 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto/Roboto-Black.ttf
+        - asset: assets/fonts/Roboto/Roboto-BlackItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto/Roboto-Bold.ttf
+        - asset: assets/fonts/Roboto/Roboto-BoldItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto/Roboto-Italic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto/Roboto-Light.ttf
+        - asset: assets/fonts/Roboto/Roboto-LightItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto/Roboto-Medium.ttf
+        - asset: assets/fonts/Roboto/Roboto-MediumItalic.ttf
+          style: italic
+        - asset: assets/fonts/Roboto/Roboto-Thin.ttf
+        - asset: assets/fonts/Roboto/Roboto-ThinItalic.ttf
+          style: italic
+    - family: NotoSansKR
+      fonts:
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Black.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Bold.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Regular.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Medium.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Light.otf
+        - asset: assets/fonts/NotoSansKR/NotoSansKR-Thin.otf
+          weight: 700
 
   assets:
     - assets/images/

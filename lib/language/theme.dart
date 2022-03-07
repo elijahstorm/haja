@@ -50,8 +50,29 @@ class Themes {
     );
   }
 
-  static ThemeData mainLightThem(BuildContext context) =>
-      ThemeData.light().copyWith(
+  static const TextStyle englishFont = TextStyle(
+    fontFamily: 'Roboto',
+  );
+  static TextTheme englishFontFamily = TextTheme(
+    displayLarge: englishFont,
+    displayMedium: englishFont,
+    displaySmall: englishFont,
+    headlineLarge: englishFont,
+    headlineMedium: englishFont,
+    headlineSmall: englishFont,
+    titleLarge: englishFont,
+    titleMedium: englishFont,
+    titleSmall: englishFont,
+    bodyLarge: englishFont,
+    bodyMedium: englishFont,
+    bodySmall: englishFont,
+    labelLarge: englishFont,
+    labelMedium: englishFont,
+    labelSmall: englishFont,
+    headline1: englishFont,
+  );
+
+  static ThemeData mainLightThem(BuildContext context) => ThemeData(
         primaryColor: Constants.primaryColorLight,
         scaffoldBackgroundColor: Constants.bgColorLight,
         cardColor: Constants.cardColorLight,
@@ -61,11 +82,8 @@ class Themes {
           shape: RoundedRectangleBorder(),
           textTheme: ButtonTextTheme.primary,
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Constants.textColorLight),
-        colorScheme: ThemeData.dark()
-            .colorScheme
-            .copyWith(secondary: Constants.secondaryColorLight),
+        brightness: Brightness.light,
+        fontFamily: 'Roboto',
         snackBarTheme: const SnackBarThemeData(
           actionTextColor: Constants.primaryColorLight,
           disabledActionTextColor: Constants.cardColorDark,
@@ -80,8 +98,7 @@ class Themes {
           ),
         ),
       );
-  static ThemeData mainDarkThem(BuildContext context) =>
-      ThemeData.dark().copyWith(
+  static ThemeData mainDarkThem(BuildContext context) => ThemeData(
         primaryColor: Constants.primaryColorDark,
         scaffoldBackgroundColor: Constants.bgColorDark,
         cardColor: Constants.cardColorDark,
@@ -91,11 +108,8 @@ class Themes {
           shape: RoundedRectangleBorder(),
           textTheme: ButtonTextTheme.primary,
         ),
-        textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme)
-            .apply(bodyColor: Constants.textColorDark),
-        colorScheme: ThemeData.dark()
-            .colorScheme
-            .copyWith(secondary: Constants.secondaryColorDark),
+        brightness: Brightness.dark,
+        fontFamily: 'Roboto',
         snackBarTheme: const SnackBarThemeData(
           actionTextColor: Constants.primaryColorLight,
           disabledActionTextColor: Constants.cardColorDark,
