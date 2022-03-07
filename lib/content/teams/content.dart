@@ -106,7 +106,7 @@ class TeamContent extends ContentContainer {
     );
   }
 
-  String get shareLink => '${Constants.linkUri}_/$collectionName/$id';
+  String get shareLink => '${Constants.dataLinkUri}$collectionName/$id';
 
   List<Future<UserContent?>> get usersContent {
     return List.generate(

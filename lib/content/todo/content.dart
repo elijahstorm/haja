@@ -60,7 +60,7 @@ class TodoContent extends ContentContainer {
   }
 
   String get shareLink =>
-      '${Constants.linkUri}_/$collectionName/${isTeam
+      '${Constants.dataLinkUri}$collectionName/${isTeam
         ? sourceId
         : AuthApi.activeUser
       }-${isTeam ? '1' : '0'}/$id';

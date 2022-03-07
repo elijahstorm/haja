@@ -19,14 +19,6 @@ class Todo extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void _upload(TodoContent todo) {
-    todo.upload();
-  }
-
-  void _delete(TodoContent todo) {
-    todo.delete();
-  }
-
   void _createNew(
     TodoCache cache, {
     required DateTime date,
@@ -52,7 +44,7 @@ class Todo extends StatelessWidget {
     cache.add(todo);
 
     if (upload) {
-      _upload(todo);
+      todo.upload();
     }
   }
 
@@ -101,16 +93,8 @@ class Todo extends StatelessWidget {
         return;
       }
 
-      Map<String, dynamic> json = todo.toJson();
-      json['title'] = title;
-      json['id'] = todo.id;
-
-      var updatedContent = TodoContent.fromJson(json);
-
-      cache.remove(todo);
-      cache.add(updatedContent);
-      updatedContent.synchedWithDatabase = true;
-      _upload(updatedContent);
+      todo.title = title;
+      todo.upload();
     }
   }
 
@@ -143,7 +127,7 @@ class Todo extends StatelessWidget {
         await NotificationsApi.instance.todoComplete(todo),
       );
     }
-    _upload(todo);
+    todo.upload();
     cache.notify();
   }
 
@@ -175,17 +159,33 @@ class Todo extends StatelessWidget {
       firstDate: DateTime(2017, 1),
       lastDate: DateTime(2023, 7),
       helpText: Language.alertDateChangePrompt,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: ColorScheme.light(
+              primary: Theme.of(context).primaryColor,
+              onSurface: Colors.black,
+            ),
+            textButtonTheme: TextButtonThemeData(
+              style: TextButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+          child: child!,
+        );
+      },
     ).then((DateTime? newDate) {
       if (newDate != null) {
         todo.date = newDate;
-        _upload(todo);
+        todo.upload();
         cache.notify();
       }
     });
   }
 
   void _deleteTodo(TodoCache cache, TodoContent todo) {
-    _delete(todo);
+    todo.delete();
     cache.remove(todo);
   }
 
@@ -281,7 +281,7 @@ class Todo extends StatelessWidget {
         ],
         onColorChanged: (color) {
           todo.color = Constants.toHex(color);
-          _upload(todo);
+          todo.upload();
           cache.notify();
         },
         onLeadingIconTap: () => _toggleFinished(cache, todo),

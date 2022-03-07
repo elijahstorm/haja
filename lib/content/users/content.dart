@@ -176,7 +176,7 @@ class UserContent extends ContentContainer {
     return _followHandler!.following;
   }
 
-  String get shareLink => '${Constants.linkUri}_/$collectionName/$id';
+  String get shareLink => '${Constants.dataLinkUri}$collectionName/$id';
 }
 
 enum FollowType {
