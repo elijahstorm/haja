@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-    # dash shell
+  # dash shell
   google_fonts: ^2.1.0
   flutter_svg: ^1.0.2
   iconsax: ^0.0.8
@@ -32,19 +32,17 @@ dependencies:
   dotted_border: ^2.0.0+1
   day_night_switcher: ^0.2.0+1
   flutter_colorpicker: ^1.0.2
-  shimmer:
-    ^2.0.0
+  shimmer: ^2.0.0
 
-    # data management
+  # data management
   provider: ^6.0.1
   redux: ^5.0.0
   flutter_redux: ^0.8.2
   flutter_login: ^3.0.0
   shared_preferences: ^2.0.12
-  image_picker:
-    ^0.8.4+4
+  image_picker: ^0.8.4+4
 
-    # release management
+  # release management
   # upgrader: ^3.5.13
   # flutter_showcase: ^0.1.0
 
@@ -102,5 +100,6 @@ flutter:
   assets:
     - assets/images/
     - assets/images/logo/
+    - assets/images/intro/
     - assets/icons/
     - assets/imports/

@@ -70,6 +70,8 @@ class Constants {
   static const String logoAsset = 'assets/images/logo/haja_logo_full.png';
   static const String logoTitleAsset =
       'assets/images/logo/haja logo_horizontal_full.png';
+  static const String logoTitleAssetWhite =
+      'assets/images/logo/haja logo_horizontal_white.png';
   static const String errorImage = 'assets/images/error.png';
   static const String imageAssetPath = 'assets/images/';
 

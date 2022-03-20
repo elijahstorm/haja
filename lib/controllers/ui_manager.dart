@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:haja/firebase/core.dart';
+import 'package:haja/language/settings_keys.dart';
+import 'package:haja/login/intro_screen.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/controllers/menu_controller.dart';
@@ -30,7 +32,23 @@ class _UiManagerState extends State<UiManager> {
           builder: (context, userstate, child) {
             return userstate.data.exists
                 ? const MainScreen()
-                : const LoginScreen();
+                : SettingsKeyValues.buildWhenReady(
+                    key: SettingsKeyValues.appIntroHasBeenSeen,
+                    isBool: true,
+                    defaultValue: false,
+                    builder: (seen) => seen
+                        ? const LoginScreen()
+                        : IntroScreen(
+                            onFinished: () async {
+                              await SettingsKeyValues.set(
+                                key: SettingsKeyValues.appIntroHasBeenSeen,
+                                value: true,
+                                isBool: true,
+                              );
+                              (context as Element).markNeedsBuild();
+                            },
+                          ),
+                  );
           },
         ),
       );

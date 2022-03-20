@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_redux/flutter_redux.dart';
+import 'package:haja/language/settings_keys.dart';
 import 'package:redux/redux.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:day_night_switcher/day_night_switcher.dart';
@@ -43,34 +43,12 @@ class Themes {
         reducer,
         distinct: true,
         initialState: AppState(
-          enableDarkMode: prefs.getBool('darkMode') ?? false,
+          enableDarkMode: prefs.getBool(SettingsKeyValues.darkMode) ?? false,
         ),
       ),
       child: mainApp,
     );
   }
-
-  static const TextStyle englishFont = TextStyle(
-    fontFamily: 'Roboto',
-  );
-  static TextTheme englishFontFamily = TextTheme(
-    displayLarge: englishFont,
-    displayMedium: englishFont,
-    displaySmall: englishFont,
-    headlineLarge: englishFont,
-    headlineMedium: englishFont,
-    headlineSmall: englishFont,
-    titleLarge: englishFont,
-    titleMedium: englishFont,
-    titleSmall: englishFont,
-    bodyLarge: englishFont,
-    bodyMedium: englishFont,
-    bodySmall: englishFont,
-    labelLarge: englishFont,
-    labelMedium: englishFont,
-    labelSmall: englishFont,
-    headline1: englishFont,
-  );
 
   static ThemeData mainLightThem(BuildContext context) => ThemeData(
         primaryColor: Constants.primaryColorLight,
@@ -141,7 +119,7 @@ class UpdateDarkMode {
 
   void _persistTheme() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('darkMode', enable);
+    prefs.setBool(SettingsKeyValues.darkMode, enable);
   }
 }
 

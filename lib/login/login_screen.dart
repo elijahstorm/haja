@@ -48,9 +48,9 @@ class LoginScreen extends StatelessWidget {
     return Consumer<UserState>(
       builder: (context, userstate, child) {
         return FlutterLogin(
-          title: Language.appName,
+          // title: Language.appName,
           userType: LoginUserType.email,
-          logo: Constants.logoAsset,
+          logo: Constants.logoTitleAsset,
           logoTag: '${Language.appName}Logo',
           titleTag: '${Language.appName}Title',
           termsOfService: [

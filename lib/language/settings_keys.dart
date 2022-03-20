@@ -7,10 +7,14 @@ import 'package:haja/display/components/animations/loading.dart';
 class SettingsKeyValues {
   static const String settingsCalendarEventType = 'calendarEventType';
   static const String settingsNotosAlarm = 'notosAlarm';
+  static const String appIntroHasBeenSeen = 'appIntroSeen';
+  static const String darkMode = 'darkMode';
 
   static void removeAll(SharedPreferences prefs) {
     prefs.remove(settingsCalendarEventType);
     prefs.remove(settingsNotosAlarm);
+    prefs.remove(appIntroHasBeenSeen);
+    prefs.remove(darkMode);
   }
 
   static Widget buildWhenReady({
@@ -50,4 +54,24 @@ class SettingsKeyValues {
           return error;
         },
       );
+
+  static Future<void> set({
+    required String key,
+    required dynamic value,
+    isBool = false,
+    isInt = false,
+    isDouble = false,
+  }) async {
+    assert(isBool || isInt || isDouble);
+
+    var prefs = await SharedPreferences.getInstance();
+
+    if (isBool) {
+      prefs.setBool(key, value);
+    } else if (isInt) {
+      prefs.setInt(key, value);
+    } else if (isDouble) {
+      prefs.setDouble(key, value);
+    }
+  }
 }

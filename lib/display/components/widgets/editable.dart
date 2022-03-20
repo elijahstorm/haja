@@ -471,9 +471,7 @@ class _StoredPreferenceSwitcher extends State<StoredPreferenceSwitcher> {
           return Switch(
             value: prefs.getBool(widget.keyName) ?? widget.defaultValue,
             onChanged: (updatedValue) {
-              setState(() {
-                prefs.setBool(widget.keyName, updatedValue);
-              });
+              setState(() => prefs.setBool(widget.keyName, updatedValue));
             },
           );
         },
