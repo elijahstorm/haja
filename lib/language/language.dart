@@ -3,6 +3,25 @@ class Language {
   static const String welcome = 'Let\'s do Together';
   static const String appSubtitle = 'Do Together';
 
+  static const String firstAppSeenCallToAction =
+      'Share and connect with each other easily';
+  static const String firstAppSeenSubtitle = 'The power of being together';
+  static const String loginScreenIntro =
+      'Let\'s share and finish the team project easily';
+  static const String loginScreenErrorUID = 'Incorrect ID or password';
+  static const String loginScreenButton = 'log in';
+  static const String loginScreenForgetHelp = 'Did you forget your account?';
+  static const String loginScreenCreateNewButton = 'Create a new account';
+  static const String loginScreenFindYourInfo = 'Find your information';
+  static const String loginScreenEmail = 'Email';
+  static const String loginScreenPassword = 'Password';
+
+  static const String signupScreenHeader = 'Sign up';
+  static const String signupScreenButton = 'sign up';
+
+  static const String forgotScreenHeader = 'Forgot account?';
+  static const String forgotScreenButton = 'recover account';
+
   static const String addButton = 'add';
   static const String deleteButton = 'delete';
   static const String makeNewButton = 'new';

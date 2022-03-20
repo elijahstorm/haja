@@ -102,4 +102,5 @@ flutter:
     - assets/images/logo/
     - assets/images/intro/
     - assets/icons/
+    - assets/icons/brands/
     - assets/imports/

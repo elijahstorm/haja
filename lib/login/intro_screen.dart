@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:haja/language/constants.dart';
+import 'package:haja/language/language.dart';
 
 class IntroScreen extends StatelessWidget {
   final VoidCallback onFinished;
@@ -25,7 +26,7 @@ class IntroScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Share and connect with each other easily',
+                  Language.firstAppSeenCallToAction,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 38,
@@ -38,7 +39,7 @@ class IntroScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     const Text(
-                      'The power of being together',
+                      Language.firstAppSeenSubtitle,
                       style: TextStyle(
                         fontSize: 16,
                         color: Constants.bgColorLight,

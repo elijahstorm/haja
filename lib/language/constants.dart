@@ -48,6 +48,7 @@ class Constants {
   static const double defaultBorderRadiusMedium = 14.0;
   static const double defaultBorderRadiusLarge = 18.0;
   static const double defaultBorderRadiusXLarge = 25.0;
+  static const double defaultBorderRadiusRound = 90.0;
 
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';
@@ -74,6 +75,10 @@ class Constants {
       'assets/images/logo/haja logo_horizontal_white.png';
   static const String errorImage = 'assets/images/error.png';
   static const String imageAssetPath = 'assets/images/';
+
+  static const String iconAssetFacebook = 'assets/icons/brands/facebook.png';
+  static const String iconAssetKakaotalk = 'assets/icons/brands/kakaotalk.png';
+  static const String iconAssetGoogle = 'assets/icons/brands/google.svg';
 
   static DateTime firstDay = DateTime.utc(2021, 1, 1);
   static DateTime lastDay = DateTime.utc(2041, 3, 1);

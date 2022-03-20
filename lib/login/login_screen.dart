@@ -1,192 +1,607 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/scheduler.dart' show timeDilation;
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:haja/display/components/animations/loading.dart';
+import 'package:haja/login/responder.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_login/flutter_login.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'user_state.dart';
-
+import 'package:haja/controllers/keys.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/login/user_state.dart';
-import 'package:haja/login/responder.dart';
+import 'package:haja/login/login_data.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   static const routeName = '/auth';
 
   const LoginScreen({
     Key? key,
   }) : super(key: key);
 
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String? inputError;
+  bool loading = false;
+  bool get showBackButton => false;
+  TextEditingController emailController = TextEditingController(),
+      passwordController = TextEditingController();
+
   Duration get loginTime => Duration(milliseconds: timeDilation.ceil() * 2250);
 
-  Future<String?> _loginUser(UserState userstate, LoginData data) {
+  void showError(String? error) {
+    setState(() => inputError = error);
+  }
+
+  String? passwordValidator(value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is empty';
+    }
+    return null;
+  }
+
+  void onSubmitAnimationCompleted(UserState userstate) => userstate.notify();
+
+  void startLoginFlow(UserState userstate, LoginData data) async {
+    setState(() => loading = true);
+
+    showError(await loginUser(
+      userstate,
+      data,
+    ));
+
+    loading = false;
+    onSubmitAnimationCompleted(userstate);
+  }
+
+  void startSignupFlow(UserState userstate, LoginData data) async {
+    setState(() => loading = true);
+
+    showError(await signupUser(
+      userstate,
+      data,
+    ));
+
+    loading = false;
+    onSubmitAnimationCompleted(userstate);
+  }
+
+  void startForgotFlow(UserState userstate, LoginData data) async {
+    setState(() => loading = true);
+
+    recoverPassword(userstate, data.email);
+
+    loading = false;
+    onSubmitAnimationCompleted(userstate);
+  }
+
+  Future<String?> loginUser(UserState userstate, LoginData data) async {
+    String? validator = passwordValidator(data.password);
+
+    if (validator != null) {
+      return validator;
+    }
+
     return Future.delayed(loginTime).then((_) async {
-      return await userstate.supply(data.name, data.password);
+      return await userstate.supply(
+        data.email,
+        data.password,
+      );
     });
   }
 
-  Future<String?> _signupUser(UserState userstate, SignupData data) {
+  Future<String?> signupUser(UserState userstate, LoginData data) async {
+    String? validator = passwordValidator(data.password);
+
+    if (validator != null) {
+      return validator;
+    }
+
     return Future.delayed(loginTime).then((_) async {
       return await userstate.signup(
-        email: data.name,
+        email: data.email,
         auth: data.password,
       );
     });
   }
 
-  Future<String?> _recoverPassword(UserState userstate, String name) {
+  Future<String?> recoverPassword(UserState userstate, String email) {
     return Future.delayed(loginTime).then((_) async {
-      return await userstate.recover(name);
+      return await userstate.recover(email);
     });
   }
 
-  @override
-  Widget build(BuildContext context) {
-    return Consumer<UserState>(
-      builder: (context, userstate, child) {
-        return FlutterLogin(
-          // title: Language.appName,
-          userType: LoginUserType.email,
-          logo: Constants.logoTitleAsset,
-          logoTag: '${Language.appName}Logo',
-          titleTag: '${Language.appName}Title',
-          termsOfService: [
-            TermOfService(
-              id: 'general_tos',
-              mandatory: false,
-              text: 'Terms of Service',
-              linkUrl: 'tos',
-              initialValue: false,
-              validationErrorMessage:
-                  'You must agree to use our Terms of Service',
-            ),
-          ],
-          savedEmail:
-              UserState.loadMockData ? AppDebugLogin.debugUserEmail : '',
-          savedPassword:
-              UserState.loadMockData ? AppDebugLogin.debugUserPass : '',
-          loginAfterSignUp: true,
-          loginProviders: <LoginProvider>[
-            LoginProvider(
-              button: Buttons.Google,
-              icon: FontAwesomeIcons.google,
-              label: 'Google',
-              callback: () async {
-                return await userstate.provider(
-                  'google',
-                );
-              },
-            ),
-            LoginProvider(
-              button: Buttons.Facebook,
-              icon: FontAwesomeIcons.facebookF,
-              label: 'Facebook',
-              callback: () async {
-                return await userstate.provider(
-                  'facebook',
-                );
-              },
-            ),
-            if (!kReleaseMode)
-              LoginProvider(
-                icon: FontAwesomeIcons.linkedinIn,
-                label: 'Demo Login',
-                callback: () async {
-                  return await userstate.supply(
-                    AppDebugLogin.debugUserEmail,
-                    AppDebugLogin.debugUserPass,
-                  );
-                },
+  Widget editableText(
+    BuildContext context,
+    String label,
+    TextEditingController controller, {
+    bool passwordProtect = false,
+  }) =>
+      TextFormField(
+        controller: controller,
+        enableSuggestions: !passwordProtect,
+        obscureText: passwordProtect,
+        autocorrect: false,
+        validator: (value) {
+          if (value == null || value.isEmpty) {
+            return '$label cannot be empty';
+          }
+          return null;
+        },
+        buildCounter: (
+          context, {
+          required currentLength,
+          required isFocused,
+          maxLength,
+        }) {
+          return Container(
+            transform: Matrix4.translationValues(0, -kToolbarHeight / 1.35, 0),
+            child: Opacity(
+              opacity: .5,
+              child: Text(
+                '$currentLength/$maxLength',
+                style: const TextStyle(
+                  fontSize: 12,
+                ),
               ),
-          ],
-          messages: LoginMessages(
-            passwordHint: 'Password',
-            confirmPasswordHint: 'Confirm Password',
-            loginButton: 'LOGIN',
-            signupButton: 'REGISTER',
-            forgotPasswordButton: 'Forgot Password?',
-            recoverPasswordButton: 'SEND EMAIL',
-            goBackButton: 'BACK',
-            confirmPasswordError: 'Your password do not match',
-            recoverPasswordIntro: 'Tell us your email',
-            recoverPasswordDescription:
-                'Then we can help you set a new, secure password',
-            recoverPasswordSuccess: 'Email Sent',
+            ),
+          );
+        },
+        decoration: InputDecoration(
+          hintText: label,
+          fillColor: Theme.of(context).canvasColor,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(
+              Constants.defaultBorderRadiusXLarge * 2,
+            ),
+            borderSide: BorderSide.none,
           ),
-          theme: LoginTheme(
-            primaryColor: Theme.of(context).cardColor,
-            accentColor: Theme.of(context).colorScheme.secondary,
-            errorColor: Theme.of(context).errorColor,
-            primaryColorAsInputLabel: false,
-            footerBottomPadding: Constants.defaultPadding * 3,
-            titleStyle: TextStyle(
-              color: Theme.of(context).iconTheme.color,
-            ),
-            bodyStyle: const TextStyle(
-              fontStyle: FontStyle.italic,
-            ),
-            textFieldStyle: TextStyle(
-              color: Theme.of(context).cardColor,
-            ),
-            cardTheme: CardTheme(
-              color: Theme.of(context).primaryColor,
-              elevation: 5,
-              shape: ContinuousRectangleBorder(
-                  borderRadius: BorderRadius.circular(100.0)),
-            ),
-            inputTheme: InputDecorationTheme(
-              filled: true,
-              contentPadding: EdgeInsets.zero,
-              labelStyle: TextStyle(
-                fontSize: 12,
-                color: Theme.of(context).cardColor,
-              ),
-              prefixStyle: TextStyle(
-                color: Theme.of(context).cardColor,
-              ),
-            ),
-            buttonStyle: TextStyle(
-              fontWeight: FontWeight.w800,
-              color: Theme.of(context).cardColor,
-            ),
-            buttonTheme: LoginButtonTheme(
-              splashColor: Theme.of(context).colorScheme.secondary,
-              backgroundColor: Theme.of(context).colorScheme.secondary,
-              highlightColor: Theme.of(context).colorScheme.secondary,
-              elevation: 9.0,
-              highlightElevation: 6.0,
-              shape: BeveledRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
+          contentPadding: const EdgeInsets.symmetric(
+            vertical: Constants.defaultPadding / 2,
+            horizontal: Constants.defaultPadding,
+          ),
+          filled: true,
+        ),
+        maxLines: 1,
+        maxLength: 20,
+      );
+
+  List<Widget> generateTextInputs() => [
+        editableText(
+          context,
+          Language.loginScreenEmail,
+          emailController,
+        ),
+        editableText(
+          context,
+          Language.loginScreenPassword,
+          passwordController,
+          passwordProtect: true,
+        ),
+      ];
+
+  List<Widget> generateHeader() => [
+        const SizedBox(
+          height: Constants.defaultPadding * 3,
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width / 2 +
+              Constants.defaultPadding * 2,
+          child: const Text(
+            Language.loginScreenIntro,
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
             ),
           ),
-          passwordValidator: (value) {
-            if (value == null) {
-              return 'Password is empty';
-            }
-            if (value.isEmpty) {
-              return 'Password is empty';
-            }
-            return null;
-          },
-          onLogin: (loginData) {
-            return _loginUser(userstate, loginData);
-          },
-          onSignup: (loginData) {
-            return _signupUser(userstate, loginData);
-          },
-          onSubmitAnimationCompleted: () {
-            userstate.notify();
-          },
-          onRecoverPassword: (name) {
-            return _recoverPassword(userstate, name);
-          },
-          showDebugButtons: false,
-        );
-      },
-    );
+        ),
+      ];
+
+  Future<void> nextScreen(Widget screen) async {
+    await Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => Material(
+        child: ChangeNotifierProvider(
+          create: (context) => UserState(),
+          builder: (context, child) => screen,
+        ),
+      ),
+      fullscreenDialog: true,
+    ));
   }
+
+  Widget generateButton() => Consumer<UserState>(
+        builder: (context, userstate, child) => Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => startLoginFlow(
+                userstate,
+                LoginData(
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shadowColor: Theme.of(context).primaryColor,
+                elevation: 10,
+                minimumSize: const Size.fromHeight(
+                  Constants.defaultPadding * 2.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    Constants.defaultBorderRadiusRound,
+                  ),
+                ),
+              ),
+              child: const Text(
+                Language.loginScreenButton,
+              ),
+            ),
+            const SizedBox(
+              height: Constants.defaultPadding,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                        null) return;
+                    GlobalKeys.rootScaffoldMessengerKey.currentState!
+                        .showSnackBar(const SnackBar(
+                      content: Text('Sorry, this button doesn\'t work yet'),
+                      duration: Duration(seconds: 4),
+                    ));
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          Constants.defaultBorderRadiusRound,
+                        ),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .iconTheme
+                              .color!
+                              .withOpacity(.1),
+                        ),
+                      ),
+                      padding: const EdgeInsets.only(right: 1),
+                      child: Image.asset(
+                        Constants.iconAssetFacebook,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: Constants.defaultPadding,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                        null) return;
+                    GlobalKeys.rootScaffoldMessengerKey.currentState!
+                        .showSnackBar(const SnackBar(
+                      content: Text('Sorry, this button doesn\'t work yet'),
+                      duration: Duration(seconds: 4),
+                    ));
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          Constants.defaultBorderRadiusRound,
+                        ),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .iconTheme
+                              .color!
+                              .withOpacity(.1),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(7),
+                      child: Image.asset(
+                        Constants.iconAssetKakaotalk,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  width: Constants.defaultPadding,
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (GlobalKeys.rootScaffoldMessengerKey.currentState ==
+                        null) return;
+                    GlobalKeys.rootScaffoldMessengerKey.currentState!
+                        .showSnackBar(const SnackBar(
+                      content: Text('Sorry, this button doesn\'t work yet'),
+                      duration: Duration(seconds: 4),
+                    ));
+                  },
+                  child: CircleAvatar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(
+                          Constants.defaultBorderRadiusRound,
+                        ),
+                        border: Border.all(
+                          color: Theme.of(context)
+                              .iconTheme
+                              .color!
+                              .withOpacity(.1),
+                        ),
+                      ),
+                      padding: const EdgeInsets.all(7),
+                      child: SvgPicture.asset(
+                        Constants.iconAssetGoogle,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+
+  List<Widget> generateAccountHelpers() => [
+        const Center(
+          child: Text(
+            Language.loginScreenForgetHelp,
+          ),
+        ),
+        const SizedBox(
+          height: Constants.defaultPadding / 2,
+        ),
+        GestureDetector(
+          onTap: () => nextScreen(const FindForgottenInfo()),
+          child: Center(
+            child: Text(
+              Language.loginScreenFindYourInfo,
+              style: TextStyle(
+                color: Theme.of(context).primaryColor,
+              ),
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: Constants.defaultPadding * 2,
+        ),
+        GestureDetector(
+          onTap: () => nextScreen(const SignupLoginFlow()),
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(),
+              ),
+              const Text(
+                Language.loginScreenCreateNewButton,
+              ),
+              const Icon(
+                Icons.keyboard_arrow_right,
+                size: 18,
+              ),
+              Expanded(
+                child: Container(),
+              ),
+            ],
+          ),
+        ),
+      ];
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: Constants.defaultPadding,
+            ),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(
+                    height: Constants.defaultPadding,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      showBackButton
+                          ? GestureDetector(
+                              onTap: () => Navigator.of(context).pop(),
+                              child: const Icon(
+                                Icons.arrow_back,
+                              ),
+                            )
+                          : Container(),
+                      Expanded(
+                        child: Container(),
+                      ),
+                      Consumer<UserState>(
+                        builder: (context, userstate, child) => GestureDetector(
+                          onDoubleTap: () => !kReleaseMode
+                              ? startLoginFlow(
+                                  userstate,
+                                  LoginData(
+                                    email: AppDebugLogin.debugUserEmail,
+                                    password: AppDebugLogin.debugUserPass,
+                                  ),
+                                )
+                              : null,
+                          child: Image.asset(
+                            Constants.logoAsset,
+                            width: Constants.defaultPadding * 1.5,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  ...generateHeader(),
+                  const SizedBox(
+                    height: Constants.defaultPadding * 2,
+                  ),
+                  ...generateTextInputs(),
+                  Text(
+                    inputError ?? '',
+                    style: const TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  const SizedBox(
+                    height: Constants.defaultPadding,
+                  ),
+                  loading
+                      ? const SizedBox(
+                          height: Constants.defaultPadding * 5 + 4,
+                          child: Loading(),
+                        )
+                      : generateButton(),
+                  const SizedBox(
+                    height: Constants.defaultPadding,
+                  ),
+                  if (!showBackButton) ...generateAccountHelpers(),
+                  const SizedBox(
+                    height: Constants.defaultPadding * 2,
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+}
+
+class SignupLoginFlow extends LoginScreen {
+  const SignupLoginFlow({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _SignupLoginFlowState createState() => _SignupLoginFlowState();
+}
+
+class FindForgottenInfo extends LoginScreen {
+  const FindForgottenInfo({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  _FindForgottenInfoState createState() => _FindForgottenInfoState();
+}
+
+class _SignupLoginFlowState extends _LoginScreenState {
+  @override
+  bool get showBackButton => true;
+
+  @override
+  List<Widget> generateHeader() => [
+        const SizedBox(
+          height: Constants.defaultPadding,
+        ),
+        const Text(
+          Language.signupScreenHeader,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+      ];
+
+  @override
+  Widget generateButton() => Consumer<UserState>(
+        builder: (context, userstate, child) => Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => startSignupFlow(
+                userstate,
+                LoginData(
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shadowColor: Theme.of(context).primaryColor,
+                elevation: 10,
+                minimumSize: const Size.fromHeight(
+                  Constants.defaultPadding * 2.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    Constants.defaultBorderRadiusRound,
+                  ),
+                ),
+              ),
+              child: const Text(
+                Language.signupScreenButton,
+              ),
+            ),
+            const SizedBox(
+              height: Constants.defaultPadding * 2,
+            ),
+          ],
+        ),
+      );
+}
+
+class _FindForgottenInfoState extends _LoginScreenState {
+  @override
+  bool get showBackButton => true;
+
+  @override
+  List<Widget> generateHeader() => [
+        const SizedBox(
+          height: Constants.defaultPadding,
+        ),
+        const Text(
+          Language.forgotScreenHeader,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 22,
+          ),
+        ),
+      ];
+
+  @override
+  Widget generateButton() => Consumer<UserState>(
+        builder: (context, userstate, child) => Column(
+          children: [
+            ElevatedButton(
+              onPressed: () => startForgotFlow(
+                userstate,
+                LoginData(
+                  email: emailController.text,
+                  password: passwordController.text,
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+                shadowColor: Theme.of(context).primaryColor,
+                elevation: 10,
+                minimumSize: const Size.fromHeight(
+                  Constants.defaultPadding * 2.5,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(
+                    Constants.defaultBorderRadiusRound,
+                  ),
+                ),
+              ),
+              child: const Text(
+                Language.forgotScreenButton,
+              ),
+            ),
+            const SizedBox(
+              height: Constants.defaultPadding * 2,
+            ),
+          ],
+        ),
+      );
 }

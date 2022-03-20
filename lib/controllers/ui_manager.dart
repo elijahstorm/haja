@@ -42,8 +42,8 @@ class _UiManagerState extends State<UiManager> {
                             onFinished: () async {
                               await SettingsKeyValues.set(
                                 key: SettingsKeyValues.appIntroHasBeenSeen,
-                                value: true,
                                 isBool: true,
+                                value: true,
                               );
                               (context as Element).markNeedsBuild();
                             },
