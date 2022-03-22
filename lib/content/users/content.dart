@@ -94,11 +94,13 @@ class UserContent extends ContentContainer {
 
   Widget get icon => Hero(
         tag: '$collectionName$id',
-        child: picture == '' ? placeholderIcon : Image.network(
-          imageUrl,
-          fit: BoxFit.fill,
-          errorBuilder: (context, _, __) => placeholderIcon,
-        ),
+        child: picture == ''
+            ? placeholderIcon
+            : Image.network(
+                imageUrl,
+                fit: BoxFit.fill,
+                errorBuilder: (context, _, __) => placeholderIcon,
+              ),
       );
 
   String get imageUrl => Constants.storageUrlPrefix + picture;
@@ -164,14 +166,28 @@ class UserContent extends ContentContainer {
       return _followHandler!.following;
     }
 
-    _followHandler = await FirestoreApi.feelings(
-          type: 'follow',
-          id: atActiveUser
-              ? '$id:${AuthApi.activeUser}'
-              : '${AuthApi.activeUser}:$id',
-          field: 'type',
-        ) ??
-        FollowType.unfollow;
+    var value = await FirestoreApi.feelings(
+      type: 'follow',
+      id: atActiveUser
+          ? '$id:${AuthApi.activeUser}'
+          : '${AuthApi.activeUser}:$id',
+      field: 'type',
+    );
+
+    FollowType answer = FollowType.unfollow;
+
+    switch (value) {
+      case 'f':
+        answer = FollowType.follow;
+        break;
+      case 'u':
+        answer = FollowType.unfollow;
+        break;
+      case 'b':
+        answer = FollowType.block;
+        break;
+    }
+    _followHandler = answer;
 
     return _followHandler!.following;
   }

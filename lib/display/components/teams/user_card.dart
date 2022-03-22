@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:haja/content/users/content.dart';
+import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 
@@ -101,10 +102,7 @@ class _UserCardState extends State<UserCard> {
                         ),
                       ),
                     )
-                  : Container(
-                      width: 110,
-                      color: Colors.red,
-                    ),
+                  : const LoadingButton(),
             ),
           ],
         ),

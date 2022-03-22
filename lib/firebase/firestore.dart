@@ -395,6 +395,7 @@ class FirestoreFilter {
     required this.data,
   });
 
+  // TODO: fix filter problem
   FirestoreFilter.activeUserTeams() {
     filter = FirestoreFilterTypes.activeUserTeams;
     data = AuthApi.activeUser;

@@ -1,5 +1,6 @@
 import 'package:haja/controllers/responsive.dart';
 import 'package:flutter/material.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/language/constants.dart';
@@ -33,9 +34,13 @@ class DashboardFiles extends StatelessWidget {
                       (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {
-                print('todo forsure');
-              },
+              onPressed: () => AlertTextDialog.run(
+                context,
+                const AlertTextDialog(
+                  alert: 'needs to be fixed',
+                  subtext: 'OurTeamMembers',
+                ),
+              ),
               icon: const Icon(Icons.add),
               label: const Text(Language.addButton),
             ),

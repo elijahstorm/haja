@@ -18,6 +18,20 @@ class Loading extends StatelessWidget {
       );
 }
 
+class LoadingButton extends StatelessWidget {
+  const LoadingButton({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: SpinKitDancingSquare(
+          color: Theme.of(context).colorScheme.secondary,
+          size: 20.0,
+        ),
+      );
+}
+
 class LoadingAvatar extends CircleOverlappableAvatar {
   LoadingAvatar({
     double? size = Constants.defaultPadding,

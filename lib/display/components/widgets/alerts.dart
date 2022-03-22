@@ -15,7 +15,10 @@ class AlertTextDialog extends StatelessWidget {
   final String subtext;
   final int heightDevider;
 
-  final accentColor = const Color(0xffffffff);
+  static run(BuildContext context, AlertTextDialog alert) => showDialog(
+        context: context,
+        builder: (BuildContext context) => alert,
+      );
 
   Widget generate(BuildContext context) => const SizedBox(
         width: 0,
@@ -68,15 +71,15 @@ class AlertTextDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 CircleAvatar(
-                  backgroundColor: accentColor.withOpacity(.05),
+                  backgroundColor: Constants.bgColorLight.withOpacity(.05),
                   radius: 25,
                   child: Image.asset(Constants.logoAsset),
                 ),
                 const SizedBox(height: 15),
                 Text(
                   alert,
-                  style: TextStyle(
-                    color: accentColor,
+                  style: const TextStyle(
+                    color: Constants.bgColorLight,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -84,8 +87,8 @@ class AlertTextDialog extends StatelessWidget {
                 const SizedBox(height: 3.5),
                 Text(
                   subtext,
-                  style: TextStyle(
-                    color: accentColor,
+                  style: const TextStyle(
+                    color: Constants.bgColorLight,
                     fontSize: 12,
                     fontWeight: FontWeight.w300,
                   ),

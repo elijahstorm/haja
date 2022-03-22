@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/storage.dart';
@@ -228,9 +229,13 @@ class UserEditorDisplay extends StatelessWidget {
               VerticalUserList(user.followingListContent),
               const SizedBox(height: Constants.defaultPadding),
               ElevatedButton(
-                onPressed: () {
-                  print('todo forsure');
-                },
+                onPressed: () => AlertTextDialog.run(
+                  context,
+                  const AlertTextDialog(
+                    alert: 'needs to be fixed',
+                    subtext: 'OurTeamMembers',
+                  ),
+                ),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.red,
                   shadowColor: Colors.red,

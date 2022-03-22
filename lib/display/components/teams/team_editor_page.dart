@@ -83,7 +83,8 @@ class TeamEditorDisplay extends StatelessWidget {
                       .showSnackBar(
                     const SnackBar(
                       content: Text(
-                          'Picture finished uploading. Refresh the page to see the changes.'),
+                        'Picture finished uploading. Refresh the page to see the changes.',
+                      ),
                     ),
                   );
                 },
@@ -207,6 +208,7 @@ class TeamEditorDisplay extends StatelessWidget {
               ),
               CustomEditableWidget(
                 onSave: (s) {
+                  // TODO: generate a list of users, then save that list
                   print('todo forsure');
                 },
                 child: VerticalUserList(team.usersContent),

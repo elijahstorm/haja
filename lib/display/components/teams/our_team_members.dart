@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haja/display/components/teams/horizontal_user_card.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/controllers/responsive.dart';
@@ -26,9 +27,13 @@ class OurTeamMembers extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             GestureDetector(
-              onTap: () {
-                print('todo forsure');
-              },
+              onTap: () => AlertTextDialog.run(
+                context,
+                const AlertTextDialog(
+                  alert: 'needs to be fixed',
+                  subtext: 'OurTeamMembers',
+                ),
+              ),
               child: const Icon(
                 Icons.more_horiz,
               ),

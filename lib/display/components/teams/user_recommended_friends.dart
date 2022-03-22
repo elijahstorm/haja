@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:haja/display/components/teams/horizontal_user_card.dart';
+import 'package:haja/display/components/widgets/alerts.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
@@ -32,9 +33,13 @@ class UserRecommendedFriends extends StatelessWidget {
                       (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {
-                print('todo forsure');
-              },
+              onPressed: () => AlertTextDialog.run(
+                context,
+                const AlertTextDialog(
+                  alert: 'needs to be fixed',
+                  subtext: 'OurTeamMembers',
+                ),
+              ),
               icon: const Icon(Icons.add),
               label: const Text(Language.findMoreButton),
             ),
