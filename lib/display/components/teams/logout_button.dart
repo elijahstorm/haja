@@ -11,28 +11,25 @@ class LogoutButton extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.all(Constants.defaultPadding),
-        child: Consumer<UserState>(builder: (context, user, child) {
-          return ElevatedButton(
-            onPressed: () => user.logout(),
-            style: ElevatedButton.styleFrom(
-              primary: Colors.red,
-              shadowColor: Colors.red,
-              elevation: 5,
-              minimumSize: const Size.fromHeight(
-                Constants.defaultPadding * 2,
-              ),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(
-                  Constants.defaultBorderRadiusXLarge,
-                ),
+  Widget build(BuildContext context) => Consumer<UserState>(
+        builder: (context, user, child) => ElevatedButton(
+          onPressed: () => user.logout(),
+          style: ElevatedButton.styleFrom(
+            primary: Colors.red,
+            shadowColor: Colors.red,
+            elevation: 5,
+            minimumSize: const Size.fromHeight(
+              Constants.defaultPadding * 2,
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                Constants.defaultBorderRadiusXLarge,
               ),
             ),
-            child: const Text(
-              Language.logoutButton,
-            ),
-          );
-        }),
+          ),
+          child: const Text(
+            Language.logoutButton,
+          ),
+        ),
       );
 }

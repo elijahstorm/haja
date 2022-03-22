@@ -206,7 +206,9 @@ class TeamEditorDisplay extends StatelessWidget {
                 height: Constants.defaultPadding / 2,
               ),
               CustomEditableWidget(
-                onSave: (s) {},
+                onSave: (s) {
+                  print('todo forsure');
+                },
                 child: VerticalUserList(team.usersContent),
               ),
               const SizedBox(

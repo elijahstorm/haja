@@ -8,6 +8,7 @@ class ContentCache<T extends ContentContainer> extends ChangeNotifier {
   final List<T> _items = [];
   List<T> get items => List.unmodifiable(_items);
   void download() {}
+
   T? fromJson(dynamic data) => null;
 
   List<FirestoreFilter> filters = [];

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:haja/controllers/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
@@ -109,12 +108,8 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
     return Column(
       children: [
         Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            // if (!Responsive.isDesktop(context))
-            //   IconButton(
-            //     icon: Icon(Icons.menu),
-            //     onPressed: context.read<MenuController>().controlMenu,
-            //   ),
             if (!Responsive.isMobile(context))
               Text(
                 widget.title,
@@ -122,66 +117,23 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
               ),
             if (!Responsive.isMobile(context))
               Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
-
             Image.asset(
               Constants.logoTitleAsset,
               height: Constants.defaultPadding * 1.5,
             ),
-            const SizedBox(
-              width: Constants.defaultPadding,
+            const Expanded(
+              child: Padding(
+                padding: EdgeInsets.only(
+                  left: Constants.defaultPadding,
+                  bottom: 4.0,
+                ),
+                child: SearchField(),
+              ),
             ),
-            const Expanded(child: SearchField()),
-            // DashboardCard(_toggleMenuOptions),
           ],
         ),
         _drawMenuOptions(),
       ],
-    );
-  }
-}
-
-class DashboardCard extends StatelessWidget {
-  final VoidCallback _openMenuOptionsAction;
-
-  const DashboardCard(
-    this._openMenuOptionsAction, {
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _openMenuOptionsAction,
-      child: Container(
-        margin: const EdgeInsets.only(left: Constants.defaultPadding),
-        padding: const EdgeInsets.only(
-          left: Constants.defaultPadding,
-        ),
-        child: Consumer<UserState>(
-          builder: (context, userstate, child) {
-            return Row(
-              children: [
-                kIsWeb
-                    ? Image.asset(
-                        Constants.placeholderUserIcon,
-                        height: 24,
-                      )
-                    : SvgPicture.network(
-                        userstate.data.icon,
-                        height: 24,
-                      ),
-                if (!Responsive.isMobile(context))
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: Constants.defaultPadding / 2,
-                    ),
-                    child: Text(userstate.data.name),
-                  ),
-              ],
-            );
-          },
-        ),
-      ),
     );
   }
 }
@@ -245,9 +197,7 @@ class _StateSearchField extends State<SearchField> {
             border: const OutlineInputBorder(
               borderSide: BorderSide.none,
             ),
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 6,
-            ),
+            contentPadding: EdgeInsets.zero,
             suffixIcon: InkWell(
               onTap: () {
                 Navigator.pushNamed(
@@ -255,13 +205,8 @@ class _StateSearchField extends State<SearchField> {
                   SearchPage.routeName,
                 );
               },
-              child: Container(
-                margin: const EdgeInsets.symmetric(
-                  horizontal: Constants.defaultPadding / 2,
-                ),
-                child: const Icon(
-                  Icons.search,
-                ),
+              child: const Icon(
+                Icons.search,
               ),
             ),
           ),

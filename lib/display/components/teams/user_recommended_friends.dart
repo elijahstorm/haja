@@ -1,13 +1,11 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:haja/display/components/teams/horizontal_user_card.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/controllers/responsive.dart';
 import 'package:haja/content/users/cache.dart';
 import 'package:haja/language/constants.dart';
-
-import 'package:haja/display/components/teams/user_card.dart';
 
 class UserRecommendedFriends extends StatelessWidget {
   const UserRecommendedFriends({
@@ -34,7 +32,9 @@ class UserRecommendedFriends extends StatelessWidget {
                       (Responsive.isMobile(context) ? 2 : 1),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                print('todo forsure');
+              },
               icon: const Icon(Icons.add),
               label: const Text(Language.findMoreButton),
             ),
@@ -67,31 +67,14 @@ class PersonCardInfoGridView extends StatelessWidget {
   final double childAspectRatio;
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<UserCache>(
-      builder: (context, cache, child) {
-        List filter = [];
-        var items = cache.items;
-
-        for (int i = 0; i < items.length; i++) {
-          // if (!items[i].isFollowing) { TODO:
-          filter.add(items[i]);
-          // }
-        }
-
-        return GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: Constants.defaultPadding,
-            mainAxisSpacing: Constants.defaultPadding,
-            childAspectRatio: childAspectRatio,
+  Widget build(BuildContext context) => Consumer<UserCache>(
+        builder: (context, cache, child) => Column(
+          children: List.generate(
+            cache.items.length,
+            (index) => HorizontalUserCard(
+              cache.items[index],
+            ),
           ),
-          itemCount: min(8, filter.length),
-          itemBuilder: (context, index) => UserCard(filter[index]),
-        );
-      },
-    );
-  }
+        ),
+      );
 }

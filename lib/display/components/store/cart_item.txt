@@ -376,7 +376,7 @@ class _CartItemState extends State<CartItem> with TickerProviderStateMixin {
                       setState(() => _selectedRange = values);
                     }),
                 const SizedBox(height: 20),
-                button('Filter', () {})
+                button('Filter', () {print('todo for sure');})
               ],
             ),
           );
@@ -501,7 +501,7 @@ class _CartItemState extends State<CartItem> with TickerProviderStateMixin {
                           duration: const Duration(seconds: 5),
                           action: SnackBarAction(
                             label: 'Undo',
-                            onPressed: () {},
+                            onPressed: () {print('todo for sure');},
                           ),
                         );
 

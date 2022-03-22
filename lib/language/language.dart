@@ -15,12 +15,16 @@ class Language {
   static const String loginScreenFindYourInfo = 'Find your information';
   static const String loginScreenEmail = 'Email';
   static const String loginScreenPassword = 'Password';
+  static const String loginScreenSecondPassword = 'Repeat Password';
 
   static const String signupScreenHeader = 'Sign up';
   static const String signupScreenButton = 'sign up';
 
   static const String forgotScreenHeader = 'Forgot account?';
   static const String forgotScreenButton = 'recover account';
+
+  static const String welcomeScreen =
+      'Welcome to HAJA, try get started by making a team and adding your friends!';
 
   static const String addButton = 'add';
   static const String deleteButton = 'delete';

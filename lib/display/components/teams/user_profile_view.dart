@@ -76,94 +76,104 @@ class _DrawSnapshot extends StatelessWidget {
     required String collection,
     required String id,
   }) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Opacity(
-            opacity: .6,
-            child: Text(label),
-          ),
-          FirestoreApi.future(
-            field: field,
-            id: id,
-            collection: collection,
-            document: 'info',
-            builder: (context, data) {
-              try {
-                String str = data.toString();
+      Padding(
+        padding: const EdgeInsets.only(
+          bottom: Constants.defaultPadding,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Opacity(
+              opacity: .6,
+              child: Text(label),
+            ),
+            FirestoreApi.future(
+              field: field,
+              id: id,
+              collection: collection,
+              document: 'info',
+              builder: (context, data) {
+                try {
+                  String str = data.toString();
 
-                int position = 0;
-                for (; position < str.length; position++) {
-                  try {
-                    int.parse(str[position]);
-                  } catch (e) {
-                    break;
+                  int position = 0;
+                  for (; position < str.length; position++) {
+                    try {
+                      int.parse(str[position]);
+                    } catch (e) {
+                      break;
+                    }
                   }
-                }
 
-                if (position == str.length) {
-                  return NumberSlideAnimation(
-                    number: str,
-                    duration: const Duration(seconds: 1),
-                    curve: Curves.bounceIn,
-                    textStyle: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  );
-                }
-
-                return Row(
-                  children: [
-                    NumberSlideAnimation(
-                      number: str.substring(0, position),
+                  if (position == str.length) {
+                    return NumberSlideAnimation(
+                      number: str,
                       duration: const Duration(seconds: 1),
                       curve: Curves.bounceIn,
                       textStyle: const TextStyle(
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    Text(
-                      str.substring(position),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
+                    );
+                  }
+
+                  return Row(
+                    children: [
+                      NumberSlideAnimation(
+                        number: str.substring(0, position),
+                        duration: const Duration(seconds: 1),
+                        curve: Curves.bounceIn,
+                        textStyle: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
+                      Text(
+                        str.substring(position),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  );
+                } catch (e) {
+                  return Text(
+                    data,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
-                );
-              } catch (e) {
-                return Text(
-                  data,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.bold,
+                  );
+                }
+              },
+              onError: (e) {
+                return const Text(
+                  Language.noDataFoundError,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
                   ),
                 );
-              }
-            },
-            onError: (e) {
-              return const Text(
-                Language.noDataFoundError,
-                style: TextStyle(
-                  fontStyle: FontStyle.italic,
-                ),
-              );
-            },
-          ),
-        ],
+              },
+            ),
+          ],
+        ),
       );
 
   Widget _contentRowWithText({
     required String label,
     required String value,
   }) =>
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Opacity(
-            opacity: .6,
-            child: Text(label),
-          ),
-          Text(value),
-        ],
+      Padding(
+        padding: const EdgeInsets.only(
+          bottom: Constants.defaultPadding,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Opacity(
+              opacity: .6,
+              child: Text(label),
+            ),
+            Text(value),
+          ],
+        ),
       );
 
   @override
@@ -196,161 +206,74 @@ class _DrawSnapshot extends StatelessWidget {
         collection: TodoContent.collectionName,
         field: 'numOfDocs',
       ),
-      const SizedBox(height: Constants.defaultPadding * 4),
+      const SizedBox(height: Constants.defaultPadding),
       if (user.id != AuthApi.activeUser)
-        SizedBox(
-          width: 200,
-          child: AspectRatio(
-            aspectRatio: 208 / 71,
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 4),
-                  color: const Color(0xFF4960F9).withOpacity(.3),
-                  spreadRadius: 4,
-                  blurRadius: 50,
-                )
-              ]),
-              child: MaterialButton(
-                onPressed: () {
-                  user.navigateToEditor(context);
-                },
-                splashColor: Colors.lightBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                padding: const EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage(Constants.buttonBackgroundSmall),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(36),
-                  ),
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      minWidth: 88.0,
-                      minHeight: 36.0,
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      Language.userEditorTitle,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ),
+        ElevatedButton(
+          onPressed: () => user.navigateToEditor(context),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                Constants.defaultBorderRadiusXLarge,
               ),
             ),
           ),
-        ),
-      if (user.id != AuthApi.activeUser)
-        SizedBox(
-          width: 200,
-          child: AspectRatio(
-            aspectRatio: 208 / 71,
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 4),
-                  color: const Color(0xFF4960F9).withOpacity(.3),
-                  spreadRadius: 4,
-                  blurRadius: 50,
-                )
-              ]),
-              child: MaterialButton(
-                onPressed: () {
-                  user.follow();
-                },
-                splashColor: Colors.lightBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                padding: const EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage(Constants.buttonBackgroundSmall),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(36),
-                  ),
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      minWidth: 88.0,
-                      minHeight: 36.0,
-                    ),
-                    alignment: Alignment.center,
-                    child: const Text(
-                      Language.followButton,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w300,
-                      ),
-                    ),
-                  ),
-                ),
+          child: Container(
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage(Constants.buttonBackgroundSmall),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            constraints: const BoxConstraints(
+              minHeight: Constants.defaultPadding * 2,
+            ),
+            alignment: Alignment.center,
+            child: Text(
+              Language.userEditorTitle,
+              style: TextStyle(
+                color: Theme.of(context).scaffoldBackgroundColor,
               ),
             ),
           ),
         ),
       if (user.id == AuthApi.activeUser)
-        SizedBox(
-          width: 200,
-          child: AspectRatio(
-            aspectRatio: 208 / 71,
-            child: Container(
-              decoration: BoxDecoration(boxShadow: [
-                BoxShadow(
-                  offset: const Offset(0, 4),
-                  color: const Color(0xFF4960F9).withOpacity(.3),
-                  spreadRadius: 4,
-                  blurRadius: 50,
-                )
-              ]),
-              child: MaterialButton(
-                onPressed: () => user.navigateToEditor(context),
-                splashColor: Colors.lightBlue,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(36),
-                ),
-                padding: const EdgeInsets.all(0.0),
-                child: Ink(
-                  decoration: BoxDecoration(
-                    image: const DecorationImage(
-                      image: AssetImage(Constants.buttonBackgroundSmall),
-                      fit: BoxFit.cover,
-                    ),
-                    borderRadius: BorderRadius.circular(36),
-                  ),
-                  child: Container(
-                    constraints: const BoxConstraints(
-                      minWidth: 88.0,
-                      minHeight: 36.0,
-                    ),
-                    alignment: Alignment.center,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        Icon(Icons.edit),
-                        SizedBox(
-                          width: Constants.defaultPadding / 2,
-                        ),
-                        Text(
-                          Language.editButton,
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.w300,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+        ElevatedButton(
+          onPressed: () => user.navigateToEditor(context),
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(
+                Constants.defaultBorderRadiusXLarge,
               ),
+            ),
+          ),
+          child: Container(
+            // decoration: const BoxDecoration(
+            //   image: DecorationImage(
+            //     image: AssetImage(Constants.buttonBackgroundSmall),
+            //     fit: BoxFit.cover,
+            //   ),
+            // ),
+            constraints: const BoxConstraints(
+              minHeight: Constants.defaultPadding * 2,
+            ),
+            alignment: Alignment.center,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                Icon(
+                  Icons.edit,
+                  color: Constants.bgColorLight,
+                ),
+                SizedBox(
+                  width: Constants.defaultPadding / 2,
+                ),
+                Text(
+                  Language.editButton,
+                  style: TextStyle(
+                    color: Constants.bgColorLight,
+                  ),
+                ),
+              ],
             ),
           ),
         ),

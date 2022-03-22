@@ -94,7 +94,7 @@ class UserContent extends ContentContainer {
 
   Widget get icon => Hero(
         tag: '$collectionName$id',
-        child: Image.network(
+        child: picture == '' ? placeholderIcon : Image.network(
           imageUrl,
           fit: BoxFit.fill,
           errorBuilder: (context, _, __) => placeholderIcon,
@@ -160,9 +160,9 @@ class UserContent extends ContentContainer {
   }) async {
     if (AuthApi.activeUser == null) return false;
 
-    // if (_followHandler != null) {
-    //   return _followHandler!.following;
-    // }
+    if (_followHandler != null) {
+      return _followHandler!.following;
+    }
 
     _followHandler = await FirestoreApi.feelings(
           type: 'follow',

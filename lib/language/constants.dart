@@ -104,6 +104,27 @@ class Constants {
         change.length, (index) => change[index].toString());
   }
 
+  static BoxDecoration cardStyle(
+    BuildContext context, {
+    Color? color,
+  }) =>
+      BoxDecoration(
+        color: Theme.of(context).scaffoldBackgroundColor,
+        boxShadow: [
+          BoxShadow(
+            color: color ?? Theme.of(context).iconTheme.color!.withOpacity(.1),
+            offset: Offset.fromDirection(1.5, 6),
+            blurRadius: 6,
+            spreadRadius: 4,
+          ),
+        ],
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+        border: Border.all(
+          color: color ?? Theme.of(context).iconTheme.color!.withOpacity(.5),
+          width: .2,
+        ),
+      );
+
   static String createUniqueId() {
     const int lettersLength = 8;
     String randStr = '';

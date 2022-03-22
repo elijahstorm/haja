@@ -214,14 +214,14 @@ class RecentNotifications extends StatelessWidget {
                     height: 35,
                     width: 110,
                     decoration: BoxDecoration(
-                      color: Colors.blue[700],
+                      color: Theme.of(context).primaryColor,
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: const Center(
                       child: Text(
                         Language.followButton,
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Constants.bgColorLight,
                         ),
                       ),
                     ),

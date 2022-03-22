@@ -16,7 +16,12 @@ class TeamContentVerticalList extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(Language.teamCacheListHeader),
+            const Text(
+              Language.teamCacheListHeader,
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            ),
             Consumer<TeamsCache>(
               builder: (context, cache, child) {
                 if (cache.items.isEmpty) {

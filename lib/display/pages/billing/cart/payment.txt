@@ -205,7 +205,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   children: [
                     Text('Offers', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {print('todo for sure');},
                       child: Text('Add a code')
                     )
                   ],
@@ -228,7 +228,7 @@ class _PaymentPageState extends State<PaymentPage> {
                   children: [
                     Text('Address', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () {print('todo for sure');},
                       child: Row(
                         children: [
                           Text('E-75, Diamond Dis...'),

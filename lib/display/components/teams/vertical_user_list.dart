@@ -27,7 +27,9 @@ class VerticalUserList extends StatelessWidget {
                   ),
                   child: GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () {},
+                    onTap: () {
+                      print('todo for sure');
+                    },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: const [

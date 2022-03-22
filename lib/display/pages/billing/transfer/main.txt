@@ -73,16 +73,16 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.white,
             leading: IconButton(
               icon: Icon(Iconsax.menu, color: Colors.grey.shade700),
-              onPressed: () {},
+              onPressed: () {print('todo for sure');},
             ),
             actions: [
               IconButton(
                 icon: Icon(Iconsax.notification, color: Colors.grey.shade700),
-                onPressed: () {},
+                onPressed: () {print('todo for sure');},
               ),
               IconButton(
                 icon: Icon(Iconsax.more, color: Colors.grey.shade700),
-                onPressed: () {},
+                onPressed: () {print('todo for sure');},
               ),
             ],
             shape: RoundedRectangleBorder(
@@ -150,7 +150,7 @@ class _HomePageState extends State<HomePage> {
                       child: MaterialButton(
                         height: 30,
                         padding: EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-                        onPressed: () {},
+                        onPressed: () {print('todo for sure');},
                         child: Text('Add Money', style: TextStyle(color: Colors.black, fontSize: 10),),
                         color: Colors.transparent,
                         elevation: 0,

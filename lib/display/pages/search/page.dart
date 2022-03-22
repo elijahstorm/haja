@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 
 class User {
@@ -136,9 +137,8 @@ class _SearchPageState extends State<SearchPage> {
         child: _searchResults.isNotEmpty
             ? ListView.builder(
                 itemCount: _searchResults.length,
-                itemBuilder: (context, index) {
-                  return userComponent(user: _searchResults[index]);
-                },
+                itemBuilder: (context, index) =>
+                    userComponent(user: _searchResults[index]),
               )
             : const Center(
                 child: Text(Language.noDataFoundError),
@@ -215,7 +215,7 @@ class _SearchPageState extends State<SearchPage> {
                       ? Language.unfollowButton
                       : Language.followButton,
                   style: TextStyle(
-                    color: user.isFollowedByMe ? Colors.white : null,
+                    color: user.isFollowedByMe ? Constants.bgColorLight : null,
                   ),
                 ),
               ),

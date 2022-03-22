@@ -15,7 +15,9 @@ class AccountSettingsPage extends StatelessWidget {
     Key? key,
   }) : super(key: key);
 
-  void _onSearch(String search) {}
+  void _onSearch(String search) {
+    print('todo forsure');
+  }
 
   @override
   Widget build(BuildContext context) {

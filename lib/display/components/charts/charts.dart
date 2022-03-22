@@ -101,10 +101,7 @@ class PieChart2State extends State {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(Constants.defaultPadding / 2),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
+      decoration: Constants.cardStyle(context),
       child: Row(
         children: <Widget>[
           const SizedBox(
@@ -577,10 +574,7 @@ class LineChartSample1State extends State<LineChartSample1> {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(Constants.defaultPadding / 2),
-      decoration: BoxDecoration(
-        color: Theme.of(context).cardColor,
-        borderRadius: const BorderRadius.all(Radius.circular(10)),
-      ),
+      decoration: Constants.cardStyle(context),
       child: AspectRatio(
         aspectRatio: 1,
         child: Stack(

@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:haja/display/components/teams/horizontal_user_card.dart';
 import 'package:provider/provider.dart';
 
 import 'package:haja/controllers/responsive.dart';
@@ -7,7 +7,6 @@ import 'package:haja/language/language.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/content/users/cache.dart';
 
-import 'package:haja/display/components/teams/user_card.dart';
 import 'package:haja/display/components/teams/team_avatars.dart';
 
 class OurTeamMembers extends StatelessWidget {
@@ -27,7 +26,9 @@ class OurTeamMembers extends StatelessWidget {
               style: Theme.of(context).textTheme.subtitle1,
             ),
             GestureDetector(
-              onTap: () {},
+              onTap: () {
+                print('todo forsure');
+              },
               child: const Icon(
                 Icons.more_horiz,
               ),
@@ -59,22 +60,14 @@ class TeamMemberCardInfoGridView extends StatelessWidget {
   final double childAspectRatio;
 
   @override
-  Widget build(BuildContext context) {
-    return Consumer<UserCache>(
-      builder: (context, cache, child) {
-        return GridView.builder(
-          physics: const NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: crossAxisCount,
-            crossAxisSpacing: Constants.defaultPadding,
-            mainAxisSpacing: Constants.defaultPadding,
-            childAspectRatio: childAspectRatio,
+  Widget build(BuildContext context) => Consumer<UserCache>(
+        builder: (context, cache, child) => Column(
+          children: List.generate(
+            cache.items.length,
+            (index) => HorizontalUserCard(
+              cache.items[index],
+            ),
           ),
-          itemCount: min(8, cache.items.length),
-          itemBuilder: (context, index) => UserCard(cache.items[index]),
-        );
-      },
-    );
-  }
+        ),
+      );
 }
