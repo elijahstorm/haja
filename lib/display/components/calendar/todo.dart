@@ -41,6 +41,8 @@ class Todo extends StatelessWidget {
       id: Constants.createUniqueId(),
     );
 
+    todo.sourceId = cache.teamId;
+    todo.isTeam = cache.teamId != null;
     cache.add(todo);
 
     if (upload) {
@@ -428,10 +430,12 @@ class _TodoListCasingState extends State<TodoListCasing> {
                 padding: const EdgeInsets.symmetric(
                   horizontal: Constants.defaultPadding / 3,
                 ),
-                width: 1,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    const SizedBox(
+                      height: 3,
+                    ),
                     GestureDetector(
                       child: widget.mainChild,
                       onTap: () => setState(() => showOptions = !showOptions),

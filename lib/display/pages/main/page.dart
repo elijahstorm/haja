@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:haja/content/teams/content.dart';
+import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
@@ -45,6 +47,15 @@ class _ScreenManagerState extends State<MainScreen> {
     NavbarDataHolder(
       name: TeamsScreen.screenName,
       child: const TeamsScreen(),
+      fab: (BuildContext context) => FloatingActionButton(
+        onPressed: () => TeamContent.makeNewTeam(context),
+        child: Icon(
+          Icons.add,
+          size: Constants.defaultPadding * 1.5,
+          color: Theme.of(context).primaryColor,
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      ),
       icon: Icons.group,
       title: Language.appNavBarTitlesTeams,
       color: (context) => Theme.of(context).primaryColor,
@@ -81,37 +92,50 @@ class _ScreenManagerState extends State<MainScreen> {
     return _navbarStates[_defaultScreen].child;
   }
 
+  Widget _decideFloatingActionButton() {
+    for (int i = 0; i < _navbarStates.length; i++) {
+      if (_navbarStates[i].name == _stateIndexNotifier.value) {
+        if (_navbarStates[i].fab == null) return Container();
+        return SizedBox(
+          width: Constants.defaultPadding * 2,
+          child: _navbarStates[i].fab!(context),
+        );
+      }
+    }
+    return Container();
+  }
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      key: context.read<MenuController>().scaffoldKey,
-      bottomNavigationBar: Responsive.isDesktop(context)
-          ? null
-          : HajaSalomonNavbar(
-              stateIndex: _stateIndexNotifier,
-              navbarStates: _navbarStates,
-            ),
-      body: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (Responsive.isDesktop(context))
-            Expanded(
-              child: SideMenu(
+  Widget build(BuildContext context) => Scaffold(
+        key: context.read<MenuController>().scaffoldKey,
+        bottomNavigationBar: Responsive.isDesktop(context)
+            ? null
+            : HajaSalomonNavbar(
                 stateIndex: _stateIndexNotifier,
                 navbarStates: _navbarStates,
               ),
+        floatingActionButton: ValueListenableBuilder<String>(
+          valueListenable: _stateIndexNotifier,
+          builder: (context, value, child) => _decideFloatingActionButton(),
+        ),
+        body: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (Responsive.isDesktop(context))
+              Expanded(
+                child: SideMenu(
+                  stateIndex: _stateIndexNotifier,
+                  navbarStates: _navbarStates,
+                ),
+              ),
+            Expanded(
+              flex: 5,
+              child: ValueListenableBuilder<String>(
+                valueListenable: _stateIndexNotifier,
+                builder: (context, value, child) => _decideInteriorBody(),
+              ),
             ),
-          Expanded(
-            flex: 5,
-            child: ValueListenableBuilder<String>(
-              valueListenable: _stateIndexNotifier,
-              builder: (context, value, child) {
-                return _decideInteriorBody();
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+          ],
+        ),
+      );
 }

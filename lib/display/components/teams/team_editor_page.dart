@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:haja/firebase/firestore.dart';
 import 'package:haja/firebase/storage.dart';
@@ -157,19 +158,13 @@ class TeamEditorDisplay extends StatelessWidget {
                     : Image.asset(
                         value.path,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, err, stacktrace) => Image.asset(
-                          Constants.defaultTeamPicture,
-                          fit: BoxFit.contain,
+                        errorBuilder: (context, err, stacktrace) =>
+                            SvgPicture.network(
+                          Constants.randomErrorPicture(),
+                          fit: BoxFit.cover,
                         ),
                       ),
-                child: Image.network(
-                  team.imageUrl,
-                  fit: BoxFit.cover,
-                  errorBuilder: (context, err, stacktrace) => Image.asset(
-                    Constants.defaultTeamPicture,
-                    fit: BoxFit.contain,
-                  ),
-                ),
+                child: team.responsiveImage,
               ),
               const SizedBox(
                 height: Constants.defaultPadding,

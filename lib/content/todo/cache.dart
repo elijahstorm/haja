@@ -12,6 +12,7 @@ class TodoCache extends ContentCache<TodoContent> {
   String? teamId;
 
   TodoCache.team(String team) : super(haltDownload: true) {
+    print('doing team ' + team);
     teamId = team;
     sortStyle = TodoSort.recent;
     filters = [FirestoreFilter.recent()];
@@ -42,8 +43,8 @@ class TodoCache extends ContentCache<TodoContent> {
         id: teamId ?? AuthApi.activeUser,
         populate: (dynamic data) {
           var content = TodoContent.fromJson(data);
-          content.sourceId = teamId;
-          content.isTeam = true;
+          content.sourceId = teamId ?? AuthApi.activeUser;
+          content.isTeam = teamId != null;
           populate(content);
         },
       );

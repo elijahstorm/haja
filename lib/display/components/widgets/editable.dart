@@ -204,7 +204,7 @@ class CustomEditablePicture extends EditableContentItem<String> {
         height: 100,
         child: Image.network(
           value,
-          fit: BoxFit.contain,
+          fit: BoxFit.cover,
         ),
       );
 }

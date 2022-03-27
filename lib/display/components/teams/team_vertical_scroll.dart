@@ -42,14 +42,19 @@ class TeamContentVerticalList extends StatelessWidget {
                   );
                 }
 
-                return Column(
-                  children: List.generate(
-                    cache.items.length,
-                    (index) => Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: Constants.defaultPadding,
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    top: Constants.defaultPadding,
+                  ),
+                  child: Column(
+                    children: List.generate(
+                      cache.items.length,
+                      (index) => Padding(
+                        padding: const EdgeInsets.only(
+                          bottom: Constants.defaultPadding,
+                        ),
+                        child: TeamCard(cache.items[index]),
                       ),
-                      child: TeamCard(cache.items[index]),
                     ),
                   ),
                 );

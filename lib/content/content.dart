@@ -53,23 +53,19 @@ class ContentContainer {
     return title.contains(query) || caption.contains(query) || id == query;
   }
 
-  void upload() {
-    FirestoreApi.upload(
-      this,
-      isTeam: isTeam,
-      id: sourceId,
-      onError: ContentErrors.retryContentUploadDialog,
-    );
-  }
+  void upload() => FirestoreApi.upload(
+        this,
+        isTeam: isTeam,
+        id: sourceId,
+        onError: ContentErrors.retryContentUploadDialog,
+      );
 
-  void delete() {
-    FirestoreApi.delete(
-      this,
-      isTeam: isTeam,
-      id: sourceId,
-      onError: ContentErrors.retryContentDeleteDialog,
-    );
-  }
+  void delete() => FirestoreApi.delete(
+        this,
+        isTeam: isTeam,
+        id: sourceId,
+        onError: ContentErrors.retryContentDeleteDialog,
+      );
 
   void navigateTo(BuildContext context) async {
     await Navigator.of(context).push(MaterialPageRoute(

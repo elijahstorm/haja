@@ -21,7 +21,8 @@ class TeamsScreen extends StatelessWidget {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(
-              create: (context) => TeamsCache.activeUserTeams()),
+            create: (context) => TeamsCache.activeUserTeams(),
+          ),
         ],
         child: const ResponsiveScreen(
           header: Language.appNavBarTitlesTeams,

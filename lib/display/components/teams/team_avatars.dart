@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:haja/firebase/auth.dart';
-import 'package:haja/controllers/keys.dart';
 import 'package:haja/login/user_state.dart';
 import 'package:haja/language/language.dart';
 import 'package:haja/content/teams/cache.dart';
@@ -36,12 +34,8 @@ class TeamMemberSmallCircleRow extends StatelessWidget {
                       horizontal: Constants.defaultPadding / 2,
                     ),
                     child: index == 0
-                        ? Consumer<UserState>(
-                            builder: (context, userstate, child) =>
-                                AddMoreTeamsButton(
-                              cache,
-                              userstate: userstate,
-                            ),
+                        ? AddMoreTeamsButton(
+                            cache,
                           )
                         : TeamDisplay(cache.items[index - 1]),
                   ),
@@ -71,45 +65,14 @@ class AddMoreTeamsButton extends CircleStoryAvatar {
   final TeamsCache cache;
   final UserState? userstate;
 
-  AddMoreTeamsButton(
+  const AddMoreTeamsButton(
     this.cache, {
     this.userstate,
     Key? key,
   }) : super(
           key: key,
           label: Language.makeNewButton,
-          navigateTo: (BuildContext context) {
-            String? userAuthId = AuthApi.activeUser;
-
-            if (userAuthId == null) {
-              if (GlobalKeys.rootScaffoldMessengerKey.currentState != null) {
-                GlobalKeys.rootScaffoldMessengerKey.currentState!
-                    .showSnackBar(SnackBar(
-                  content: const Text(Language.userstateError),
-                  action: SnackBarAction(
-                    label: Language.reloginButton,
-                    onPressed: () {
-                      if (userstate == null) return;
-
-                      userstate.logout();
-                    },
-                  ),
-                ));
-              }
-              return;
-            }
-
-            TeamContent(
-              title: '',
-              caption: '',
-              users: [userAuthId],
-              private: true,
-              picture: Constants.defaultTeamPicture,
-              id: '${cache.items.length}-${DateTime.now().toString()}',
-              createdOn: DateTime.now(),
-              lastLogin: DateTime.now(),
-            ).navigateToEditor(context);
-          },
+          navigateTo: TeamContent.makeNewTeam,
           display: const Icon(Icons.add),
         );
 }

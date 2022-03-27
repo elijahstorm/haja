@@ -156,18 +156,14 @@ class UserEditorDisplay extends StatelessWidget {
                     : Image.asset(
                         value.path,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, err, stacktrace) => Image.asset(
-                          Constants.defaultTeamPicture,
-                          fit: BoxFit.contain,
-                        ),
+                        errorBuilder: (context, err, stacktrace) =>
+                            UserContent.placeholderIcon,
                       ),
                 child: Image.network(
                   user.imageUrl,
                   fit: BoxFit.cover,
-                  errorBuilder: (context, err, stacktrace) => Image.asset(
-                    Constants.defaultTeamPicture,
-                    fit: BoxFit.contain,
-                  ),
+                  errorBuilder: (context, err, stacktrace) =>
+                      UserContent.placeholderIcon,
                 ),
               ),
               const SizedBox(height: Constants.defaultPadding),

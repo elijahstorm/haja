@@ -5,6 +5,7 @@ class NavbarDataHolder {
   IconData icon;
   Color Function(BuildContext) color;
   Widget child;
+  FloatingActionButton? Function(BuildContext)? fab;
 
   NavbarDataHolder({
     required this.name,
@@ -12,5 +13,6 @@ class NavbarDataHolder {
     required this.color,
     required this.icon,
     required this.child,
+    this.fab,
   });
 }

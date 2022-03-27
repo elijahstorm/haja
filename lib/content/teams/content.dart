@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter_svg/svg.dart';
 
 import 'package:haja/content/users/content.dart';
+import 'package:haja/controllers/keys.dart';
 import 'package:haja/firebase/auth.dart';
 import 'package:haja/firebase/firestore.dart';
+import 'package:haja/language/language.dart';
+import 'package:haja/login/user_state.dart';
+import 'package:provider/provider.dart';
 
 import 'display.dart';
 import 'editor.dart';
@@ -39,6 +44,36 @@ class TeamContent extends ContentContainer {
           id: id,
         ) {
     isTeam = true;
+  }
+
+  static void makeNewTeam(BuildContext context) {
+    String? userAuthId = AuthApi.activeUser;
+
+    if (userAuthId == null) {
+      if (GlobalKeys.rootScaffoldMessengerKey.currentState != null) {
+        GlobalKeys.rootScaffoldMessengerKey.currentState!.showSnackBar(
+          SnackBar(
+            content: const Text(Language.userstateError),
+            action: SnackBarAction(
+              label: Language.reloginButton,
+              onPressed: () => Provider.of<UserState>(context).logout(),
+            ),
+          ),
+        );
+      }
+      return;
+    }
+
+    TeamContent(
+      title: '',
+      caption: '',
+      users: [userAuthId],
+      private: true,
+      picture: Constants.randomDefaultPicture(),
+      id: DateTime.now().toString(),
+      createdOn: DateTime.now(),
+      lastLogin: DateTime.now(),
+    ).navigateToEditor(context);
   }
 
   static Future<TeamContent?> fromId(String? id) async {
@@ -118,7 +153,7 @@ class TeamContent extends ContentContainer {
   }
 
   Widget get icon => Hero(
-        tag: '$collectionName$id',
+        tag: this,
         child: Image.network(
           imageUrl,
           fit: BoxFit.cover,
@@ -129,12 +164,18 @@ class TeamContent extends ContentContainer {
       );
 
   Widget get responsiveImage {
+    if (picture.contains('.svg')) {
+      return SvgPicture.network(
+        imageUrl,
+        fit: BoxFit.cover,
+      );
+    }
     return Image.network(
       imageUrl,
       fit: BoxFit.cover,
-      errorBuilder: (context, err, stacktrace) => Image.asset(
-        Constants.defaultTeamPicture,
-        fit: BoxFit.contain,
+      errorBuilder: (context, err, stacktrace) => SvgPicture.network(
+        Constants.randomErrorPicture(),
+        fit: BoxFit.cover,
       ),
     );
   }

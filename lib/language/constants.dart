@@ -52,8 +52,22 @@ class Constants {
 
   static const String storageUrlPrefix =
       'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/';
-  static const String defaultTeamPicture = storageUrlPrefix +
-      'users%2FZbDWV5123FadwDAEZnH2K1t4kRf1%2Fprofile.png?alt=media&token=4e533a70-a670-493e-91b3-e7c31eb57ab9';
+  static const List<String> defaultTeamPictures = [
+    'icons%2Fdefaults%2Fcalendar.svg?alt=media&token=6b2a1b00-51df-49cc-a7a9-193839d29453',
+    'icons%2Fdefaults%2Fevents.svg?alt=media&token=0cac2a74-762e-43f1-9527-cb52e3463e0b',
+    'icons%2Fdefaults%2Fgirl-party.svg?alt=media&token=274aa77b-0d9e-4005-8d52-9fa9033e0ca3',
+    'icons%2Fdefaults%2Fhalloween.svg?alt=media&token=45a7ab69-2b87-4504-a0f7-b0f701abb2fd',
+    'icons%2Fdefaults%2Fheart.svg?alt=media&token=82085d8c-0e46-4933-8529-99ec43016552',
+    'icons%2Fdefaults%2Fhospital.svg?alt=media&token=ca467ca8-5003-4551-8d31-fe0ebc7822df',
+    'icons%2Fdefaults%2Ftoronto.svg?alt=media&token=9dac13e6-3bbc-427c-9de2-70e64c7cb1b0',
+    'icons%2Fdefaults%2Fwelcome.svg?alt=media&token=de30676e-6200-431b-8111-7ce6057e74bb',
+  ];
+  static const List<String> networkErrorImages = [
+    '0.svg?alt=media&token=e2eece61-3671-4c66-ae9a-15af427e6d09',
+    '1.svg?alt=media&token=f4a491d4-058b-44ed-91bb-353afa0f8fa1',
+    '2.svg?alt=media&token=b79d56b7-b99e-43ec-96d6-d651ade50fe9',
+    '3.svg?alt=media&token=3cfc28d7-b54b-460b-9940-4c498199d2df',
+  ];
   static const String buttonBackgroundSmall =
       'assets/images/button-bg-small.png';
   static const String placeholderUserIcon =
@@ -82,6 +96,15 @@ class Constants {
 
   static DateTime firstDay = DateTime.utc(2021, 1, 1);
   static DateTime lastDay = DateTime.utc(2041, 3, 1);
+
+  static String randomDefaultPicture() {
+    return defaultTeamPictures[Random().nextInt(defaultTeamPictures.length)];
+  }
+
+  static String randomErrorPicture() {
+    return 'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/icons%2Ferror%2F404-' +
+        networkErrorImages[Random().nextInt(networkErrorImages.length)];
+  }
 
   static Color? fromHex(String hexString) {
     if (hexString == '') return null;

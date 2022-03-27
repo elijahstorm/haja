@@ -91,12 +91,15 @@ class TeamCard extends StatelessWidget {
                   Positioned(
                     right: Constants.defaultPadding,
                     top: Constants.defaultPadding / 2,
-                    child: GestureDetector(
-                      child: Icon(
-                        Icons.more_horiz,
-                        color: Theme.of(context).scaffoldBackgroundColor,
+                    child: Opacity(
+                      opacity: .7,
+                      child: GestureDetector(
+                        child: Icon(
+                          Icons.more_horiz,
+                          color: Theme.of(context).scaffoldBackgroundColor,
+                        ),
+                        onTap: () => team.navigateToEditor(context),
                       ),
-                      onTap: () => team.navigateToEditor(context),
                     ),
                   ),
                 ],

@@ -92,16 +92,13 @@ class UserContent extends ContentContainer {
         fit: BoxFit.fill,
       );
 
-  Widget get icon => Hero(
-        tag: '$collectionName$id',
-        child: picture == ''
-            ? placeholderIcon
-            : Image.network(
-                imageUrl,
-                fit: BoxFit.fill,
-                errorBuilder: (context, _, __) => placeholderIcon,
-              ),
-      );
+  Widget get icon => picture == ''
+      ? placeholderIcon
+      : Image.network(
+          imageUrl,
+          fit: BoxFit.fill,
+          errorBuilder: (context, _, __) => placeholderIcon,
+        );
 
   String get imageUrl => Constants.storageUrlPrefix + picture;
 

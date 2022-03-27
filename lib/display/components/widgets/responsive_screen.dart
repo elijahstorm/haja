@@ -57,64 +57,63 @@ class ResponsiveScreen extends StatelessWidget {
     Widget? secondaryContent,
     Widget? sideContent,
     Widget? mobileHeaderContent,
-  }) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(
-        vertical: Constants.defaultPadding,
-      ),
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Constants.defaultPadding,
-            ),
-            child: Header(header),
-          ),
-          if (mobileHeaderContent != null && Responsive.isMobile(context))
+  }) =>
+      SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(
+          vertical: Constants.defaultPadding,
+        ),
+        child: Column(
+          children: [
             Padding(
-              padding: const EdgeInsets.only(
-                top: Constants.defaultPadding,
+              padding: const EdgeInsets.symmetric(
+                horizontal: Constants.defaultPadding,
               ),
-              child: mobileHeaderContent,
+              child: Header(header),
             ),
-          const SizedBox(
-            height: Constants.defaultPadding,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: Constants.defaultPadding,
-            ),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    children: [
-                      primaryContent ?? Container(),
-                      const SizedBox(height: Constants.defaultPadding),
-                      secondaryContent ?? Container(),
-                      if (Responsive.isMobile(context))
-                        const SizedBox(height: Constants.defaultPadding),
-                      if (Responsive.isMobile(context))
-                        sideContent ?? Container(),
-                    ],
-                  ),
+            if (mobileHeaderContent != null && Responsive.isMobile(context))
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: Constants.defaultPadding,
                 ),
-                if (!Responsive.isMobile(context))
-                  const SizedBox(width: Constants.defaultPadding),
-                if (!Responsive.isMobile(context))
-                  Expanded(
-                    flex: 2,
-                    child: sideContent ?? Container(),
-                  ),
-              ],
+                child: mobileHeaderContent,
+              ),
+            const SizedBox(
+              height: Constants.defaultPadding,
             ),
-          ),
-        ],
-      ),
-    );
-  }
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: Constants.defaultPadding,
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      children: [
+                        primaryContent ?? Container(),
+                        const SizedBox(height: Constants.defaultPadding),
+                        secondaryContent ?? Container(),
+                        if (Responsive.isMobile(context))
+                          const SizedBox(height: Constants.defaultPadding),
+                        if (Responsive.isMobile(context))
+                          sideContent ?? Container(),
+                      ],
+                    ),
+                  ),
+                  if (!Responsive.isMobile(context))
+                    const SizedBox(width: Constants.defaultPadding),
+                  if (!Responsive.isMobile(context))
+                    Expanded(
+                      flex: 2,
+                      child: sideContent ?? Container(),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      );
 
   static Widget drawLandscape(
     BuildContext context,

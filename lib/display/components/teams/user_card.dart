@@ -5,7 +5,8 @@ import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 
-class UserCard extends StatefulWidget {
+@Deprecated("No use case for this card. Use HorizontalUserCard instead")
+class UserCard extends StatelessWidget {
   final UserContent user;
 
   const UserCard(
@@ -13,11 +14,6 @@ class UserCard extends StatefulWidget {
     Key? key,
   }) : super(key: key);
 
-  @override
-  _UserCardState createState() => _UserCardState();
-}
-
-class _UserCardState extends State<UserCard> {
   @override
   Widget build(BuildContext context) => Container(
         padding: const EdgeInsets.symmetric(
@@ -33,7 +29,7 @@ class _UserCardState extends State<UserCard> {
                   height: 60,
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),
-                    child: widget.user.icon,
+                    child: user.icon,
                   ),
                 ),
                 const SizedBox(width: 10),
@@ -41,14 +37,14 @@ class _UserCardState extends State<UserCard> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.user.title,
+                      user.title,
                       style: const TextStyle(
                         fontWeight: FontWeight.w500,
                       ),
                     ),
                     const SizedBox(height: 5),
                     Text(
-                      widget.user.caption,
+                      user.caption,
                       style: TextStyle(
                         color: Theme.of(context)
                             .textTheme
@@ -62,46 +58,49 @@ class _UserCardState extends State<UserCard> {
               ],
             ),
             FutureBuilder<bool>(
-              future: widget.user.following(),
+              future: user.following(),
               builder: (context, snapshot) => snapshot.hasData
-                  ? GestureDetector(
-                      onTap: () => setState(
-                        () => snapshot.data!
-                            ? widget.user.follow(
-                                followType: FollowType.unfollow,
-                              )
-                            : widget.user.follow(),
-                      ),
-                      child: AnimatedContainer(
-                        height: 35,
-                        width: 110,
-                        duration: const Duration(milliseconds: 300),
-                        decoration: BoxDecoration(
-                          color: snapshot.data!
-                              ? Theme.of(context).primaryColor
-                              : Colors.grey.withOpacity(0.05),
-                          borderRadius: BorderRadius.circular(5),
-                          border: Border.all(
-                            color: snapshot.data!
-                                ? Colors.transparent
-                                : Colors.grey.shade700,
+                  ? StatefulBuilder(
+                    builder: (context, setState) {
+                      return GestureDetector(
+                          onTap: () => setState(
+                            () => snapshot.data!
+                                ? user.follow(
+                                    followType: FollowType.unfollow,
+                                  )
+                                : user.follow(),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            snapshot.data!
-                                ? Language.unfollowButton
-                                : Language.followButton,
-                            style: TextStyle(
-                              // TODO: make follow work & test colors
+                          child: AnimatedContainer(
+                            height: 35,
+                            width: 110,
+                            duration: const Duration(milliseconds: 300),
+                            decoration: BoxDecoration(
                               color: snapshot.data!
-                                  ? Theme.of(context).scaffoldBackgroundColor
-                                  : null,
+                                  ? Theme.of(context).primaryColor
+                                  : Colors.grey.withOpacity(0.05),
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                color: snapshot.data!
+                                    ? Colors.transparent
+                                    : Colors.grey.shade700,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                snapshot.data!
+                                    ? Language.unfollowButton
+                                    : Language.followButton,
+                                style: TextStyle(
+                                  color: snapshot.data!
+                                      ? Theme.of(context).scaffoldBackgroundColor
+                                      : null,
+                                ),
+                              ),
                             ),
                           ),
-                        ),
-                      ),
-                    )
+                        );
+                    }
+                  )
                   : const LoadingButton(),
             ),
           ],
