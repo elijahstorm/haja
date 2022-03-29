@@ -8,14 +8,17 @@ import 'package:haja/language/constants.dart';
 
 class HorizontalUserCard extends StatelessWidget {
   final UserContent user;
+  final Widget? trailing;
 
   const HorizontalUserCard(
     this.user, {
+    this.trailing,
     Key? key,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) => GestureDetector(
+        behavior: HitTestBehavior.translucent,
         onTap: () => user.navigateTo(context),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -33,6 +36,7 @@ class HorizontalUserCard extends StatelessWidget {
                 children: [
                   Text(
                     user.title,
+                    maxLines: 1,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -41,6 +45,7 @@ class HorizontalUserCard extends StatelessWidget {
                     opacity: .6,
                     child: Text(
                       user.caption,
+                      maxLines: 2,
                     ),
                   ),
                 ],
@@ -49,7 +54,15 @@ class HorizontalUserCard extends StatelessWidget {
             const SizedBox(
               width: Constants.defaultPadding,
             ),
-            if (AuthApi.activeUser != user.id) FollowButton(user: user),
+            if (trailing == null && AuthApi.activeUser != user.id)
+              FollowButton(user: user),
+            if (trailing != null)
+              Padding(
+                padding: const EdgeInsets.only(
+                  left: Constants.defaultPadding,
+                ),
+                child: trailing!,
+              ),
           ],
         ),
       );

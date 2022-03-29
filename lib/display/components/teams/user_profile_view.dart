@@ -247,12 +247,6 @@ class _DrawSnapshot extends StatelessWidget {
             ),
           ),
           child: Container(
-            // decoration: const BoxDecoration(
-            //   image: DecorationImage(
-            //     image: AssetImage(Constants.buttonBackgroundSmall),
-            //     fit: BoxFit.cover,
-            //   ),
-            // ),
             constraints: const BoxConstraints(
               minHeight: Constants.defaultPadding * 2,
             ),

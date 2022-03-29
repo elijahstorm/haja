@@ -38,7 +38,7 @@ class Language {
   static const String searchPrompt = 'search';
   static const String friends = 'friends';
   static const String upcomingTodos = 'upcoming Todos';
-  static const String removeAccount = 'remove account';
+  static const String removeAccount = 'delete account';
 
   /// Team Language
   static const String teamMembers = 'members';
@@ -52,6 +52,8 @@ class Language {
   static const String teamEditorTitle = 'edit team';
   static const String teamEditorEmpty = '[empty]';
   static const String teamEditorPlaceholder = 'get creative...';
+  static const String teamEditorEditMembers = 'edit members';
+  static const String teamEditorEditMembersRemove = 'remove';
   static const String teamPictureHelp =
       'the teams main picture and can be seen by everyone in the team. if your team is public, this image is visible to everyone.';
   static const String teamTitleHelp = 'this is your team name.';
@@ -59,6 +61,10 @@ class Language {
   static const String teamPrivacyHelp =
       'if you choose to keep this team private, it keeps this team from being searchable.';
   static const String leaveTeamButton = 'leave team';
+  static const String leaveTeamButtonWarning = 'Are you sure you want to leave';
+  static const String leaveTeamButtonWarningPrivate =
+      'This team is private, so you will have to be invited back in';
+  static const String leaveTeamButtonWarningOpen = 'You can rejoin at any time';
 
   /// User Language
   static const String userTitle = 'name';

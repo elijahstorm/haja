@@ -14,6 +14,7 @@ import 'package:haja/display/components/widgets/alerts.dart';
 
 import 'package:haja/content/teams/content.dart';
 import 'package:haja/language/settings_keys.dart';
+import 'package:provider/provider.dart';
 
 class TeamEditorDisplay extends StatelessWidget {
   final TeamContent team;
@@ -201,12 +202,89 @@ class TeamEditorDisplay extends StatelessWidget {
               const SizedBox(
                 height: Constants.defaultPadding / 2,
               ),
-              CustomEditableWidget(
-                onSave: (s) {
-                  // TODO: generate a list of users, then save that list
-                  print('todo forsure');
-                },
-                child: VerticalUserList(team.usersContent),
+              Provider(
+                create: (context) => UserListController(),
+                builder: (context, child) => Consumer<UserListController>(
+                  builder: (context, controller, child) => CustomEditableWidget(
+                    onSave: (s) {
+                      controller.save(team);
+                    },
+                    onTap: () => Future.value(0),
+                    editor: (d) => Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Constants.defaultPadding,
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: const [
+                              Icon(
+                                Icons.add_circle_outline,
+                                size: Constants.defaultPadding * 2,
+                              ),
+                              SizedBox(
+                                width: Constants.defaultPadding,
+                              ),
+                              Expanded(
+                                child: Text(
+                                  Language.teamMembersAddButton,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        VerticalUserList(
+                          team.usersContent,
+                          controller: controller,
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            bottom: Constants.defaultPadding,
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadiusDirectional.circular(
+                                Constants.defaultBorderRadiusXLarge,
+                              ),
+                            ),
+                            child: Container(
+                              constraints: const BoxConstraints(
+                                minHeight: Constants.defaultPadding * 2,
+                              ),
+                              alignment: Alignment.center,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: const [
+                                  Icon(
+                                    Icons.edit,
+                                    color: Constants.bgColorLight,
+                                  ),
+                                  SizedBox(
+                                    width: Constants.defaultPadding / 2,
+                                  ),
+                                  Text(
+                                    Language.teamEditorEditMembers,
+                                    style: TextStyle(
+                                      color: Constants.bgColorLight,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        VerticalUserList(team.usersContent),
+                      ],
+                    ),
+                  ),
+                ),
               ),
               const SizedBox(
                 height: Constants.defaultPadding,
@@ -215,16 +293,16 @@ class TeamEditorDisplay extends StatelessWidget {
                 onPressed: () => showDialog(
                   context: context,
                   builder: (BuildContext context) => AlertConfirmDialog(
-                    alert: 'Are you sure you want to leave ${team.title}?',
+                    alert: '${Language.leaveTeamButtonWarning} ${team.title}?',
                     subtext: team.private
-                        ? 'This team is private, so you will have to be invited back in'
-                        : 'You can rejoin at any time',
+                        ? Language.leaveTeamButtonWarningPrivate
+                        : Language.leaveTeamButtonWarningOpen,
                     onConfirm: () {
                       team.leaveTeam();
                       Navigator.pop(context);
                     },
-                    actionLabel: 'leave',
-                    heightDevider: 3,
+                    actionLabel: Language.leaveTeamButton,
+                    heightDevider: 2.5,
                   ),
                 ),
                 style: ElevatedButton.styleFrom(

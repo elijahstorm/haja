@@ -4,16 +4,16 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:haja/language/constants.dart';
 
 class AlertTextDialog extends StatelessWidget {
+  final String alert;
+  final String subtext;
+  final double heightDevider;
+
   const AlertTextDialog({
     required this.alert,
     this.subtext = '',
     this.heightDevider = 5,
     Key? key,
   }) : super(key: key);
-
-  final String alert;
-  final String subtext;
-  final int heightDevider;
 
   static run(BuildContext context, AlertTextDialog alert) => showDialog(
         context: context,

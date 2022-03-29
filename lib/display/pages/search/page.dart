@@ -93,6 +93,7 @@ class _SearchPageState extends State<SearchPage> {
   }
 
   void _onSearch(String search) {
+    print('todo for sure');
     setState(() {
       _searchResults = _users
           .where((user) => user.name.toLowerCase().contains(search))
