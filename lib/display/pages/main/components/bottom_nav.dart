@@ -14,7 +14,7 @@ class HajaSalomonNavbar extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HajaSalomonNavbarState createState() => _HajaSalomonNavbarState();
+  State<HajaSalomonNavbar> createState() => _HajaSalomonNavbarState();
 }
 
 class _HajaSalomonNavbarState extends State<HajaSalomonNavbar> {
@@ -37,12 +37,12 @@ class _HajaSalomonNavbarState extends State<HajaSalomonNavbar> {
 
   @override
   Widget build(BuildContext context) {
-    var _items = <SalomonBottomBarItem>[];
+    var items = <SalomonBottomBarItem>[];
 
     for (int i = 0; i < widget.navbarStates.length; i++) {
       var nav = widget.navbarStates[i];
 
-      _items.add(
+      items.add(
         SalomonBottomBarItem(
           icon: Icon(nav.icon),
           title: Text(nav.title),
@@ -55,7 +55,7 @@ class _HajaSalomonNavbarState extends State<HajaSalomonNavbar> {
       child: SalomonBottomBar(
         currentIndex: _currentIndex,
         onTap: _updateState,
-        items: _items,
+        items: items,
       ),
     );
   }

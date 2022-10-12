@@ -9,7 +9,7 @@ class BlinkingContent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _BlinkingContentState createState() => _BlinkingContentState();
+  State<BlinkingContent> createState() => _BlinkingContentState();
 }
 
 class _BlinkingContentState extends State<BlinkingContent>

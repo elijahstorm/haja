@@ -39,7 +39,7 @@ class UserState extends ChangeNotifier {
         name: currentUser.displayName ?? '',
         email: currentUser.email ?? '',
         icon: currentUser.photoURL ??
-            Constants.liveSvgs + currentUser.uid + '.svg',
+            '${Constants.liveSvgs}${currentUser.uid}.svg',
       );
       return;
     }
@@ -95,7 +95,7 @@ class UserState extends ChangeNotifier {
           name: currentUser.displayName ?? '',
           email: currentUser.email ?? '',
           icon: currentUser.photoURL ??
-              Constants.liveSvgs + currentUser.uid + '.svg',
+              '${Constants.liveSvgs}${currentUser.uid}.svg',
         );
       }
     }
@@ -163,13 +163,13 @@ class UserState extends ChangeNotifier {
     return _waitForResponse(response);
   }
 
-  Future<String?> supply(String? _name, String? _auth) async {
-    if (_name == null) return 'No name provided';
-    if (_auth == null) return 'No password provided';
+  Future<String?> supply(String? name, String? auth) async {
+    if (name == null) return 'No name provided';
+    if (auth == null) return 'No password provided';
 
     ResponseData response = ResponseData(
-      user: _name,
-      pass: _auth,
+      user: name,
+      pass: auth,
     );
 
     AuthApi.login(response);
@@ -177,9 +177,9 @@ class UserState extends ChangeNotifier {
     return _waitForResponse(response);
   }
 
-  Future<String?> recover(String _name) async {
+  Future<String?> recover(String name) async {
     ResponseData response = ResponseData(
-      user: _name,
+      user: name,
       pass: '',
     );
 

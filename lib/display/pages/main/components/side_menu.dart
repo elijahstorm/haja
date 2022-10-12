@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:haja/controllers/responsive.dart';
 import 'package:haja/language/constants.dart';
-import 'package:haja/language/language.dart';
 import 'package:haja/display/pages/main/components/navbar_holder.dart';
 
 class SideMenu extends StatelessWidget {
@@ -29,19 +28,7 @@ class SideMenu extends StatelessWidget {
       child: ListView(
         children: <Widget>[
               DrawerHeader(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset(Constants.logoAsset),
-                    const SizedBox(width: Constants.defaultPadding * 0.5),
-                    const Text(
-                      Language.appName,
-                      style: TextStyle(
-                        fontSize: 20,
-                      ),
-                    ),
-                  ],
-                ),
+                child: Image.asset(Constants.logoAsset),
               ),
             ] +
             drawerChildren,

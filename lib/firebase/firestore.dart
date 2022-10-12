@@ -465,10 +465,15 @@ extension FirestoreFilterTypesExtension on FirestoreFilterTypes {
               isLessThan: data[1],
             );
       case FirestoreFilterTypes.activeUserTeams:
-        return query.where(
-          'users',
-          arrayContains: AuthApi.activeUser,
-        );
+        return query
+            .where(
+              'users',
+              arrayContains: AuthApi.activeUser,
+            )
+            .orderBy(
+              'updatedOn',
+              descending: true,
+            );
       default:
         return query;
     }

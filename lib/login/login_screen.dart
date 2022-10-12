@@ -21,7 +21,7 @@ class LoginScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
@@ -56,11 +56,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
   void onSubmitAnimationCompleted(UserState userstate) => userstate.notify();
 
-  void startLoginFlow(UserState userstate, LoginData data) async {
+  void validateThenStartLoginFlow(UserState userstate, LoginData data) {
     if (!textFieldValidator()) {
       return;
     }
 
+    startLoginFlow(userstate, data);
+  }
+
+  void startLoginFlow(UserState userstate, LoginData data) async {
     setState(() => loading = true);
 
     showError(await loginUser(
@@ -85,6 +89,8 @@ class _LoginScreenState extends State<LoginScreen> {
     ));
 
     loading = false;
+    
+    if (!mounted) return;
     await Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => Material(
         child: ChangeNotifierProvider(
@@ -94,6 +100,7 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
       fullscreenDialog: true,
     ));
+
     onSubmitAnimationCompleted(userstate);
   }
 
@@ -256,7 +263,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, userstate, child) => Column(
           children: [
             ElevatedButton(
-              onPressed: () => startLoginFlow(
+              onPressed: () => validateThenStartLoginFlow(
                 userstate,
                 LoginData(
                   email: emailController.text,
@@ -533,7 +540,7 @@ class SignupLoginFlow extends LoginScreen {
   }) : super(key: key);
 
   @override
-  _SignupLoginFlowState createState() => _SignupLoginFlowState();
+  State<LoginScreen> createState() => _SignupLoginFlowState();
 }
 
 class FindForgottenInfo extends LoginScreen {
@@ -542,7 +549,7 @@ class FindForgottenInfo extends LoginScreen {
   }) : super(key: key);
 
   @override
-  _FindForgottenInfoState createState() => _FindForgottenInfoState();
+  State<LoginScreen> createState() => _FindForgottenInfoState();
 }
 
 class _SignupLoginFlowState extends _LoginScreenState {

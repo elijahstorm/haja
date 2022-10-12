@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'charts.dart';
+// import 'charts.dart';
 
 class PanelLeftPage extends StatelessWidget {
   const PanelLeftPage({
@@ -13,7 +13,7 @@ class PanelLeftPage extends StatelessWidget {
       children: [
         Column(
           children: const [
-            PieChartSample2(),
+            // PieChartSample2(),
           ],
         ),
       ],

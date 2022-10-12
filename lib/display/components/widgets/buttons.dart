@@ -47,7 +47,7 @@ class FollowButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _FollowButton createState() => _FollowButton();
+  State<FollowButton> createState() => _FollowButton();
 }
 
 class _FollowButton extends State<FollowButton> {

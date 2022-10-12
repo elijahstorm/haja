@@ -81,7 +81,7 @@ class Constants {
   static const String liveSvgs = 'https://avatars.dicebear.com/api/avataaars/';
 
   static const String linkUri = 'https://haja-project.web.app/';
-  static const String dataLinkUri = 'https://haja-data.herokuapp.com/';
+  static const String dataLinkUri = 'https://elijahstorm.github.io/haja-web/';
   static const String logoAsset = 'assets/images/logo/haja_logo_full.png';
   static const String logoTitleAsset =
       'assets/images/logo/haja logo_horizontal_full.png';
@@ -102,8 +102,7 @@ class Constants {
   }
 
   static String randomErrorPicture() {
-    return 'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/icons%2Ferror%2F404-' +
-        networkErrorImages[Random().nextInt(networkErrorImages.length)];
+    return 'https://firebasestorage.googleapis.com/v0/b/haja-project.appspot.com/o/icons%2Ferror%2F404-${networkErrorImages[Random().nextInt(networkErrorImages.length)]}';
   }
 
   static Color? fromHex(String hexString) {

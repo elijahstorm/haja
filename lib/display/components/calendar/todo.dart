@@ -404,7 +404,7 @@ class TodoListCasing extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _TodoListCasingState createState() => _TodoListCasingState();
+  State<TodoListCasing> createState() => _TodoListCasingState();
 }
 
 class _TodoListCasingState extends State<TodoListCasing> {
@@ -448,6 +448,7 @@ class _TodoListCasingState extends State<TodoListCasing> {
                         children: List.generate(
                           widget.options.length,
                           (index) => GestureDetector(
+                            onTap: widget.options[index].open,
                             child: Padding(
                               padding: const EdgeInsets.only(
                                 right: Constants.defaultPadding / 4 + 2.5,
@@ -458,7 +459,6 @@ class _TodoListCasingState extends State<TodoListCasing> {
                                 size: 18,
                               ),
                             ),
-                            onTap: widget.options[index].open,
                           ),
                         ),
                       ),
@@ -511,7 +511,7 @@ class EditableFocusLosingField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EditableFocusLosingField createState() => _EditableFocusLosingField();
+  State<EditableFocusLosingField> createState() => _EditableFocusLosingField();
 }
 
 class _EditableFocusLosingField extends State<EditableFocusLosingField> {

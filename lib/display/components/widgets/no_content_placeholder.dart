@@ -13,7 +13,7 @@ class NoContentPlaceholder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Size _size = MediaQuery.of(context).size;
+    final Size size = MediaQuery.of(context).size;
     return Column(
       children: [
         Row(
@@ -30,12 +30,12 @@ class NoContentPlaceholder extends StatelessWidget {
         const SizedBox(height: Constants.defaultPadding),
         Responsive(
           mobile: NoContentFunSquare(
-            crossAxisCount: _size.width < 650 ? 2 : 4,
-            childAspectRatio: _size.width < 650 ? 1.3 : 1,
+            crossAxisCount: size.width < 650 ? 2 : 4,
+            childAspectRatio: size.width < 650 ? 1.3 : 1,
           ),
           tablet: const NoContentFunSquare(),
           desktop: NoContentFunSquare(
-            childAspectRatio: _size.width < 1400 ? 1.1 : 1.4,
+            childAspectRatio: size.width < 1400 ? 1.1 : 1.4,
           ),
         ),
       ],

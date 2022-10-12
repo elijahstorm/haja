@@ -22,12 +22,12 @@ class StorageApi {
     );
   }
 
-  static _StorageUploader get upload {
-    return _StorageUploader(StorageOptions());
+  static StorageUploader get upload {
+    return StorageUploader(StorageOptions());
   }
 
-  static _StorageFile get file {
-    return _StorageFile(StorageOptions());
+  static StorageFilePreperation get file {
+    return StorageFilePreperation(StorageOptions());
   }
 
   static Future<void> downloadURLExample({
@@ -109,19 +109,19 @@ class StorageOptions {
     this.fileExtension,
   });
 
-  _StorageUploader get upload {
-    return _StorageUploader(this);
+  StorageUploader get upload {
+    return StorageUploader(this);
   }
 
-  _StorageFile get file {
-    return _StorageFile(this);
+  StorageFilePreperation get file {
+    return StorageFilePreperation(this);
   }
 }
 
-class _StorageFile {
+class StorageFilePreperation {
   StorageOptions options;
 
-  _StorageFile(this.options);
+  StorageFilePreperation(this.options);
 
   Future<StorageFile?> gallery({
     required void Function(String) onError,
@@ -134,11 +134,11 @@ class _StorageFile {
   }
 }
 
-class _StorageUploader extends _StorageFile {
-  _StorageUploader(StorageOptions options) : super(options);
+class StorageUploader extends StorageFilePreperation {
+  StorageUploader(StorageOptions options) : super(options);
 
-  _StoreageImageHandler get images {
-    return _StoreageImageHandler(
+  StoreageImageHandler get images {
+    return StoreageImageHandler(
       onComplete: ({
         required StorageFile file,
         required void Function(String) onError,
@@ -172,13 +172,13 @@ class _StorageUploader extends _StorageFile {
   }
 }
 
-class _StoreageImageHandler {
+class StoreageImageHandler {
   final Future<String?> Function({
     required StorageFile file,
     required void Function(String) onError,
   }) onComplete;
 
-  _StoreageImageHandler({
+  StoreageImageHandler({
     required this.onComplete,
   });
 

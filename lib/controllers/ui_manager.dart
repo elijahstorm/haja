@@ -19,7 +19,7 @@ class UiManager extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _UiManagerState createState() => _UiManagerState();
+  State<UiManager> createState() => _UiManagerState();
 }
 
 class _UiManagerState extends State<UiManager> {

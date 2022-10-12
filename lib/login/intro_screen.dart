@@ -109,7 +109,7 @@ class ProgressableContent extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ProgressableContentState createState() => _ProgressableContentState();
+  State<ProgressableContent> createState() => _ProgressableContentState();
 }
 
 class _ProgressableContentState extends State<ProgressableContent> {

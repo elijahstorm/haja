@@ -6,7 +6,7 @@ import 'package:haja/content/todo/content.dart';
 import 'package:haja/content/users/content.dart';
 
 class NotificationsApi {
-  static _NotificationHandler instance = _NotificationHandler();
+  static NotificationHandler instance = NotificationHandler();
 
   static void send({
     required ContentContainer? to,
@@ -30,7 +30,7 @@ class NotificationsApi {
   }
 }
 
-class _NotificationHandler {
+class NotificationHandler {
   Map<NotificationContent, bool> active = {};
   Map<TodoContent, NotificationContent> synchedFromContent = {};
 

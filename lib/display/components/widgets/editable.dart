@@ -91,9 +91,9 @@ class SaveableStatefulWidget<T> extends StatefulWidget {
   }) : super(key: key);
 
   void saver() {
-    if (changableValue.value == null) return;
-
-    onSave(changableValue.value!);
+    var val = changableValue.value;
+    if (val == null) return;
+    onSave(val);
   }
 
   void signalOnce(EditableContentChangedSignal signals) {
@@ -236,7 +236,7 @@ class CustomEditableWidget<T> extends SaveableStatefulWidget {
       container == null ? renderEditor() : container!(renderEditor());
 
   @override
-  _CustomEditableWidgetState createState() => _CustomEditableWidgetState();
+  State<CustomEditableWidget> createState() => _CustomEditableWidgetState();
 }
 
 class _CustomEditableWidgetState extends State<CustomEditableWidget> {
@@ -454,7 +454,7 @@ class StoredPreferenceSwitcher extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _StoredPreferenceSwitcher createState() => _StoredPreferenceSwitcher();
+  State<StoredPreferenceSwitcher> createState() => _StoredPreferenceSwitcher();
 }
 
 class _StoredPreferenceSwitcher extends State<StoredPreferenceSwitcher> {

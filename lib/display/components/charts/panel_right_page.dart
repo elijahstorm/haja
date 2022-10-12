@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'charts.dart';
+// import 'charts.dart';
 
 class PanelRightPage extends StatelessWidget {
   const PanelRightPage({
@@ -11,7 +11,7 @@ class PanelRightPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: const [
-        LineChartSample1(),
+        // LineChartSample1(),
       ],
     );
   }

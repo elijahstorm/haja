@@ -22,7 +22,7 @@ class MainScreen extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _ScreenManagerState createState() => _ScreenManagerState();
+  State<MainScreen> createState() => _ScreenManagerState();
 }
 
 class _ScreenManagerState extends State<MainScreen> {
@@ -49,12 +49,12 @@ class _ScreenManagerState extends State<MainScreen> {
       child: const TeamsScreen(),
       fab: (BuildContext context) => FloatingActionButton(
         onPressed: () => TeamContent.makeNewTeam(context),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         child: Icon(
           Icons.add,
           size: Constants.defaultPadding * 1.5,
           color: Theme.of(context).primaryColor,
         ),
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ),
       icon: Icons.group,
       title: Language.appNavBarTitlesTeams,

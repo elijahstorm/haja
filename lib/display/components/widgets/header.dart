@@ -18,7 +18,7 @@ class Header extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _HeaderState createState() => _HeaderState();
+  State<Header> createState() => _HeaderState();
 }
 
 class _HeaderState extends State<Header> with TickerProviderStateMixin {
@@ -144,7 +144,7 @@ class SearchField extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _StateSearchField createState() => _StateSearchField();
+  State<SearchField> createState() => _StateSearchField();
 }
 
 class _StateSearchField extends State<SearchField> {
