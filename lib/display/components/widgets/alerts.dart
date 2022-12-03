@@ -146,7 +146,7 @@ class AlertConfirmDialog extends AlertTextDialog {
             ),
             ElevatedButton(
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).scaffoldBackgroundColor,
+                foregroundColor: Theme.of(context).scaffoldBackgroundColor,
                 padding: const EdgeInsets.symmetric(
                   horizontal: Constants.defaultPadding,
                 ),

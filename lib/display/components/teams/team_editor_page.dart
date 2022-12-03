@@ -306,7 +306,7 @@ class TeamEditorDisplay extends StatelessWidget {
                   ),
                 ),
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
+                  foregroundColor: Colors.red,
                   shadowColor: Colors.red,
                   elevation: 5,
                   minimumSize: const Size.fromHeight(

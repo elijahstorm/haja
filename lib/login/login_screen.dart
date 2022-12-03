@@ -271,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor,
                 shadowColor: Theme.of(context).primaryColor,
                 elevation: 10,
                 minimumSize: const Size.fromHeight(
@@ -583,7 +583,7 @@ class _SignupLoginFlowState extends _LoginScreenState {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor,
                 shadowColor: Theme.of(context).primaryColor,
                 elevation: 10,
                 minimumSize: const Size.fromHeight(
@@ -659,7 +659,7 @@ class _FindForgottenInfoState extends _LoginScreenState {
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                primary: Theme.of(context).primaryColor,
+                foregroundColor: Theme.of(context).primaryColor,
                 shadowColor: Theme.of(context).primaryColor,
                 elevation: 10,
                 minimumSize: const Size.fromHeight(
