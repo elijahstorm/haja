@@ -9,8 +9,8 @@ class CalendarTopbar extends StatelessWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) => Column(
-        children: const [
+  Widget build(BuildContext context) => const Column(
+        children: [
           TeamMemberSmallCircleRow(),
           Calendar(),
         ],

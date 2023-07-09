@@ -11,10 +11,10 @@ class BillingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackablePage(
+    return const BackablePage(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: const [
+        children: [
           Text(routeName),
         ],
       ),
