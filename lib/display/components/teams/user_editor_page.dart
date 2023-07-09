@@ -223,8 +223,7 @@ class UserEditorDisplay extends StatelessWidget {
               ),
               const SizedBox(height: Constants.defaultPadding / 2),
               VerticalUserList(
-                user.followingListContent,
-              ),
+                  user.followingListContent), // TODO: change how this works
               const SizedBox(height: Constants.defaultPadding),
               ElevatedButton(
                 onPressed: () => AlertTextDialog.run(

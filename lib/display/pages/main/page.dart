@@ -4,7 +4,6 @@ import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
-import 'package:haja/controllers/menu_controller.dart';
 import 'package:haja/controllers/responsive.dart';
 import 'package:haja/display/pages/main/components/bottom_nav.dart';
 import 'package:haja/display/pages/main/components/side_menu.dart';
@@ -107,7 +106,7 @@ class _ScreenManagerState extends State<MainScreen> {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-        key: context.read<MenuDrawerController>().scaffoldKey,
+        key: context.read<MenuController>().scaffoldKey,
         bottomNavigationBar: Responsive.isDesktop(context)
             ? null
             : HajaSalomonNavbar(

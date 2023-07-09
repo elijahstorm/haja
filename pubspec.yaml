@@ -16,7 +16,7 @@ dependencies:
   iconsax: ^0.0.8
   salomon_bottom_bar: ^3.1.0
   font_awesome_flutter: ^10.0.0
-  share_plus: ^7.0.2
+  share_plus: ^6.3.0
   fl_chart: ^0.55.0
   flutter_spinkit: ^5.1.0
   table_calendar: ^3.0.3
