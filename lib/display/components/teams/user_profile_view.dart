@@ -251,9 +251,9 @@ class _DrawSnapshot extends StatelessWidget {
               minHeight: Constants.defaultPadding * 2,
             ),
             alignment: Alignment.center,
-            child: const Row(
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: [
+              children: const [
                 Icon(
                   Icons.edit,
                   color: Constants.bgColorLight,

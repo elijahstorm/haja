@@ -11,10 +11,10 @@ class PermissionsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const BackablePage(
+    return BackablePage(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: [
+        children: const [
           Text(routeName),
         ],
       ),

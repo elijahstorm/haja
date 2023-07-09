@@ -212,13 +212,13 @@ class TeamEditorDisplay extends StatelessWidget {
                     onTap: () => Future.value(0),
                     editor: (d) => Column(
                       children: [
-                        const Padding(
-                          padding: EdgeInsets.only(
+                        Padding(
+                          padding: const EdgeInsets.only(
                             bottom: Constants.defaultPadding,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
+                            children: const [
                               Icon(
                                 Icons.add_circle_outline,
                                 size: Constants.defaultPadding * 2,
@@ -258,9 +258,9 @@ class TeamEditorDisplay extends StatelessWidget {
                                 minHeight: Constants.defaultPadding * 2,
                               ),
                               alignment: Alignment.center,
-                              child: const Row(
+                              child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
+                                children: const [
                                   Icon(
                                     Icons.edit,
                                     color: Constants.bgColorLight,

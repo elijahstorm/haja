@@ -33,8 +33,8 @@ class DashSettingsMain extends StatelessWidget {
             color: Theme.of(context).cardColor,
             borderRadius: const BorderRadius.all(Radius.circular(10)),
           ),
-          child: const Column(
-            children: [
+          child: Column(
+            children: const [
               CustomEditable(
                 label: Language.settingsVisualBrightness,
                 content: ThemeSwitcher(),

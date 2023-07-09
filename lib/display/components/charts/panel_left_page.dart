@@ -9,10 +9,10 @@ class PanelLeftPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Stack(
+    return Stack(
       children: [
         Column(
-          children: [
+          children: const [
             // PieChartSample2(),
           ],
         ),
