@@ -24,7 +24,7 @@ class DashboardFiles extends StatelessWidget {
           children: [
             Text(
               Language.appScreenHeaderMyFiles,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             TextButton.icon(
               style: TextButton.styleFrom(

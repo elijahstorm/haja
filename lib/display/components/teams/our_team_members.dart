@@ -24,7 +24,7 @@ class OurTeamMembers extends StatelessWidget {
           children: [
             Text(
               Language.appScreenHeaderYourTeam,
-              style: Theme.of(context).textTheme.subtitle1,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             GestureDetector(
               onTap: () => AlertTextDialog.run(

@@ -236,7 +236,7 @@ class RecentNotifications extends StatelessWidget {
         children: [
           Text(
             Language.appScreenHeaderRecentNotos,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: Constants.defaultPadding),
           Consumer<NotificationCache>(

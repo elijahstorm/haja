@@ -113,7 +113,7 @@ class _HeaderState extends State<Header> with TickerProviderStateMixin {
             if (!Responsive.isMobile(context))
               Text(
                 widget.title,
-                style: Theme.of(context).textTheme.headline6,
+                style: Theme.of(context).textTheme.titleLarge,
               ),
             if (!Responsive.isMobile(context))
               Spacer(flex: Responsive.isDesktop(context) ? 2 : 1),
