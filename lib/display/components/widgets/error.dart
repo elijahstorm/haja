@@ -100,7 +100,7 @@ class ErrorDisplay extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                     const SizedBox(height: Constants.defaultPadding),
                     Text(
@@ -176,7 +176,7 @@ class ErrorInline extends StatelessWidget {
                   children: [
                     Text(
                       title,
-                      style: Theme.of(context).textTheme.titleMedium,
+                      style: Theme.of(context).textTheme.subtitle1,
                     ),
                     const SizedBox(height: Constants.defaultPadding),
                     Text(

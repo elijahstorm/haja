@@ -201,7 +201,7 @@ class DownloadButton extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+          style: Theme.of(context).textTheme.button?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: CupertinoColors.activeBlue,
               ),

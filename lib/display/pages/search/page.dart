@@ -181,7 +181,7 @@ class _SearchPageState extends State<SearchPage> {
                     style: TextStyle(
                       color: Theme.of(context)
                           .textTheme
-                          .titleMedium!
+                          .subtitle1!
                           .color!
                           .withOpacity(.8),
                     ),

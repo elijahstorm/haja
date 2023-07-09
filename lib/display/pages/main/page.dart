@@ -4,6 +4,7 @@ import 'package:haja/language/constants.dart';
 import 'package:haja/language/language.dart';
 import 'package:provider/provider.dart';
 
+import 'package:haja/controllers/menu_controller.dart';
 import 'package:haja/controllers/responsive.dart';
 import 'package:haja/display/pages/main/components/bottom_nav.dart';
 import 'package:haja/display/pages/main/components/side_menu.dart';

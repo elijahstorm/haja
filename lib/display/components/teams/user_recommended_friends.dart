@@ -23,7 +23,7 @@ class UserRecommendedFriends extends StatelessWidget {
           children: [
             Text(
               Language.appScreenHeaderYourCircle,
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
             TextButton.icon(
               style: TextButton.styleFrom(

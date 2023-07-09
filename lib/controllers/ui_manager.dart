@@ -4,6 +4,7 @@ import 'package:haja/language/settings_keys.dart';
 import 'package:haja/login/intro_screen.dart';
 import 'package:provider/provider.dart';
 
+import 'package:haja/controllers/menu_controller.dart';
 import 'package:haja/display/pages/main/page.dart';
 import 'package:haja/display/components/animations/loading.dart';
 import 'package:haja/display/components/widgets/error.dart';

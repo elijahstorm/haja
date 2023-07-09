@@ -18,7 +18,7 @@ class DashSettingsSide extends StatelessWidget {
           children: [
             Text(
               'Account Info',
-              style: Theme.of(context).textTheme.titleMedium,
+              style: Theme.of(context).textTheme.subtitle1,
             ),
           ],
         ),
