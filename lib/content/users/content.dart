@@ -135,7 +135,7 @@ class UserContent extends ContentContainer {
   }
 
   List<Future<UserContent>> get followingListContent {
-    return []; // TODO: grab people in circle
+    return [];
   }
 
   FollowType? _followHandler;

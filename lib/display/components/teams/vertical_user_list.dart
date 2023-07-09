@@ -118,7 +118,6 @@ class UserListController {
   UserListController();
 
   void save(TeamContent team) {
-    print('in save');
     team.users = [];
     for (var user in list) {
       team.users.add(user.id);
