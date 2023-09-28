@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "proj_refresh" "\0"
+            VALUE "FileDescription", "haja" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "proj_refresh" "\0"
+            VALUE "InternalName", "haja" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2023 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "proj_refresh.exe" "\0"
-            VALUE "ProductName", "proj_refresh" "\0"
+            VALUE "OriginalFilename", "haja.exe" "\0"
+            VALUE "ProductName", "haja" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

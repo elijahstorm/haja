@@ -1,4 +1,4 @@
-package com.example.proj_refresh
+package com.example.haja
 
 import io.flutter.embedding.android.FlutterActivity
 
