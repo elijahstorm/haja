@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 // import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+// import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 
 import 'package:haja/login/responder.dart';
 
@@ -41,36 +41,36 @@ class AuthApi {
     }
   }
 
-  static Future<UserCredential?> signInWithFacebook() async {
-    if (kIsWeb) {
-      // Create a new provider
-      FacebookAuthProvider facebookProvider = FacebookAuthProvider();
+  // static Future<UserCredential?> signInWithFacebook() async {
+  //   if (kIsWeb) {
+  //     // Create a new provider
+  //     FacebookAuthProvider facebookProvider = FacebookAuthProvider();
 
-      facebookProvider.addScope('email');
-      facebookProvider.setCustomParameters({
-        'display': 'popup',
-      });
+  //     facebookProvider.addScope('email');
+  //     facebookProvider.setCustomParameters({
+  //       'display': 'popup',
+  //     });
 
-      // Once signed in, return the UserCredential
-      return await FirebaseAuth.instance.signInWithPopup(facebookProvider);
+  //     // Once signed in, return the UserCredential
+  //     return await FirebaseAuth.instance.signInWithPopup(facebookProvider);
 
-      // Or use signInWithRedirect
-      // return await FirebaseAuth.instance.signInWithRedirect(facebookProvider);
-    } else {
-      // Trigger the sign-in flow
-      final LoginResult loginResult = await FacebookAuth.instance.login();
+  //     // Or use signInWithRedirect
+  //     // return await FirebaseAuth.instance.signInWithRedirect(facebookProvider);
+  //   } else {
+  //     // Trigger the sign-in flow
+  //     final LoginResult loginResult = await FacebookAuth.instance.login();
 
-      if (loginResult.accessToken == null) {
-        return null;
-      }
-      // Create a credential from the access token
-      final OAuthCredential facebookAuthCredential =
-          FacebookAuthProvider.credential(loginResult.accessToken!.token);
+  //     if (loginResult.accessToken == null) {
+  //       return null;
+  //     }
+  //     // Create a credential from the access token
+  //     final OAuthCredential facebookAuthCredential =
+  //         FacebookAuthProvider.credential(loginResult.accessToken!.token);
 
-      // Once signed in, return the UserCredential
-      return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
-    }
-  }
+  //     // Once signed in, return the UserCredential
+  //     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  //   }
+  // }
 
   static void loginWithProvider(ResponseData response) async {
     try {
