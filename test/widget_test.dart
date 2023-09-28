@@ -1,22 +1,19 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:haja/main.dart';
+import 'package:haja/language/language.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
+  testWidgets('Shows intro page on first open', (WidgetTester tester) async {
     await tester.pumpWidget(const HajaDoTogetherApp());
-    expect(find.text('Haja'), findsOneWidget);
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text(Language.firstAppSeenCallToAction), findsOneWidget);
+    expect(find.text(Language.firstAppSeenSubtitle), findsOneWidget);
+  });
+
+  testWidgets('Shows login page on second open', (WidgetTester tester) async {
+    await tester.pumpWidget(const HajaDoTogetherApp());
+    expect(find.text(Language.loginScreenIntro), findsOneWidget);
+    expect(find.text(Language.loginScreenButton), findsOneWidget);
   });
 }
